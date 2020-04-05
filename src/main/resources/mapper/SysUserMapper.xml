@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.java.dao.SysUserMapper">
+  <resultMap id="BaseResultMap" type="org.java.entity.SysUser">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="departId" jdbcType="INTEGER" property="departid" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="roleId" jdbcType="INTEGER" property="roleid" />
+    <result column="userState" jdbcType="INTEGER" property="userstate" />
+    <result column="picture" jdbcType="VARCHAR" property="picture" />
+    <result column="locked" jdbcType="INTEGER" property="locked" />
+  </resultMap>
+
+  <select id="login" resultType="map">
+     select * from sys_user where username=#{username}
+  </select>
+
+  <select id="loadPermission" resultType="String">
+    SELECT percode FROM sys_permission WHERE
+	id IN(SELECT permission_id FROM sys_role_permission
+    WHERE role_id IN(SELECT role_id FROM sys_user_role WHERE user_id=#{id}))
+  </select>
+</mapper>
