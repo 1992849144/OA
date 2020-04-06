@@ -22,11 +22,13 @@ public class FirstController {
 
         Map map = (Map) subject.getPrincipal();//由于之前存放的就是String,所以取出来也是String, 即：用户名
 
+        String name= map.get("name").toString();//获得职位名称
+
         String username=map.get("username").toString();//获得用户名
         //把信息，存放在session中
         session.setAttribute("map",map);
         session.setAttribute("username",username);
-
+        session.setAttribute("name",name);
         return "/main";
     }
 }

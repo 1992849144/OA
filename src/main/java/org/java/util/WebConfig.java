@@ -11,7 +11,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig {
     @GetMapping("/forward/{target}")
     public String forward(@PathVariable("target") String target){
-
         return "/"+target;
     }
 }

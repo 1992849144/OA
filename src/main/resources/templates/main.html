@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-
     <link type="text/css" rel="stylesheet" th:href="@{/js/jquery-easyui-1.5.3/themes/default/easyui.css}"/>
-    <link type="text/css" rel="stylesheet" th:href="@{/js/jquery-easyui-1.5.3/themes/icon.css}"/>
+    <link type="text/css" rel="stylesheet" href="/js/jquery-easyui-1.5.3/themes/icon.css"/>
     <link type="text/css" rel="stylesheet" th:href="@{/css/main.css}">
-    <script th:src="@{/js/jquery-easyui-1.5.3/jquery.min.js}"></script>
-    <script th:src="@{/js/jquery-easyui-1.5.3/jquery.easyui.min.js}"></script>
-    <script th:src="@{/js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js}"></script>
-    <script th:src="@{/js/main.js}"></script>
+    <!--<script th:src="@{/js/jquery-easyui-1.5.3/jquery.min.js}"></script>-->
+    <!--<script th:src="@{/js/jquery-easyui-1.5.3/jquery.easyui.min.js}"></script>-->
+    <!--<script th:src="@{/js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js}"></script>-->
+    <!--<script th:src="@{/js/main.js}"></script>-->
 </head>
 <body>
+
 <div class="easyui-layout" id="mainBox">
     <div data-options="region:'north',split:true" style="height: 80px" class="mainTop">
         <div class="topLogin"><img src="img/logoImg.png"/> <div class="topLongRight">xxxxxx安全管理平台</div></div>
         <div class="topText">
-            <a href="home.html" class="textActive" target="frameName">
+            <a th:href="@{/forward/home}" class="textActive" target="frameName">
                 <p style="margin-top: 10px"><img th:src="@{/img/home.png}"/> </p>
                 <p style="margin-top: 5px">系统首页</p>
             </a>
             <a href="low.html" target="frameName" >
-            <p style="margin-top: 10px"><img th:src="@{/img/computer.png}"/> </p>
-            <p style="margin-top: 5px">流程图</p>
-        </a>
+                <p style="margin-top: 10px"><img th:src="@{/img/computer.png}"/> </p>
+                <p style="margin-top: 5px">流程图</p>
+            </a>
             <a href="staAnalysis1.html"  target="frameName">
                 <p style="margin-top: 10px"><img th:src="@{/img/ogrn.png}"/> </p>
                 <p style="margin-top: 5px">统计分析</p>
@@ -35,13 +35,13 @@
             </a>
         </div>
         <!--<div class="topMean"><i class="i_admin"></i> <a href="#" >管理员</a><span class="spanBlock"></span> </div>-->
-         <div href="javascript:void(0)" id="mb" class="easyui-menubutton topMean"
-           data-options="menu:'#mm',iconCls:'icon-admin'"></div>
+        <div href="javascript:void(0)" id="mb" class="easyui-menubutton topMean"
+             data-options="menu:'#mm',iconCls:'icon-admin'" style="font-size: 15px">
+            [[${session.username}]]([[${session.name}]])</div>
         <div id="mm" >
             <div data-options="iconCls:'icon-man'"><a href="javascript:void(0)" onclick="openMes()">个人信息</a> </div>
             <div data-options="iconCls:'icon-redo'"><a href="javascript:void(0) "onclick="saveExit()">安全退出</a> </div>
             <div data-options="iconCls:'icon-cancel'"><a href="javascript:void(0)" onclick="saveCanle()"> 注销</a> </div>
-
         </div>
     </div>
     <div data-options="region:'south',split:true" style="height:40px;" class="footStyle">
@@ -49,35 +49,35 @@
     </div>
     <div  data-options="region:'west',title:'功能菜单',split:true,iconCls:'icon-left01'" style="width:200px;">
         <div id="left01"  class="easyui-accordion" >
-            <div shiro:hasPermission="personnel:management" title="人事管理" data-options="iconCls:'icon-left05',selected:true" class="mainPanle">
-                <p><i class="i_a i_user"></i> <a th:href="user.html" target="frameName">机构信息</a> </p>
-                <p><i class="i_a i_user"></i> <a th:href="person.html" target="frameName">部门信息</a> </p>
-                <p><i class="i_a i_part"></i> <a th:href="part.html" target="frameName">员工管理</a> </p>
+            <div  title="人事管理" data-options="iconCls:'icon-left05',selected:true" class="mainPanle">
+                <p><i class="i_a i_user"></i> <a th:href="@{/forward/a}" target="frameName">机构信息</a> </p>
+                <p><i class="i_a i_user"></i> <a th:href="@{/forward/a}" target="frameName">部门信息</a> </p>
+                <p><i class="i_a i_part"></i> <a th:href="@{/forward/a}" target="frameName">员工管理</a> </p>
             </div>
-            <div shiro:hasPermission="schedule:management" title="日程管理" data-options="iconCls:'icon-remove'" class="mainPanle">
-                <p><i class="i_a i_table"></i><a th:href="table.html" target="frameName">我的日程</a></p>
-                <p><i class="i_a i_table01"></i><a th:href="table01.html" target="frameName">部门日程</a> </p>
-                <p><i class="i_a i_neesTable"></i><a href="newTable.html" target="frameName">我的标签</a> </p>
+            <div title="日程管理" data-options="iconCls:'icon-remove'" class="mainPanle">
+                <p><i class="i_a i_table"></i><a th:href="@{/forward/a}" target="frameName">我的日程</a> </p>
+                <p><i class="i_a i_table01"></i><a th:href="@{/forward/a}" target="frameName">部门日程</a> </p>
+                <p><i class="i_a i_neesTable"></i><a th:href="@{/forward/a}" target="frameName">我的标签</a> </p>
             </div>
-            <div shiro:hasPermission="document:management" title="文档管理" data-options="iconCls:'icon-left04'" class="mainPanle">
-                <p><i class="i_a i_news"></i><a href="news.html" target="frameName">文档管理</a> </p>
-                <p><i class="i_a i_con"></i><a href="Tail.html" target="frameName">回收站</a> </p>
-                <p><i class="i_a i_con"></i><a href="Tail.html" target="frameName">文件搜索</a> </p>
+            <div title="文档管理" data-options="iconCls:'icon-left04'" class="mainPanle">
+                <p><i class="i_a i_news"></i><a th:href="@{/forward/a}" target="frameName">文档管理</a> </p>
+                <p><i class="i_a i_con"></i><a th:href="@{/forward/a}" target="frameName">回收站</a> </p>
+                <p><i class="i_a i_con"></i><a th:href="@{/forward/a}" target="frameName">文件搜索</a> </p>
             </div>
-            <div shiro:hasPermission="the:messaging" title="消息传送" data-options="iconCls:'icon-left02'" class="mainPanle">
-                <p><i class="i_a i_sport"></i><a href="sport01.html" target="frameName">消息管理</a> </p>
-                <p><i class="i_a i_sport01"></i><a href="sport02.html" target="frameName">信箱</a> </p>
+            <div title="消息传送" data-options="iconCls:'icon-left02'" class="mainPanle">
+                <p><i class="i_a i_sport"></i><a th:href="@{/forward/a}" target="frameName">消息管理</a> </p>
+                <p><i class="i_a i_sport01"></i><a th:href="@{/forward/a}" target="frameName">信箱</a> </p>
             </div>
-            <div shiro:hasPermission="system:management" title="系统管理" data-options="iconCls:'icon-left03'" class="mainPanle">
-                <p><i class="i_a i_sta"></i><a href="staAnalysis.html" target="frameName">角色管理</a> </p>
-                <p><i class="i_a i_sta"></i><a href="staAnalysis1.html" target="frameName">登陆日志</a> </p>
-                <p><i class="i_a i_sta"></i><a href="staAnalysis.html" target="frameName">操作日志</a> </p>
-                <p><i class="i_a i_sta"></i><a href="staAnalysis1.html" target="frameName">菜单排序</a> </p>
+            <div title="系统管理" data-options="iconCls:'icon-left03'" class="mainPanle">
+                <p><i class="i_a i_sta"></i><a th:href="@{/forward/a}" target="frameName">角色管理</a> </p>
+                <p><i class="i_a i_sta"></i><a th:href="@{/forward/a}" target="frameName">登陆日志</a> </p>
+                <p><i class="i_a i_sta"></i><a th:href="@{/forward/a}" target="frameName">操作日志</a> </p>
+                <p><i class="i_a i_sta"></i><a th:href="@{/forward/a}" target="frameName">菜单排序</a> </p>
             </div>
-            <div shiro:hasPermission="attendance:management" title="考勤管理" data-options="iconCls:'icon-low'" class="mainPanle">
-                <p><i class="i_a i_low"></i><a href="low.html" target="frameName">员工签到</a> </p>
-                <p><i class="i_a i_low"></i><a href="lowDemo.html" target="frameName">考勤历史查询</a> </p>
-                <p><i class="i_a i_low"></i><a href="lowDemo.html" target="frameName">考勤统计</a> </p>
+            <div title="考勤管理" data-options="iconCls:'icon-low'" class="mainPanle">
+                <p><i class="i_a i_low"></i><a th:href="@{/forward/a}" target="frameName">员工签到</a> </p>
+                <p><i class="i_a i_low"></i><a th:href="@{/forward/a}" target="frameName">考勤历史查询</a></p>
+                <p><i class="i_a i_low"></i><a th:href="@{/forward/a}" target="frameName">考勤统计</a></p>
             </div>
         </div>
 
@@ -86,15 +86,15 @@
     <div data-options="region:'center'" style="padding:5px;background:#eee;">
         <div id="con">
             <div title="系统首页" >
-               <iframe frameborder="0" width="100%" height="100%" name="frameName" src="home.html" scrolling="auto" id="ifDiv" ></iframe>
+                <iframe frameborder="0" width="100%" height="100%" name="frameName" th:src="@{/forward/home}" scrolling="auto" id="ifDiv" ></iframe>
             </div>
         </div>
 
     </div>
 </div>
 <div id="myMes">
-<p><label class="diaLable">用户名：</label><input  class="easyui-validatebox TailInput" disabled="disabled" data-options="required:true,novalidate:true" value="张林海"></p>
-   <p><label class="diaLable">登录名称：</label><input  class="easyui-validatebox TailInput" data-options="required:true" value="zhanglinghai"></p>
+    <p><label class="diaLable">用户名：</label><input  class="easyui-validatebox TailInput" disabled="disabled" data-options="required:true,novalidate:true" value="张林海"></p>
+    <p><label class="diaLable">登录名称：</label><input  class="easyui-validatebox TailInput" data-options="required:true" value="zhanglinghai"></p>
     <p><label class="diaLable">用户密码：</label><input  type="password" value="123456" class="easyui-validatebox TailInput" data-options="required:true,"></p>
     <p><label class="diaLable">用户角色：</label><input  class="easyui-validatebox TailInput" disabled="disabled" data-options="required:true,novalidate:true" value="管理员"></p>
     <p><label class="diaLable">所属部门：</label><input  class="easyui-validatebox TailInput" disabled="disabled" data-options="required:true,novalidate:true" value="行政部门"></p>
@@ -136,7 +136,7 @@
         <div id="mm" >
             <div data-options="iconCls:'icon-man'"><a href="javascript:void(0)" onclick="openMes()">个人信息</a> </div>
             <div data-options="iconCls:'icon-redo'"><a href="javascript:void(0) "onclick="saveExit()">安全退出</a> </div>
-            <div data-options="iconCls:'icon-cancel'"><a href="javascript:void(0)" onclick="saveCanle()"> 注销</a> </div>
+            <div data-options="iconCls:'icon-cancel'"><a href="@{/logout.do}" onclick="saveCanle()"> 注销</a> </div>
 
         </div>
     </div>
@@ -146,34 +146,34 @@
     <div  data-options="region:'west',title:'功能菜单',split:true,iconCls:'icon-left01'" style="width:200px;">
         <div id="left01"  class="easyui-accordion" >
             <div  title="人事管理" data-options="iconCls:'icon-left05',selected:true" class="mainPanle">
-                <p><i class="i_a i_user"></i> <a th:href="user.html" target="frameName">机构信息</a> </p>
-                <p><i class="i_a i_user"></i> <a th:href="person.html" target="frameName">部门信息</a> </p>
-                <p><i class="i_a i_part"></i> <a th:href="part.html" target="frameName">员工管理</a> </p>
+                <p><i class="i_a i_user"></i> <a th:href="@{/forward/a}" target="frameName">机构信息</a> </p>
+                <p><i class="i_a i_user"></i> <a th:href="@{/forward/a}" target="frameName">部门信息</a> </p>
+                <p><i class="i_a i_part"></i> <a th:href="@{/forward/a}" target="frameName">员工管理</a> </p>
             </div>
             <div title="日程管理" data-options="iconCls:'icon-remove'" class="mainPanle">
-                <p><i class="i_a i_table"></i><a th:href="table.html" target="frameName">我的日程</a> </p>
-                <p><i class="i_a i_table01"></i><a th:href="table01.html" target="frameName">部门日程</a> </p>
-                <p><i class="i_a i_neesTable"></i><a th:href="newTable.html" target="frameName">我的标签</a> </p>
+                <p><i class="i_a i_table"></i><a th:href="@{/forward/a}" target="frameName">我的日程</a> </p>
+                <p><i class="i_a i_table01"></i><a th:href="@{/forward/a}" target="frameName">部门日程</a> </p>
+                <p><i class="i_a i_neesTable"></i><a th:href="@{/forward/a}" target="frameName">我的标签</a> </p>
             </div>
             <div title="文档管理" data-options="iconCls:'icon-left04'" class="mainPanle">
-                <p><i class="i_a i_news"></i><a th:href="news.html" target="frameName">文档管理</a> </p>
-                <p><i class="i_a i_con"></i><a th:href="Tail.html" target="frameName">回收站</a> </p>
-                <p><i class="i_a i_con"></i><a th:href="Tail.html" target="frameName">文件搜索</a> </p>
+                <p><i class="i_a i_news"></i><a th:href="@{/forward/a}" target="frameName">文档管理</a> </p>
+                <p><i class="i_a i_con"></i><a th:href="@{/forward/a}" target="frameName">回收站</a> </p>
+                <p><i class="i_a i_con"></i><a th:href="@{/forward/a}" target="frameName">文件搜索</a> </p>
             </div>
             <div title="消息传送" data-options="iconCls:'icon-left02'" class="mainPanle">
-                <p><i class="i_a i_sport"></i><a th:href="sport01.html" target="frameName">消息管理</a> </p>
-                <p><i class="i_a i_sport01"></i><a th:href="sport02.html" target="frameName">信箱</a> </p>
+                <p><i class="i_a i_sport"></i><a th:href="@{/forward/a}" target="frameName">消息管理</a> </p>
+                <p><i class="i_a i_sport01"></i><a th:href="@{/forward/a}" target="frameName">信箱</a> </p>
             </div>
             <div title="系统管理" data-options="iconCls:'icon-left03'" class="mainPanle">
-                <p><i class="i_a i_sta"></i><a th:href="staAnalysis.html" target="frameName">角色管理</a> </p>
-                <p><i class="i_a i_sta"></i><a th:href="staAnalysis1.html" target="frameName">登陆日志</a> </p>
-                <p><i class="i_a i_sta"></i><a th:href="staAnalysis.html" target="frameName">操作日志</a> </p>
-                <p><i class="i_a i_sta"></i><a th:href="staAnalysis1.html" target="frameName">菜单排序</a> </p>
+                <p><i class="i_a i_sta"></i><a th:href="@{/forward/a}" target="frameName">角色管理</a> </p>
+                <p><i class="i_a i_sta"></i><a th:href="@{/forward/a}" target="frameName">登陆日志</a> </p>
+                <p><i class="i_a i_sta"></i><a th:href="@{/forward/a}" target="frameName">操作日志</a> </p>
+                <p><i class="i_a i_sta"></i><a th:href="@{/forward/a}" target="frameName">菜单排序</a> </p>
             </div>
             <div title="考勤管理" data-options="iconCls:'icon-low'" class="mainPanle">
-                <p><i class="i_a i_low"></i><a th:href="low.html" target="frameName">员工签到</a> </p>
-                <p><i class="i_a i_low"></i><a th:href="lowDemo.html" target="frameName">考勤历史查询</a></p>
-                <p><i class="i_a i_low"></i><a th:href="lowDemo.html" target="frameName">考勤统计</a></p>
+                <p><i class="i_a i_low"></i><a th:href="@{/forward/a}" target="frameName">员工签到</a> </p>
+                <p><i class="i_a i_low"></i><a th:href="@{/forward/a}" target="frameName">考勤历史查询</a></p>
+                <p><i class="i_a i_low"></i><a th:href="@{/forward/a}" target="frameName">考勤统计</a></p>
             </div>
         </div>
 
@@ -198,5 +198,6 @@
     <p><label class="diaLable areaLabel">描述：</label><textarea class="TailArea01" ></textarea></p>
     <div class="forSubmint"> <a href="#" class="easyui-linkbutton"  iconCls="icon-save" >保存</a><a href="#" class="easyui-linkbutton"  iconCls="icon-redo" >重置</a> </div>
 </div>
+
 </body>
 </html>

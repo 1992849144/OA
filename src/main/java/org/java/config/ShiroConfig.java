@@ -29,8 +29,6 @@ public class ShiroConfig {
      */
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager){
-
-        System.out.println("################################");
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);//设置安全管理器
         shiroFilterFactoryBean.setLoginUrl("/login");//如果过滤器拦到用户没有经过认证，发出login请求，找过认证的控制器
@@ -40,6 +38,7 @@ public class ShiroConfig {
         shiroFilterDefinitionMap.put("/css/**","anon"); //允许匿名访问
         shiroFilterDefinitionMap.put("/js/**","anon");
         shiroFilterDefinitionMap.put("/img/**","anon");
+        shiroFilterDefinitionMap.put("/images/**","anon");
         shiroFilterDefinitionMap.put("/logout","logout");//退出认证
         shiroFilterDefinitionMap.put("/**","authc");//必须认证以后，才允许访问资源
 
