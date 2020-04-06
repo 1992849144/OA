@@ -40,6 +40,7 @@ public class ShiroConfig {
         shiroFilterDefinitionMap.put("/img/**","anon");
         shiroFilterDefinitionMap.put("/images/**","anon");
         shiroFilterDefinitionMap.put("/logout","logout");//退出认证
+        shiroFilterDefinitionMap.put("/favicon.ico","anon");
         shiroFilterDefinitionMap.put("/**","authc");//必须认证以后，才允许访问资源
 
         //装载拦截路径

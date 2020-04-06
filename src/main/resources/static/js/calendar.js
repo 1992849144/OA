@@ -53,5 +53,10 @@ function  addNew() {
     $("#addPan").dialog({
         closed:false
     })
-
 }
+
+$("#cancel").click(function () {
+    $("#addPan").dialog({
+        closed:true
+    })
+})
