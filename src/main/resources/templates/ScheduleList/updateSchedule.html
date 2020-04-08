@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"> 
+<head>
+    <meta charset="UTF-8">
+    <title>修改日程</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+</head>
+<body>
+<form class="layui-form" action="" id="frm" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">编号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="scheduleid" required readonly = "readonly" lay-verify="required" style="width: 240px" placeholder="请输入编号"
+                   autocomplete="off" class="layui-input">
+        </div>
+
+        <label class="layui-form-label"  style="width: 100px">日程主题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="title" required  lay-verify="required" style="width: 240px"
+                   placeholder="请输入日程主题" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">地点</label>
+        <div class="layui-input-inline">
+            <select name="place" id="place"  lay-verify="required" lay-filter="xmFilter">
+
+            </select>
+        </div>
+
+        <label class="layui-form-label"  style="width: 100px">会议类型</label>
+        <div class="layui-input-inline">
+            <select name="meetingformatid"  id="meetingformat" lay-filter="demo">
+
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">开始时间</label>
+        <div class="layui-input-inline">
+            <div class="layui-input-inline">
+                <input type="text" name="startTime" id="date"  lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <label class="layui-form-label"  style="width: 100px">结束时间</label>
+        <div class="layui-input-inline">
+            <div class="layui-input-inline">
+                <input type="text" name="endTime" id="date1" lay-verify="date" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">日程描述</label>
+        <div class="layui-input-inline">
+            <textarea name="miaoshu" placeholder="请输入日程描述"
+                      class="layui-textarea" STYLE="width: 570px"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">创建人</label>
+        <div class="layui-input-inline">
+            <input type="text" name="userId" required readonly = "readonly" lay-verify="required" style="width: 240px"
+                   placeholder="请输入创建人" autocomplete="off" class="layui-input">
+        </div>
+
+        <label class="layui-form-label"  style="width: 100px">预约他人</label>
+        <div class="layui-input-inline">
+            <input type="text" name="appointment" required readonly = "readonly" lay-verify="required" style="width: 240px"
+                   placeholder="请输入预约他人" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input type="submit" class="layui-btn" style="width: 100px" lay-submit lay-filter="formDemo" value="立即提交"/>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+
+    <input type="hidden" name="userIds" required readonly = "readonly" lay-verify="required" style="width: 240px"
+           placeholder="请输入创建人" autocomplete="off" class="layui-input">
+
+    <input type="hidden" name="appointments" required readonly = "readonly" lay-verify="required" style="width: 240px"
+           placeholder="请输入创建人" autocomplete="off" class="layui-input">
+</form>
+</body>
+</html>
+<script type="text/javascript">
+    layui.use(['layer','form','layedit', 'laydate'],function () {
+        //定义一个变量，指定layui的弹出层模块
+        var layer = layui.layer;
+        var $ = layui.$;
+        var form=layui.form;
+        layedit = layui.layedit;
+        laydate = layui.laydate;
+
+        $(document).ready(function () {
+            form.render();   //表单渲染，得渲染才会有效果显示出来
+        })
+
+        //日期
+        laydate.render({
+            elem: '#date',
+            type:'datetime'// 可选择：年、回月、日、时、分答、秒
+        });
+        laydate.render({
+            elem: '#date1',
+            type:'datetime'// 可选择：年、回月、日、时、分答、秒
+        });
+    })
+</script>

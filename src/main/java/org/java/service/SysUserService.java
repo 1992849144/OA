@@ -36,4 +36,15 @@ public class SysUserService {
         List<String> list = sysUserMapper.loadPermission(id);
         return list;
     }
+
+    /**
+     *根据id，好的用户详情
+     * @param id
+     * @return
+     */
+    public SysUser getSysUserById(Integer id){
+        SysUser user = sysUserMapper.selectByPrimaryKey(id);
+        return user;
+    }
+
 }

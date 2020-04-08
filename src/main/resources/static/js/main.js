@@ -35,14 +35,22 @@ function openMes() {
 
 }
 function saveExit() {
-        $.messager.confirm('退出确认','你是否退出系统？',function () {
+        $.messager.confirm('退出确认','你是否退出系统？',function (data) {
+            if (data){
+                window.location.href="logout";
+            }else {
 
+            }
         })
 
 }
 function saveCanle() {
-        $.messager.confirm('注销确认','你是否注销用户？',function () {
-                window.location.href="logout";
+        $.messager.confirm('注销确认','你是否注销用户？',function (data) {
+           if (data){
+               window.location.href="logout";
+           }else {
+
+           }
         })
 
 }

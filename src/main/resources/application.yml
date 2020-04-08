@@ -34,7 +34,7 @@ mybatis:
   type-aliases-package: org.java.entity
   mapper-locations: mapper/*Mapper.xml
 
-#以debug方式，显示org.java.dao包所有的底层sql语句
+##以debug方式，显示org.java.dao包所有的底层sql语句
 logging:
   level:
     org:

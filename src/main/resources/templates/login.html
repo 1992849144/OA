@@ -2,31 +2,46 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>登陆</title>
     <link type="text/css" rel="stylesheet" th:href="@{/js/jquery-easyui-1.5.3/themes/default/easyui.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/js/jquery-easyui-1.5.3/themes/icon.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/css/main.css}">
-    <!--<script th:src="@{/static/js/jquery-easyui-1.5.3/jquery.min.js}"></script>-->
-    <!--<script th:src="@{/static/js/jquery-easyui-1.5.3/jquery.easyui.min.js}"></script>-->
-    <!--<script th:src="@{/static/js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js}"></script>-->
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
 </head>
 <body class="loginBody">
 <div class="logoImg"><img th:src="@{/img/logo.png}"/> </div>
 <div class="loginText">xxxxxx市公共安全局管理指挥平台</div>
 <div class="loginText01">The municipal public security bureau management command platform of xxxxx</div>
 <div class="loginBox">
-    <form th:action="@{/login}" method="post">
+    <form th:action="@{/login}" method="post" onsubmit="return check()">
    <span>
        <img th:src="@{/img/user.png}"/>
    </span>
-        <input type="text" id="user" name="username" placeholder="用户名"/>
+        <input type="text" id="user" name="username" placeholder="用户名" data-options="required:true"/>
         <span>
             <img th:src="@{/img/pass.png}"/>
         </span>
-        <input type="password" id="pass" name="password" placeholder=" 密码"/>
+        <input type="password" id="pass" name="password" placeholder=" 密码" data-options="required:true"/>
         <button type="submit">登陆</button>
     </form>
 </div>
 <div class="loginFoot">版本所有@2017-208xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
 </body>
 </html>
+
+<script>
+    //onsubmit事件无法触发，使用绑定按钮点击事件代替
+    function check() {
+        var user=$("#user").val();
+        var pwd=$("#pass").val();
+        if (user==""){
+            alert("用户名必须输入")
+            return false;
+        }
+        if (pwd==""){
+           alert("密码必须输入");
+            return false;
+        }
+        return true;
+    }
+</script>

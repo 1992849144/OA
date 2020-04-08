@@ -16,6 +16,7 @@ public class GlobalExceptionHandler {
         //获得异常原因
         String msg = ex.getMessage();
 
+        System.out.println(msg);
         //判断，当前产生异常的原因是不是因为，访问权限不足，导致的异常
         if(ex instanceof UnauthorizedException){
             msg="访问权限不足";

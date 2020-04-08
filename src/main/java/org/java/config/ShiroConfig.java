@@ -24,24 +24,25 @@ public class ShiroConfig {
 
     /**
      * 创建ShiroFilterFactoryBean,在创建时，给方法注入securityManager
+     *
      * @param securityManager
      * @return
      */
     @Bean
-    public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager){
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);//设置安全管理器
         shiroFilterFactoryBean.setLoginUrl("/login");//如果过滤器拦到用户没有经过认证，发出login请求，找过认证的控制器
 
         //创建一个map，用于指定，哪一些请求路径，shiro如何拦截
-        Map<String,String> shiroFilterDefinitionMap = new LinkedHashMap<>();
-        shiroFilterDefinitionMap.put("/css/**","anon"); //允许匿名访问
-        shiroFilterDefinitionMap.put("/js/**","anon");
-        shiroFilterDefinitionMap.put("/img/**","anon");
-        shiroFilterDefinitionMap.put("/images/**","anon");
-        shiroFilterDefinitionMap.put("/logout","logout");//退出认证
-        shiroFilterDefinitionMap.put("/favicon.ico","anon");
-        shiroFilterDefinitionMap.put("/**","authc");//必须认证以后，才允许访问资源
+        Map<String, String> shiroFilterDefinitionMap = new LinkedHashMap<>();
+        shiroFilterDefinitionMap.put("/css/**", "anon"); //允许匿名访问
+        shiroFilterDefinitionMap.put("/js/**", "anon");
+        shiroFilterDefinitionMap.put("/img/**", "anon");
+        shiroFilterDefinitionMap.put("/images/**", "anon");
+        shiroFilterDefinitionMap.put("/logout", "logout");//退出认证
+        shiroFilterDefinitionMap.put("/favicon.ico", "anon");
+        shiroFilterDefinitionMap.put("/**", "authc");//必须认证以后，才允许访问资源
 
         //装载拦截路径
         shiroFilterFactoryBean.setFilterChainDefinitionMap(shiroFilterDefinitionMap);

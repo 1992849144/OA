@@ -43,6 +43,7 @@ public class AuthRealm extends AuthorizingRealm {
         //根据用户信息到数据库中加载用户权限(模拟读数据库的权限)
         List<String> list = sysUserService.loadPermission(userId);
 
+        System.out.println(list);
         //封装成AuthorizationInfo
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.addStringPermissions(list);

@@ -25,8 +25,12 @@ public class FirstController {
         String name= map.get("name").toString();//获得职位名称
 
         String username=map.get("username").toString();//获得用户名
+
+        Integer id =(Integer) map.get("id");//获得用户id
+
         //把信息，存放在session中
         session.setAttribute("map",map);
+        session.setAttribute("userId",id);
         session.setAttribute("username",username);
         session.setAttribute("name",name);
         return "/main";

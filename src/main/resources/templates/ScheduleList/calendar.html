@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>显示点击的日程</title>
+
+    <link type="text/css" rel="stylesheet" th:href="@{/js/jquery-easyui-1.5.3/themes/default/easyui.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/js/jquery-easyui-1.5.3/themes/icon.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/main.css}">
+    <link th:href="@{/js/fullcalendar-1.6.4/fullcalendar/fullcalendar.css}" rel='stylesheet' />
+    <link th:href="@{/js/fullcalendar-1.6.4/fullcalendar/fullcalendar.print.css}" rel='stylesheet' media='print' />
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+</head>
+<body>
+<div class="floatLeft"><span class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="addNew()">新建</span></div>
+<div id="calePan" class="maginTop">
+</div>
+
+<div id="addPans" class="easyui-dialog" title="日程提醒" data-options="modal:true,closed:true" style="width: 800px;height: 200px" >
+    <br/>
+    <br/>
+    <div style="border-bottom: 1px solid #f4f4f4;">
+        <h3>
+            标题：<span class="rctitle" style="font-size:16px;" name="title"></span>
+        </h3>
+        <br/>
+        <br/>
+        <h5 style="color: #999;font-size: 13px;">
+            <span>发布：<span class="rcusername" name="name"></span>   类型：<span class="rctype" name="type"></span></span>
+            <span style="float:right;"><span class="rcstarttime" name="startTime">2017-10-20 20:44</span> 至 <span class="rcendtime" name="endTime">2017-10-20 21:44</span></span>
+        </h5>
+    </div>
+</div>
+
+
+
+<script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+<script th:src="@{/js/jquery-easyui-1.5.3/jquery.min.js}"></script>
+<script th:src="@{/js/jquery-easyui-1.5.3/jquery.easyui.min.js}"></script>
+<script th:src="@{/js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js}"></script>
+<script th:src="@{/js/fullcalendar-1.6.4/fullcalendar/fullcalendar.min.js}"></script>
+<script th:src="@{/js/calendar.js}"></script>
+<script th:src="@{/layui/layui.js}"></script>
+
+</body>
+</html>

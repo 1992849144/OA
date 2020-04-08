@@ -1,14 +1,14 @@
 package org.java.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
-@Table(name = "sys_user")
+
 public class SysUser {
     /**
      * 用户id
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
@@ -48,6 +48,16 @@ public class SysUser {
      */
     @Column(name = "userState")
     private Integer userstate;
+
+    public List<ScheduleList> scheduleLists;//日程集合
+
+    public List<ScheduleList> getScheduleLists() {
+        return scheduleLists;
+    }
+
+    public void setScheduleLists(List<ScheduleList> scheduleLists) {
+        this.scheduleLists = scheduleLists;
+    }
 
     /**
      * 图片

@@ -33,30 +33,90 @@ $('#calePan').fullCalendar({
         center: 'title',
         right: 'month,agendaWeek,agendaDay'
     },
-    dayClick:function (date) {
-        $("#addPan").dialog({
+    eventClick: function (date, allDay, jsEvent, view) {
+        $("[name='title']").html(date.title)
+        $("[name='name']").html(date.user)
+        var starttime = dateformat(new Date(date.start));
+        var endtime = dateformat(new Date(date.end));
+        $("[name='startTime']").html(starttime);
+        $("[name='endTime']").html(endtime);
+        $("[name='type']").html(date.rctype);
+        $("#addPans").dialog({
             closed:false
         })
-
-
-    },
-    eventClick: function (date, allDay, jsEvent, view) {
-        //...
     },
     events: function (start, end, callback) {
-        //...
+        $.ajax({
+            url: "/scheduleList/init",
+            cache: false,
+            type: "post",
+            datatype: 'json',
+            success: function (data) {
+                var events = [];
+                $.each(data, function (i, item) {
+                    console.log(item);
+                    var color;
+                    var starttime = dateformat(new Date(item.start_time));
+                    var endtime = dateformat(new Date(item.end_time));
+                    if (item.statusId == '27') {
+                        color = "#00c0ef";
+                    }
+                    if (item.statusId == '28') {
+                        color = "#f0ad4e";
+                    }
+                    if (item.statusId == '29') {
+                        color = "#dd4b39";
+                    }
+                    events.push({
+                        title: item.title,
+
+                        start: starttime,
+
+                        backgroundColor: color,
+
+                        borderColor: color,
+
+                        end: endtime,
+
+                        id: item.id,
+
+                        user: item.nickname,
+
+                        des: item.describe,
+
+                        rctype: item.meetingformatname
+                    });
+                });
+                callback(events);
+            }
+        })
     }
 });
-//
-// 新建日程
-function  addNew() {
-    $("#addPan").dialog({
-        closed:false
+
+var dateformat = function(a) {
+    return a.getFullYear() + "-" + (a.getMonth() + 1) + "-" + a.getDate() + " " + a.getHours() + ":" + a.getMinutes() + ":" + a.getSeconds();
+};
+
+
+//新建日程
+function addNew() {
+    layui.use(['form','jquery','layer'], function(){
+        var layer = layui.layer;
+        var form = layui.form;
+        var $ = layui.$;
+        layer.open({
+            type: 2,
+            title:"新建日程记录",
+            shade: true,//以模态窗口显示
+            shade:0.5,//设置透明度
+            area: ['800px','500px'],
+            anim: 1,//进入的动画效果
+            maxmin: false,//不使用最大化，最小化按钮
+            content: '/forward/ScheduleList/createCalendar',
+            zIndex: layer.zIndex, //重点1
+            success: function(layero){
+
+            }
+        })
     })
 }
-
-$("#cancel").click(function () {
-    $("#addPan").dialog({
-        closed:true
-    })
-})
