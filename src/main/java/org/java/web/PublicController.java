@@ -47,4 +47,15 @@ public class PublicController {
 
         return map;
     }
+
+    @ResponseBody
+    @PostMapping("init")
+    public Map show(){
+        Map map=new HashMap();
+        List<Place> place = placeService.getAllPlace();//显示所有地点
+        List<Meetingformat> meetingformat = meetingformatService.getAllMeetingformat();//显示所有会议类型
+        map.put("place",place);
+        map.put("meetingformat",meetingformat);
+        return map;
+    }
 }

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>创建个人便签</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+</head>
+<body>
+<form class="layui-form" id="frm">
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">便签主题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="personalnotestitle" required
+                   lay-verify="required" style="width: 400px"
+                   placeholder="请输入便签主题" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">便签内容</label>
+        <div class="layui-input-inline">
+             <textarea name="personalnotescontent" required lay-verify="required" placeholder="请输入便签内容"
+                       class="layui-textarea" STYLE="width: 400px;height: 200px"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">创建人</label>
+        <div class="layui-input-inline">
+            <div class="layui-input-inline">
+                <input type="text" name="userid" required readonly="readonly"
+                       lay-verify="required" style="width: 400px"
+                       placeholder="请输入创建人" autocomplete="off" class="layui-input"
+                       th:value="${session.username}">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">创建时间</label>
+        <div class="layui-input-inline">
+            <div class="layui-input-inline">
+                <input type="date" name="createtime" lay-verify="date" style="width: 400px"
+                       placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="text" class="layui-btn" style="width: 100px" lay-submit lay-filter="formDemo" id="btn">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+</body>
+</html>
+<script type="text/javascript">
+    layui.use(['layer','form','layedit', 'laydate'],function () {
+        //定义一个变量，指定layui的弹出层模块
+        var layer = layui.layer;
+        var $ = layui.$;
+        var form=layui.form;
+        layedit = layui.layedit;
+        laydate = layui.laydate;
+
+        $("#btn").click(function () {
+            var personalnotestitle=$("[name='personalnotestitle']").val();//便签主题
+            var personalnotescontent=$("[name='personalnotescontent']").val();//便签内容
+            var createtime=$("[name='createtime']").val();//创建时间
+            if (personalnotescontent==''){
+                layer.msg('便签主题不能为空');
+            }
+            else if (personalnotescontent==''){
+                layer.msg('便签内容不能为空');
+            }
+            else if (personalnotescontent==''){
+                layer.msg('创建时间不能为空');
+            }else {
+                $.ajax({
+                    url:"/personalnotes/addPersonalnotes",
+                    type:"post",
+                    data:$("#frm").serialize(),
+                    success:function () {
+                        // layer.msg('添加成功');
+                        window.parent.location.reload();//让父窗口的数据重新加载
+                    }
+                })
+            }
+        })
+    })
+</script>

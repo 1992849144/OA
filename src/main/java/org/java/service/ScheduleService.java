@@ -32,10 +32,10 @@ public class ScheduleService {
      * @param
      * @return
      */
-    public ResultVo<ScheduleList> getScheduleListByIsremindEqualZero(Integer page, Integer limit){
+    public ResultVo<ScheduleList> getScheduleListByIsremindEqualZero(String title,String startTime,String endTime,Integer page, Integer limit){
 
         PageHelper.startPage(page,limit);
-        PageInfo<ScheduleList> pageInfo = new PageInfo<>(scheduleListMapper.getScheduleListByIsremindEqualZero());
+        PageInfo<ScheduleList> pageInfo = new PageInfo<>(scheduleListMapper.getScheduleListByIsremindEqualZero(title,startTime,endTime));
 
         //将查询结果，封装成ResultVo
         ResultVo<ScheduleList> resultVo = new ResultVo<>();
@@ -52,10 +52,10 @@ public class ScheduleService {
      * @param
      * @return
      */
-    public ResultVo<ScheduleList> getScheduleListByIsremindEqualOne(Integer page, Integer limit){
+    public ResultVo<ScheduleList> getScheduleListByIsremindEqualOne(String title,String startTime,String endTime,Integer page, Integer limit){
 
         PageHelper.startPage(page,limit);
-        PageInfo<ScheduleList> pageInfo = new PageInfo<>(scheduleListMapper.getScheduleListByIsremindEqualOne());
+        PageInfo<ScheduleList> pageInfo = new PageInfo<>(scheduleListMapper.getScheduleListByIsremindEqualOne(title,startTime,endTime));
 
         //将查询结果，封装成ResultVo
         ResultVo<ScheduleList> resultVo = new ResultVo<>();
@@ -80,5 +80,13 @@ public class ScheduleService {
      */
     public void delDepartmentScheduleList(Integer scheduleId) {
         scheduleListMapper.deleteByPrimaryKey(scheduleId);
+    }
+
+    /**
+     * 修改个人日程
+     * @param scheduleList
+     */
+    public void updateScheduleList(ScheduleList scheduleList) {
+        scheduleListMapper.updateScheduleList(scheduleList);
     }
 }

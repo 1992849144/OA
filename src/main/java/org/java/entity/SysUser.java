@@ -1,10 +1,13 @@
 package org.java.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
-
-public class SysUser {
+@Data
+public class SysUser implements Serializable {
     /**
      * 用户id
      */

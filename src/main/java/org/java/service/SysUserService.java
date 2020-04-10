@@ -46,5 +46,4 @@ public class SysUserService {
         SysUser user = sysUserMapper.selectByPrimaryKey(id);
         return user;
     }
-
 }

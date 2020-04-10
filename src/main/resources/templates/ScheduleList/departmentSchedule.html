@@ -9,6 +9,27 @@
     <script th:src="@{/js/show/departmentSchedule.js}"></script>
 </head>
 <body>
+<div style="padding-top: 20px;padding-left: 20px" align="center">
+    <label class="layui-inline">主题</label>
+    <div class="layui-inline">
+        <input class="layui-input" name="title" placeholder="主题"
+               autocomplete="off"/>
+    </div>
+
+    <label class="layui-inline">开始时间</label>
+    <div class="layui-inline">
+        <input type="text" name="startTime" id="date"  lay-verify="date"
+               placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+    </div>
+
+    <label class="layui-inline">结束时间</label>
+    <div class="layui-inline">
+        <input type="text" name="endTime" id="date1"  lay-verify="date"
+               placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+    </div>
+    <button class="layui-btn" id="search">搜索</button>
+    <button class="layui-btn"  id="reset">重置</button>
+</div>
 <table id="demo" lay-filter="test"></table>
 <!--显示工具条-->
 <script type="text/html" id="barDemo">
@@ -17,3 +38,21 @@
 </script>
 </body>
 </html>
+<script type="text/javascript">
+    layui.use(['layer','form','layedit', 'laydate'],function () {
+        //定义一个变量，指定layui的弹出层模块
+        var layer = layui.layer;
+        var $ = layui.$;
+        var form=layui.form;
+        layedit = layui.layedit;
+        laydate = layui.laydate;
+
+        //日期
+        laydate.render({
+            elem: '#date'
+        });
+        laydate.render({
+            elem: '#date1'
+        });
+    })
+</script>

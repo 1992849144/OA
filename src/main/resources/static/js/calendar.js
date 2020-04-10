@@ -58,13 +58,13 @@ $('#calePan').fullCalendar({
                     var color;
                     var starttime = dateformat(new Date(item.start_time));
                     var endtime = dateformat(new Date(item.end_time));
-                    if (item.statusId == '27') {
+                    if (item.colour == '27') {
                         color = "#00c0ef";
                     }
-                    if (item.statusId == '28') {
+                    if (item.colour == '28') {
                         color = "#f0ad4e";
                     }
-                    if (item.statusId == '29') {
+                    if (item.colour == '29') {
                         color = "#dd4b39";
                     }
                     events.push({

@@ -27,11 +27,11 @@ layui.use(['table','layer','jquery'],function () {
                     return '<span>'+res.meetingformat.meetingformatname+'</span>'
                 }
             }
-            , {field: 'start_time', title: '开始时间', align: "center", width: "15%", sort: true,
-                templet: "<div>{{layui.util.toDateString(d.history_time,'yyyy年MM月dd日')}}</div>"
+            , {field: 'startTime', title: '开始时间', align: "center", width: "15%", sort: true,
+                templet: "<div>{{layui.util.toDateString(d.startTime,'yyyy年MM月dd日')}}</div>"
             }
-            , {field: 'end_time', title: '结束时间', align: "center", width: "15%", sort: true,
-                templet: "<div>{{layui.util.toDateString(d.history_time,'yyyy年MM月dd日')}}</div>"
+            , {field: 'endTime', title: '结束时间', align: "center", width: "15%", sort: true,
+                templet: "<div>{{layui.util.toDateString(d.endTime,'yyyy年MM月dd日')}}</div>"
             }
             , {field: 'miaoshu', title: '日程描述', align: "center", width: "15%", sort: true}
             , {field: 'sysUser', title: '创建人', align: "center", width: "10%", sort: true,
@@ -151,12 +151,14 @@ layui.use(['table','layer','jquery'],function () {
 
     /******************给搜索按钮绑定事件*********************************/
     $("#search").click(function () {
-        var relationship_name=$("[name='relationship_name' ]").val();//客户名称
-        var username=$("[name='username' ]").val();//客户经理名称
+        var title=$("[name='title' ]").val();//主题
+        var startTime=$("[name='startTime' ]").val();//开始时间
+        var endTime=$("[name='endTime' ]").val();//结束时间
         table.reload('demo', {
             where: { //设定异步数据接口的额外参数，任意设
-                relationship_name: relationship_name
-                ,username: username
+                title: title
+                ,startTime: startTime
+                ,endTime: endTime
             }
             ,page: {
                 curr: 1 //重新从第 1 页开始
@@ -167,13 +169,14 @@ layui.use(['table','layer','jquery'],function () {
     /*****给重置按钮绑定事件************/
     $("#reset").click(function () {
         //清空
-        $("[name='relationship_name' ]").val("");//类别
-        $("[name='username' ]").val("");//条目
+        $("[name='title' ]").val("");//主题
+        $("[name='startTime' ]").val("");//开始时间
+        $("[name='endTime' ]").val("");//结束时间
         table.reload('demo', {
             where: { //设定异步数据接口的额外参数，任意设
-                relationship_name: ""
-                ,username: ""
-
+                title: ""
+                ,startTime: ""
+                ,endTime: ""
             }
             ,page: {
                 curr: 1 //重新从第 1 页开始

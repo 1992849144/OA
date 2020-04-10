@@ -16,6 +16,9 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 日程
+ */
 @Controller
 @RequestMapping("scheduleList")
 public class ScheduleListController {
@@ -41,8 +44,8 @@ public class ScheduleListController {
      */
     @GetMapping("getScheduleListByIsremindEqualZero")
     @ResponseBody
-    public ResultVo<ScheduleList> getScheduleListByIsremindEqualZero(Integer page, Integer limit){
-        ResultVo<ScheduleList> resultVo = scheduleService.getScheduleListByIsremindEqualZero(page, limit);
+    public ResultVo<ScheduleList> getScheduleListByIsremindEqualZero(String title,String startTime,String endTime,Integer page, Integer limit){
+        ResultVo<ScheduleList> resultVo = scheduleService.getScheduleListByIsremindEqualZero(title,startTime,endTime,page, limit);
         return resultVo;
     }
 
@@ -53,8 +56,8 @@ public class ScheduleListController {
      */
     @GetMapping("getScheduleListByIsremindEqualOne")
     @ResponseBody
-    public ResultVo<ScheduleList> getScheduleListByIsremindEqualOne(Integer page, Integer limit){
-        ResultVo<ScheduleList> resultVo = scheduleService.getScheduleListByIsremindEqualOne(page, limit);
+    public ResultVo<ScheduleList> getScheduleListByIsremindEqualOne(String title,String startTime,String endTime,Integer page, Integer limit){
+        ResultVo<ScheduleList> resultVo = scheduleService.getScheduleListByIsremindEqualOne(title,startTime,endTime,page, limit);
         return resultVo;
     }
 
@@ -81,8 +84,19 @@ public class ScheduleListController {
     @PostMapping("delDepartmentScheduleList")
     @ResponseBody
     public int delDepartmentScheduleList(Integer scheduleId){
-        System.out.println(scheduleId);
         scheduleService.delDepartmentScheduleList(scheduleId);
         return 1;
+    }
+
+    /**
+     * 修改个人日程
+     * @param scheduleList
+     */
+    @Transactional
+    @PostMapping("updateScheduleList")
+    @ResponseBody
+    public void updateScheduleList(ScheduleList scheduleList){
+        System.out.println(scheduleList);
+        scheduleService.updateScheduleList(scheduleList);
     }
 }

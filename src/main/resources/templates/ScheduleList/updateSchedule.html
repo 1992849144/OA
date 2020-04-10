@@ -2,18 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"> 
 <head>
     <meta charset="UTF-8">
-    <title>修改日程</title>
+    <title>修改个人日程</title>
     <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
     <script th:src="@{/layui/layui.js}"></script>
     <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
 </head>
 <body>
-<form class="layui-form" action="" id="frm" method="post">
+<form class="layui-form"  id="frm" >
     <div class="layui-form-item">
-        <label class="layui-form-label"  style="width: 100px">编号</label>
+        <label class="layui-form-label"  style="width: 100px">创建人</label>
         <div class="layui-input-inline">
-            <input type="text" name="scheduleid" required readonly = "readonly" lay-verify="required" style="width: 240px" placeholder="请输入编号"
-                   autocomplete="off" class="layui-input">
+            <input type="text" name="userid" required readonly = "readonly" lay-verify="required" style="width: 240px"
+                   placeholder="请输入创建人" autocomplete="off" class="layui-input">
         </div>
 
         <label class="layui-form-label"  style="width: 100px">日程主题</label>
@@ -49,7 +49,7 @@
         <label class="layui-form-label"  style="width: 100px">结束时间</label>
         <div class="layui-input-inline">
             <div class="layui-input-inline">
-                <input type="text" name="endTime" id="date1" lay-verify="date" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input">
+                <input type="text" name="endTime" id="date1" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
             </div>
         </div>
         
@@ -63,32 +63,18 @@
         </div>
     </div>
 
-    <div class="layui-form-item">
-        <label class="layui-form-label"  style="width: 100px">创建人</label>
-        <div class="layui-input-inline">
-            <input type="text" name="userId" required readonly = "readonly" lay-verify="required" style="width: 240px"
-                   placeholder="请输入创建人" autocomplete="off" class="layui-input">
-        </div>
-
-        <label class="layui-form-label"  style="width: 100px">预约他人</label>
-        <div class="layui-input-inline">
-            <input type="text" name="appointment" required readonly = "readonly" lay-verify="required" style="width: 240px"
-                   placeholder="请输入预约他人" autocomplete="off" class="layui-input">
-        </div>
-    </div>
 
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <input type="submit" class="layui-btn" style="width: 100px" lay-submit lay-filter="formDemo" value="立即提交"/>
+            <button type="button" class="layui-btn" id="btn" style="width: 100px" lay-submit lay-filter="formDemo">立即提交</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
 
-    <input type="hidden" name="userIds" required readonly = "readonly" lay-verify="required" style="width: 240px"
-           placeholder="请输入创建人" autocomplete="off" class="layui-input">
-
-    <input type="hidden" name="appointments" required readonly = "readonly" lay-verify="required" style="width: 240px"
-           placeholder="请输入创建人" autocomplete="off" class="layui-input">
+    <input type="hidden" name="placeid">
+    <input type="hidden" name="me">
+    <input type="hidden" name="scheduleid">
+    <input type="hidden" name="userId">
 </form>
 </body>
 </html>
@@ -100,19 +86,62 @@
         var form=layui.form;
         layedit = layui.layedit;
         laydate = layui.laydate;
-
+        form.render();   //表单渲染，得渲染才会有效果显示出来
         $(document).ready(function () {
             form.render();   //表单渲染，得渲染才会有效果显示出来
         })
 
         //日期
         laydate.render({
-            elem: '#date',
-            type:'datetime'// 可选择：年、回月、日、时、分答、秒
+            elem: '#date'
         });
         laydate.render({
-            elem: '#date1',
-            type:'datetime'// 可选择：年、回月、日、时、分答、秒
+            elem: '#date1'
         });
+
+
+        //修改
+        $("#btn").click(function () {
+            $.ajax({
+                url:"/scheduleList/updateScheduleList",
+                type:"post",
+                data:$("#frm").serialize(),
+                success:function () {
+                    layer.msg('修改成功');
+                    setTimeout(function(){
+                        window.parent.location.reload();//让父窗口的数据重新加载
+                    },1000)
+                }
+            })
+        })
+
+        //修改时，回显的下拉框
+        setTimeout(function(){
+            $.ajax({
+                url:"/init",
+                type:"post",
+                dataType:"json",
+                success:function (data) {
+                    var placeid=$("[name='placeid']").val();
+                    var meetingformatid=$("[name='me']").val();
+                    $.each(data.meetingformat,function (index,k) {
+                        if (k.meetingformatid==meetingformatid){
+                            $('#meetingformat').append(new Option(k.meetingformatname,k.meetingformatid,true,true));// 下拉菜单里添加元素
+                        } else{
+                            $('#meetingformat').append(new Option(k.meetingformatname,k.meetingformatid));// 下拉菜单里添加元素
+                        }
+
+                    })
+                    $.each(data.place,function (index,k) {
+                        if (k.placeid==placeid){
+                            $('#place').append(new Option(k.placename,k.placeid,true,true));// 下拉菜单里添加元素
+                        } else {
+                            $('#place').append(new Option(k.placename,k.placeid));// 下拉菜单里添加元素
+                        }
+                    })
+                    layui.form.render("select");
+                }
+            })
+        },500)
     })
 </script>
