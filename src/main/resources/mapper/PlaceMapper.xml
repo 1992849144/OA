@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.java.dao.PlaceMapper">
+  <resultMap id="BaseResultMap" type="org.java.entity.Place">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="placeid" jdbcType="INTEGER" property="placeid" />
+    <result column="placename" jdbcType="VARCHAR" property="placename" />
+  </resultMap>
+</mapper>

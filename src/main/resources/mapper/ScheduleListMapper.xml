@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.java.dao.ScheduleListMapper">
+  <resultMap id="BaseResultMap" type="org.java.entity.ScheduleList">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="scheduleId" jdbcType="INTEGER" property="scheduleid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="placeid" jdbcType="INTEGER" property="placeid" />
+    <result column="meetingformatid" jdbcType="INTEGER" property="meetingformatid" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="miaoshu" jdbcType="VARCHAR" property="miaoshu" />
+    <result column="appointment" jdbcType="INTEGER" property="appointment" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="is_remind" jdbcType="DOUBLE" property="isRemind" />
+    <result column="colour" jdbcType="VARCHAR" property="colour" />
+  </resultMap>
+
+  <select id="getScheduleListByUserName" resultType="map">
+    SELECT * FROM schedule_list s,sys_user u,meetingformat m
+    WHERE s.user_id=u.id AND m.meetingformatid=s.meetingformatid
+  </select>
+
+  <select id="getScheduleListByIsremindEqualZero" resultMap="scheduleListMap">
+    SELECT * FROM schedule_list s,sys_user u,meetingformat m
+    WHERE s.user_id=u.id AND m.meetingformatid=s.meetingformatid AND is_remind=0
+    <if test="title!='' and title!=null">
+      and title like '%${title}%'
+    </if>
+    <if test="startTime!='' and startTime!=null">
+      and start_time>=#{startTime}
+    </if>
+    <if test="endTime!='' and endTime!=null">
+      and end_time &lt; #{endTime}
+    </if>
+    ORDER BY start_time
+  </select>
+
+  <select id="getScheduleListByIsremindEqualOne" resultMap="scheduleListMap">
+    SELECT * FROM schedule_list s,sys_user u,meetingformat m
+    WHERE s.user_id=u.id AND m.meetingformatid=s.meetingformatid AND is_remind=1
+    <if test="title!='' and title!=null">
+      and title like '%${title}%'
+    </if>
+    <if test="startTime!='' and startTime!=null">
+      and start_time>=#{startTime}
+    </if>
+    <if test="endTime!='' and endTime!=null">
+      and end_time &lt; #{endTime}
+    </if>
+    ORDER BY start_time
+  </select>
+
+  <update id="updateScheduleList" parameterType="ScheduleList">
+    update schedule_list set title=#{title},placeid=#{placeid},meetingformatid=#{meetingformatid},
+    start_time=#{startTime},end_time=#{endTime},miaoshu=#{miaoshu} where scheduleId=#{scheduleid}
+  </update>
+
+  <resultMap id="scheduleListMap" type="scheduleList">
+    <id column="scheduleId" jdbcType="INTEGER" property="scheduleid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="placeid" jdbcType="INTEGER" property="placeid" />
+    <result column="meetingformatid" jdbcType="INTEGER" property="meetingformatid" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="miaoshu" jdbcType="VARCHAR" property="miaoshu" />
+    <result column="appointment" jdbcType="INTEGER" property="appointment" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="is_remind" jdbcType="DOUBLE" property="isRemind" />
+    <result column="colour" jdbcType="VARCHAR" property="colour" />
+
+    <association property="sysUser" javaType="sysUser">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="username" jdbcType="VARCHAR" property="username" />
+      <result column="password" jdbcType="VARCHAR" property="password" />
+      <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+      <result column="departId" jdbcType="INTEGER" property="departid" />
+      <result column="gender" jdbcType="INTEGER" property="gender" />
+      <result column="roleId" jdbcType="INTEGER" property="roleid" />
+      <result column="userState" jdbcType="INTEGER" property="userstate" />
+      <result column="picture" jdbcType="VARCHAR" property="picture" />
+      <result column="locked" jdbcType="INTEGER" property="locked" />
+    </association>
+
+    <association property="meetingformat" javaType="meetingformat">
+      <id column="meetingformatid" property="meetingformatid" />
+      <result column="meetingformatname"  property="meetingformatname" />
+    </association>
+  </resultMap>
+</mapper>
