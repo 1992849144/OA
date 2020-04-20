@@ -33,9 +33,9 @@ public class PersonalnotesController {
      */
     @GetMapping("init")
     @ResponseBody
-    public ResultVo<Personalnotes> init(HttpSession session,Integer page,Integer limit){
+    public ResultVo<Personalnotes> init(HttpSession session,Integer page,Integer limit,String personalnotestitle){
         String username = session.getAttribute("username").toString();
-        ResultVo<Personalnotes> personalnotes = personalnotesService.getPersonalnotesByUserId(username,page,limit);
+        ResultVo<Personalnotes> personalnotes = personalnotesService.getPersonalnotesByUserId(username,page,limit,personalnotestitle);
         return personalnotes;
     }
 

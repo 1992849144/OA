@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>显示流程定义</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+    <script th:src="@{/layui/layui.js}"></script>
+    <style>
+        .layui-table th{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h1>流程定义</h1>
+<table class="layui-table">
+    <thead>
+    <tr>
+        <Th>编号</Th>
+        <Th>流程定义部署id</Th>
+        <Th>流程定义Id</Th>
+        <Th>流程定义KEY</Th>
+        <Th>版本号</Th>
+        <Th>BPMN</Th>
+        <Th>PNG</Th>
+        <Th>删除</Th>
+    </tr>
+    </thead>
+    <tbody>
+    <Tr th:each="k,t:${list}" align="center">
+            <Td>[[${t.count}]]</Td>
+            <Td>[[${k.deploymentId}]]</Td>
+            <Td>[[${k.id}]]</Td>
+            <Td>[[${k.key}]]</Td>
+            <Td>[[${k.version}]]</Td>
+            <Td><a th:href="@{|/showResources/${k.deploymentId}/${k.resourceName}|}" target="_blank" class="layui-btn layui-btn-xs">查看BPMN</a></Td>
+            <Td><a th:href="@{|/showResources/${k.deploymentId}/${k.diagramResourceName}|}" target="_blank" class="layui-btn layui-btn-xs layui-btn-normal">查看PNG</a></Td>
+            <Td>
+                <a th:href="@{|/delProcessDefinition/${k.deploymentId}|}" class="layui-btn layui-btn-xs layui-btn-warm">删除</a>
+            </Td>
+        </Tr>
+    </tbody>
+</table>
+</body>
+</html>

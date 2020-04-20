@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
+/**
+ * 个人便签
+ */
 @Data
 public class Personalnotes implements Serializable {
     @Id

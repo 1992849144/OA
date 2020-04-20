@@ -20,7 +20,7 @@ layui.use(['table','layer','jquery'],function () {
         , toolbar: true//显示数据表格的工具栏
         , limits: [1, 2, 3, 5, 10, 20, 30, 50] //设置可选择的每页显示的条数据
         , cols: [[ //表头
-            {field: 'scheduleid', title: '编号', align: "center", width: "5%", sort: true, fixed: 'left'}
+            {field: 'scheduleid', title: '编号', align: "center", width: "10%", sort: true, fixed: 'left'}
             , {field: 'title', title: '主题', align: "center", width: "15%", sort: true,}
             , {field: 'meetingformatid', title: '会议类型', align: "center", width: "10%", sort: true,
                 templet:function (res) {
@@ -33,7 +33,7 @@ layui.use(['table','layer','jquery'],function () {
             , {field: 'endTime', title: '结束时间', align: "center", width: "15%", sort: true,
                 templet: "<div>{{layui.util.toDateString(d.endTime,'yyyy年MM月dd日')}}</div>"
             }
-            , {field: 'miaoshu', title: '日程描述', align: "center", width: "15%", sort: true}
+            , {field: 'miaoshu', title: '日程描述', align: "center", width: "10%", sort: true}
             , {field: 'sysUser', title: '创建人', align: "center", width: "10%", sort: true,
                 templet:function (res) {
                     return '<span>'+res.sysUser.nickname+'</span>'
@@ -58,7 +58,7 @@ layui.use(['table','layer','jquery'],function () {
                 area: ['800px','500px'],
                 anim: 1,//进入的动画效果
                 maxmin: false,//不使用最大化，最小化按钮
-                content: '/forward/ScheduleList/updateSchedule',
+                content: '/forward/ScheduleList/updateDepartmentSchedule',
                 zIndex: layer.zIndex, //重点1
                 success: function(layero){
                     layer.setTop(layero); //重点2  置顶在上面，
@@ -68,40 +68,23 @@ layui.use(['table','layer','jquery'],function () {
                     body.find("[name='scheduleid']").val(data.scheduleid);
                     body.find("[name='title']").val(data.title);
                     body.find("[name='meetingformatid']").val(data.meetingformatid);
-                    body.find("[name='startTime']").val(layui.util.toDateString(data.start_time,'yyyy-MM-dd HH:mm:ss'));
-                    body.find("[name='endTime']").val(layui.util.toDateString(data.end_time,'yyyy-MM-dd HH:mm:ss'));
+                    body.find("[name='startTime']").val(layui.util.toDateString(data.startTime,'yyyy-MM-dd'));
+                    body.find("[name='endTime']").val(layui.util.toDateString(data.endTime,'yyyy-MM-dd'));
                     body.find("[name='miaoshu']").val(data.miaoshu);
                     body.find("[name='userIds']").val(data.userId);
                     body.find("[name='appointments']").val(data.appointment);
+                    body.find("[name='colours']").val(data.colour);
+                    body.find("[name='placeids']").val(data.placeid);
+                    body.find("[name='me']").val(data.meetingformatid);
+                    body.find("[name='userId']").val(data.userId);
+                    body.find("[name='createtime']").val(layui.util.toDateString(data.createtime,'yyyy-MM-dd'));
                     $.ajax({
                         url:"/show",
                         type:"post",
                         data:{id:data.userId},
                         dataType:"json",
                         success:function (datas) {
-                            body.find("[name='userId']").val(datas.nickname);
-                            $.each(datas.place,function (index,k) {
-                                body.find('#place').append(111);
-                                layui.form.render($('#place').append(new Option(k.placename,k.placeid)).attr("selected","selected"));
-                            })
-                            // $.each(datas.place,function (index,k) {
-                            //     if (k.placeid == data.placeid) {
-                            //         $('#place').append(new Option(k.placename,k.placeid)).attr("selected","selected");// 下拉菜单里添加元素
-                            //     }else  {
-                            //         body.find('#place').val($("#place").append($("<option>").attr("value",k.placeid).text(k.placename)));
-                            //     }
-                            //
-                            // })
-                            // layui.form.render("select");
-                            // $.each(datas.meetingformat,function (index,k) {
-                            //     if (k.majorid == data.majorid) {
-                            //         body.find('#meetingformat').append($("<option>").attr("value",k.meetingformatid).attr("selected","selected").text(k.meetingformatname));
-                            //     }else  {
-                            //         body.find('#meetingformat').append($("<option>").attr("value",k.meetingformatid).text(k.meetingformatname));
-                            //     }
-                            //     layui.form.render("select");
-                            // })
-
+                            body.find("[name='userid']").val(datas.nickname);
                         }
                     })
 
@@ -111,9 +94,10 @@ layui.use(['table','layer','jquery'],function () {
                         data:{id:data.appointment},
                         dataType:"json",
                         success:function (datas) {
-                            body.find("[name='appointment']").val(datas.nickname);
+                            body.find("[name='primarypersonName']").val(datas.nickname);
                         }
                     })
+
                 }
             })
         }

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改部门日程</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+    <style>
+        #b{
+            position: absolute;
+            top: 10px;
+            right: -180px;
+        }
+        #c{
+            position: absolute;
+            top: 50px;
+            right: -180px;
+        }
+        #a{
+            margin-right: 25px;
+        }
+        #test1{
+            position: absolute;
+            top: -10px;
+            right: -400px;
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form"  id="frm" >
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">创建人</label>
+        <div class="layui-input-inline">
+            <input type="text" name="userid" required readonly = "readonly" lay-verify="required" style="width: 240px"
+                   placeholder="请输入创建人" autocomplete="off" class="layui-input">
+        </div>
+
+        <label class="layui-form-label"  style="width: 100px">日程主题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="title" required  lay-verify="required" style="width: 240px"
+                   placeholder="请输入日程主题" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">地点</label>
+        <div class="layui-input-inline">
+            <select name="placeid" id="place"  lay-verify="required" lay-filter="xmFilter">
+
+            </select>
+        </div>
+
+        <label class="layui-form-label"  style="width: 100px">会议类型</label>
+        <div class="layui-input-inline">
+            <select name="meetingformatid"  id="meetingformat" lay-filter="demo">
+
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">开始时间</label>
+        <div class="layui-input-inline">
+            <div class="layui-input-inline">
+                <input type="text" name="startTime" id="date"  lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <label class="layui-form-label"  style="width: 100px">结束时间</label>
+        <div class="layui-input-inline">
+            <div class="layui-input-inline">
+                <input type="text" name="endTime" id="date1" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">颜色</label>
+        <div class="layui-input-inline">
+            <select name="colour"  id="colour" lay-filter="demo">
+
+            </select>
+        </div>
+
+        <label class="layui-form-label"  style="width: 100px">创建时间</label>
+        <div class="layui-input-inline">
+            <div class="layui-input-inline">
+                <input type="text" name="createtime" readonly = "readonly"  lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">日程描述</label>
+        <div class="layui-input-inline">
+            <textarea name="miaoshu" placeholder="请输入日程描述"
+                      class="layui-textarea" STYLE="width: 570px"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">预约他人</label>
+        <div class="layui-input-inline">
+              <textarea name="primarypersonName" id="primarypersonName" placeholder="请输入预约他人"
+                        class="layui-textarea" STYLE="width: 280px"></textarea>
+            <div id="b">
+                <button type="button" class="layui-btn layui-btn-primary" id="ok">
+                    <i class="layui-icon">&#xe630;</i>选择
+                </button>
+            </div>
+            <div id="c">
+                <button type="button" class="layui-btn layui-btn-primary" id="err">
+                    <i class="layui-icon">&#xe630;</i>清空
+                </button>
+            </div>
+            <div id="test1" class="demo-tree-more"></div>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item" style="width: 500px" >
+        <div class="layui-input-block">
+            <span id="a"></span><button type="button" class="layui-btn" id="btn" style="width: 100px" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+
+    <input type="hidden" name="placeids"><!--地点-->
+    <input type="hidden" name="me"><!--会议类型-->
+    <input type="hidden" name="scheduleid"><!--日程id-->
+    <input type="hidden" name="userId"><!--用户-->
+    <input type="hidden" name="colours"><!--颜色-->
+</form>
+</body>
+</html>
+<script type="text/javascript">
+    layui.use(['layer','form','layedit', 'laydate','tree'],function () {
+        //定义一个变量，指定layui的弹出层模块
+        var layer = layui.layer;
+        var $ = layui.$;
+        var form=layui.form;
+        layedit = layui.layedit;
+        laydate = layui.laydate;
+        var tree = layui.tree;
+        $(document).ready(function () {
+            form.render();   //表单渲染，得渲染才会有效果显示出来
+        })
+
+        //日期
+        laydate.render({
+            elem: '#date'
+        });
+        laydate.render({
+            elem: '#date1'
+        });
+
+        //隐藏树
+        $("#test1").toggle();
+
+        //显示树
+        $("#ok").click(function () {
+            $("#test1").toggle();
+        })
+
+        //清空文本框
+        $("#err").click(function () {
+            $("#primarypersonName").val("")
+        })
+
+        //颜色
+        setTimeout(function(){
+            var clour=$("[name='colours']").val();
+            if (clour=='27'){
+                $('#colour').append(new Option(27,27,true,true));
+                $('#colour').append(new Option(28,28));
+                $('#colour').append(new Option(29,29));
+            }
+            if (clour=='28'){
+                $('#colour').append(new Option(28,28,true,true));
+                $('#colour').append(new Option(27,27));
+                $('#colour').append(new Option(29,29));
+            }
+            if (clour=='29'){
+                $('#colour').append(new Option(29,29,true,true));
+                $('#colour').append(new Option(27,27));
+                $('#colour').append(new Option(28,28))
+            }
+            layui.form.render("select");
+        },500)
+
+
+        //修改
+        $("#btn").click(function () {
+            $.ajax({
+                url:"/scheduleList/updateDepartmentScheduleList",
+                type:"post",
+                data:$("#frm").serialize(),
+                success:function (data) {
+                    if (data==1){
+                        layer.msg("修改成功");
+                        setTimeout(function(){
+                            window.parent.location.reload();//让父窗口的数据重新加载
+                        },1000)
+                    } else {
+                        layer.alert("修改失败，你的权限不足");
+                    }
+                }
+            })
+        })
+
+        //修改时，回显的下拉框
+        setTimeout(function(){
+            $.ajax({
+                url:"/init",
+                type:"post",
+                dataType:"json",
+                success:function (data) {
+                    var placeid=$("[name='placeids']").val();
+                    var meetingformatid=$("[name='me']").val();
+                    $.each(data.meetingformat,function (index,k) {
+                        if (k.meetingformatid==meetingformatid){
+                            $('#meetingformat').append(new Option(k.meetingformatname,k.meetingformatid,true,true));// 下拉菜单里添加元素
+                        } else{
+                            $('#meetingformat').append(new Option(k.meetingformatname,k.meetingformatid));// 下拉菜单里添加元素
+                        }
+
+                    })
+                    $.each(data.place,function (index,k) {
+                        if (k.placeid==placeid){
+                            $('#place').append(new Option(k.placename,k.placeid,true,true));// 下拉菜单里添加元素
+                        } else {
+                            $('#place').append(new Option(k.placename,k.placeid));// 下拉菜单里添加元素
+                        }
+                    })
+                    layui.form.render("select");
+                }
+            })
+
+            var scheduleid=$("[name='scheduleid']").val();
+            $.ajax({
+                url:"/getPreContractByScheduleId",
+                type:"post",
+                data:{scheduleid:scheduleid},
+                dataType:"json",
+                success:function (data) {
+                    var n='';
+                    $.each(data,function (index,k) {
+                        n+=k.nickname;
+                        if (data.length!=1){
+                            if (index!=data.length-1) {
+                                n+=',';
+                            }
+                        }
+                    })
+                    $("#primarypersonName").val(n);
+                }
+            })
+        },300)
+
+        //点击的值，显示在文本框中
+        $.ajax({
+            url:"/scheduleList/show",
+            type: "post",
+            dataType: 'json',
+            success: function(res) {
+                //渲染
+                var inst1 = tree.render({
+                    elem: '#test1'  //绑定元素
+                    ,data:res
+                    ,onlyIconControl: true  //是否仅允许节点左侧图标控制展开收缩
+                    ,accordion:true
+                    ,click: function(obj){
+                        var lengths=JSON.stringify(obj.data).length;
+                        var s = obj.data;
+                        if (lengths>=59 && lengths<=60){
+                            var val = $("#primarypersonName").val();
+                            if (val!=''){
+                                val+=","
+                            }
+                            val+=s.title;
+                            $("#primarypersonName").val(val);
+                        }
+                        if (!(lengths>=59 && lengths<=60)){
+                            layer.alert("您选择的不是人员，请重新选择！")
+                        }
+                    }
+                });
+            }
+        });
+    })
+</script>

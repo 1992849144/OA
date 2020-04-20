@@ -7,6 +7,9 @@ import tk.mybatis.MyMapper;
 
 import java.util.List;
 
+/**
+ * 个人便签
+ */
 public interface PersonalnotesMapper extends MyMapper<Personalnotes> {
 
     /**
@@ -14,6 +17,5 @@ public interface PersonalnotesMapper extends MyMapper<Personalnotes> {
      * @param userId
      * @return
      */
-    @Select("select * from personalNotes where userId=#{userId}")
-    public List<Personalnotes> getPersonalnotesByUserId(@Param("userId") String userId);
+    public List<Personalnotes> getPersonalnotesByUserId(@Param("userId") String userId,@Param("personalnotestitle") String personalnotestitle);
 }

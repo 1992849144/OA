@@ -2,12 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
-    <title>菜单</title>
+    <title>oa</title>
 
     <link type="text/css" rel="stylesheet" th:href="@{/js/jquery-easyui-1.5.3/themes/default/easyui.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/js/jquery-easyui-1.5.3/themes/icon.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/css/main.css}">
-
 </head>
 <body>
 
@@ -48,9 +47,9 @@
     <div  data-options="region:'west',title:'功能菜单',split:true,iconCls:'icon-left01'" style="width:200px;">
         <div id="left01"  class="easyui-accordion" >
             <div shiro:hasPermission="personnel:management" title="人事管理" data-options="iconCls:'icon-left05',selected:true" class="mainPanle">
-                <p><i class="i_a i_user"></i> <a th:href="@{/forward/a}" target="frameName">机构信息</a> </p>
-                <p><i class="i_a i_rol"></i> <a th:href="@{/forward/a}" target="frameName">部门信息</a> </p>
-                <p><i class="i_a i_part"></i> <a th:href="@{/forward/a}" target="frameName">员工管理</a> </p>
+                <p><i class="i_a i_user"></i> <a th:href="@{/forward/PersonnelManagement/organization}" target="frameName">机构信息</a> </p>
+                <p><i class="i_a i_rol"></i> <a th:href="@{/forward/PersonnelManagement/depInfo}" target="frameName">部门信息</a> </p>
+                <p><i class="i_a i_part"></i> <a th:href="@{/forward/PersonnelManagement/userManage}" target="frameName">员工管理</a> </p>
             </div>
             <div shiro:hasPermission="schedule:management" title="日程管理" data-options="iconCls:'icon-remove'" class="mainPanle">
                 <p><i class="i_a i_table"></i><a th:href="@{/forward/ScheduleList/calendar}" target="frameName">我的日程</a></p>
@@ -64,8 +63,8 @@
                 <p><i class="i_a i_sport"></i><a th:href="@{/forward/a}" target="frameName">文件搜索</a> </p>
             </div>
             <div shiro:hasPermission="the:messaging" title="消息传送" data-options="iconCls:'icon-left02'" class="mainPanle">
-                <p><i class="i_a i_sport"></i><a th:href="@{/forward/a}" target="frameName">消息管理</a> </p>
-                <p><i class="i_a i_sport01"></i><a th:href="@{/forward/a}" target="frameName">信箱</a> </p>
+                <p><i class="i_a i_sport"></i><a th:href="@{/forward/mail/showMail}" target="frameName">消息管理</a> </p>
+                <p><i class="i_a i_sport01"></i><a th:href="@{/mail/statisticsEmil}" target="frameName">信箱</a> </p>
             </div>
             <div shiro:hasPermission="system:management" title="系统管理" data-options="iconCls:'icon-left03'" class="mainPanle">
                 <p><i class="i_a i_sta"></i><a th:href="@{/forward/a}" target="frameName">角色管理</a> </p>
@@ -77,6 +76,18 @@
                 <p><i class="i_a i_low"></i><a th:href="@{/forward/a}" target="frameName">员工签到</a> </p>
                 <p><i class="i_a i_sport02"></i><a th:href="@{/forward/a}" target="frameName">考勤历史查询</a></p>
                 <p><i class="i_a i_sta"></i><a th:href="@{/forward/a}" target="frameName">考勤统计</a></p>
+            </div>
+            <div title="部署管理" data-options="iconCls:'i_part'" class="mainPanle">
+                <p><i class="i_a i_sport"></i><a th:href="@{/forward/flow/deploy}" target="frameName">部署流程定义</a> </p>
+                <p><i class="i_a i_sport01"></i><a th:href="@{/showProcessDefinition}" target="frameName">查看流程定义</a></p>
+            </div>
+            <div title="流程监控" data-options="iconCls:'icon-left03'" class="mainPanle">
+                <p><i class="i_a i_ph"></i><a th:href="@{/forward/a}" target="frameName">查询运行中的流程实例</a> </p>
+            </div>
+            <div title="请假管理" data-options="iconCls:'icon-left04'" class="mainPanle">
+                <p><i class="i_a i_sta"></i><a th:href="@{/forward/leave/createLeave}" target="frameName">创建请假单</a> </p>
+                <p><i class="i_a i_sport02"></i><a th:href="@{/forward/a}" target="frameName">查询任务</a> </p>
+                <p><i class="i_a i_sta"></i><a th:href="@{/forward/a}" target="frameName">拾取任务</a> </p>
             </div>
         </div>
 

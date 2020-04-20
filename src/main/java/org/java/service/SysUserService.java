@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 我写的用户的
+ */
 @Service
 public class SysUserService {
 
@@ -38,12 +41,42 @@ public class SysUserService {
     }
 
     /**
-     *根据id，好的用户详情
+     *根据用户id，好的用户详情
      * @param id
      * @return
      */
     public SysUser getSysUserById(Integer id){
         SysUser user = sysUserMapper.selectByPrimaryKey(id);
         return user;
+    }
+
+    /**
+     * 根据用户昵称获得用户详情
+     * @param nickname
+     * @return
+     */
+    public SysUser getSysUserByUserName(String nickname){
+        List<SysUser> user = sysUserMapper.getSysUserByUserName(nickname);
+        if (!user.isEmpty()){
+            return  user.get(0);
+        }
+        return null;
+    }
+
+    /**
+     * 根据部门id，获得多个用户
+     * @param departId
+     * @return
+     */
+    public List<SysUser> getSysUserByDepartId(Integer departId){
+        return sysUserMapper.getSysUserByDepartId(departId);
+    }
+
+    /**
+     * 获得所有用户
+     * @return
+     */
+    public List<SysUser> getAllSysUser(){
+        return sysUserMapper.selectAll();
     }
 }

@@ -5,6 +5,10 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 
+
+/**
+ * 会议类型
+ */
 @Data
 public class Meetingformat implements Serializable {
     @Id

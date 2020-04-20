@@ -9,6 +9,9 @@ import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 日程详情
+ */
 @Data
 @Table(name = "schedule_list")
 public class ScheduleList implements Serializable {
@@ -32,7 +35,6 @@ public class ScheduleList implements Serializable {
 
     private String miaoshu;
 
-    private Integer appointment;
 
     @Column(name = "user_id")
     private Integer userId;
@@ -41,7 +43,7 @@ public class ScheduleList implements Serializable {
     private Date createtime;
 
     @Column(name = "is_remind")
-    private Double isRemind;
+    private Integer isRemind;
 
     private String colour;
 
@@ -50,6 +52,27 @@ public class ScheduleList implements Serializable {
 
 
     private Meetingformat meetingformat;//会议类型对象
+
+    private String username;//用户名称
+
+    private String primarypersonName;//预约人名称
+
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPrimarypersonName() {
+        return primarypersonName;
+    }
+
+    public void setPrimarypersonName(String primarypersonName) {
+        this.primarypersonName = primarypersonName;
+    }
 
     /**
      * @return scheduleId
@@ -149,19 +172,6 @@ public class ScheduleList implements Serializable {
         this.miaoshu = miaoshu;
     }
 
-    /**
-     * @return appointment
-     */
-    public Integer getAppointment() {
-        return appointment;
-    }
-
-    /**
-     * @param appointment
-     */
-    public void setAppointment(Integer appointment) {
-        this.appointment = appointment;
-    }
 
     /**
      * @return user_id
@@ -194,14 +204,14 @@ public class ScheduleList implements Serializable {
     /**
      * @return is_remind
      */
-    public Double getIsRemind() {
+    public Integer getIsRemind() {
         return isRemind;
     }
 
     /**
      * @param isRemind
      */
-    public void setIsRemind(Double isRemind) {
+    public void setIsRemind(Integer isRemind) {
         this.isRemind = isRemind;
     }
 
@@ -245,7 +255,6 @@ public class ScheduleList implements Serializable {
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 ", miaoshu='" + miaoshu + '\'' +
-                ", appointment=" + appointment +
                 ", userId=" + userId +
                 ", createtime=" + createtime +
                 ", isRemind=" + isRemind +

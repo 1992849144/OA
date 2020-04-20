@@ -14,21 +14,11 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
   servlet:
     multipart:
-      max-file-size: 1MB #上传的单个文件大小，不能超过1MB
-      max-request-size: 10MB #上传的单个文件大小，不能超过1MB
+      max-file-size: 10MB #上传的单个文件大小，不能超过1MB
+      max-request-size: 100MB #上传的单个文件大小，不能超过1MB
   activiti:
     check-process-definitions: false #不去检查工程是否包含bpmn文件
     database-schema: true  #如果数据表已存在就继续使用，不存在就创建
-  mail:
-    protocol: smtp
-    host: smtp.qq.com
-    username: 1992849144@qq.com
-    password: oobqlljkzftydgeb  #发送邮件的授权密码
-    properties:   #对内容进行加密
-      mail:
-        smtp:
-          ssl:
-            enable: true
 
 mybatis:
   type-aliases-package: org.java.entity

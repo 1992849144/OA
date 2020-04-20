@@ -22,7 +22,6 @@ public class LoginController {
     public String login(HttpServletRequest request) throws Exception {
         //获得错误信息，判断 是没有登录，还是登录失败
         String err = (String) request.getAttribute("shiroLoginFailure");
-
         if(!StringUtils.isEmpty(err)){
             //用户是因为登录失败进入的---抛出异常，由异常处理器进行捕获
             //用户名不存在 UnknownAccountException

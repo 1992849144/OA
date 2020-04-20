@@ -1,6 +1,9 @@
 /**
  * Created by Administrator on 2017/11/8.
  */
+
+//日程控件
+
 $("#calePan").panel({
     fit:true
 })
@@ -109,7 +112,7 @@ function addNew() {
             title:"新建日程记录",
             shade: true,//以模态窗口显示
             shade:0.5,//设置透明度
-            area: ['800px','500px'],
+            area: ['800px','550px'],
             anim: 1,//进入的动画效果
             maxmin: false,//不使用最大化，最小化按钮
             content: '/forward/ScheduleList/createCalendar',

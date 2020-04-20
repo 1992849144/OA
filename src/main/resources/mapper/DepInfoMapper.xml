@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.java.dao.DepInfoMapper">
+    <select id="getllDep" resultType="map">
+      SELECT d.*,b.branchName,b.branchShortName,u.nickname
+	  FROM departinfos d ,branchinfo b ,sys_user u
+	  WHERE d.branchId=b.branchId AND d.principalUser=u.id
+        <if test="departName!='' and departName!=null">
+            and d.departName like '%${departName}%'
+        </if>
+        <if test="principalUser!='' and principalUser!=null">
+            and u.nickname like '%${principalUser}%'
+        </if>
+        <if test="branchId!='' and branchId!=null">
+            and b.branchName like '%${branchId}%'
+        </if>
+    </select>
+
+    <delete id="delete">
+            DELETE FROM departinfos
+                WHERE
+                `departId` = #{departId}
+    </delete>
+
+    <insert id="addDep" parameterType="map">
+        insert into departInfos values(null,#{departName},#{principalUsers},#{connectTelNo},
+        #{connectMobileTelNo},#{faxes},#{branchId})
+    </insert>
+
+    <update id="updateDep" parameterType="map">
+        update departInfos set departName=#{departName},principalUser=#{principalUsers},
+        connectTelNo=#{connectTelNo},connectMobileTelNo=#{connectMobileTelNo},
+        faxes=#{faxes} where departId=#{departId}
+    </update>
+
+    <insert id="addDepartInfo" parameterType="map">
+        insert into departInfo values(null,#{departName},#{principalUser},#{branchId})
+    </insert>
+
+    <update id="updateDepartInfo" parameterType="map">
+        update departInfo set departName=#{departName},principalUser=#{principalUser}
+        where departId=#{departId}
+    </update>
+</mapper>

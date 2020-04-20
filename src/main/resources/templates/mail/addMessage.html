@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加邮件</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+    <script th:src="@{/layui/layui.js}"></script>
+    <style>
+        #aa{
+            width: 1200px;
+            height: 220px;
+            margin-left: 60px;
+            background: #fffbf3;
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form" id="frm">
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">消息标题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="title" required
+                   lay-verify="required" style="width: 240px"
+                   placeholder="请输入消息标题" autocomplete="off" class="layui-input">
+        </div>
+
+        <label class="layui-form-label"  style="width: 100px">消息类型</label>
+        <div class="layui-input-inline">
+            <select name="type"  id="type"  lay-filter="demo">
+                <option value="0" selected>请选择。。。</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">开始有效时间</label>
+        <div class="layui-input-inline">
+            <div class="layui-input-inline">
+                <input type="text" name="startTime" id="date1"  lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <label class="layui-form-label"  style="width: 100px">结束有效时间</label>
+        <div class="layui-input-inline">
+            <div class="layui-input-inline">
+                <input type="text" name="endTime" id="date"  lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">发送对象</label>
+        <div class="layui-inline">
+            <input type="radio"  lay-filter="erweima" name="ifowner" value="所有人" title="所有人" checked>
+            <input type="radio"  lay-filter="erweima" name="ifowner"  value="2" title="选择特定对象">
+        </div>
+    </div>
+
+    <div id="aa">
+        <span style="margin-left: 30px">
+            <i class="layui-icon layui-icon-search" style="font-size: 15px"></i>筛选范围
+        </span>
+        <br/>
+        <br/>
+        <div style="margin-left: 60px">
+            <input type="checkbox" name="radio1" lay-filter="radio" value="1" title="按机构" lay-skin="primary">
+            <input type="checkbox" name="radio2" lay-filter="radio" value="2" title="按部门" lay-skin="primary">
+            <input type="checkbox" name="radio3"  lay-filter="radio" value="3" title="按员工号" lay-skin="primary">
+            <input type="checkbox" name="radio4" lay-filter="radio" value="4" title="按姓名" lay-skin="primary">
+        </div>
+        <br/>
+        <div class="layui-form-item">
+            <label class="layui-form-label"  style="width: 80px">机构</label>
+            <div class="layui-input-inline" >
+                <select name="type"  id="branchInfo" disabled lay-filter="demo1">
+                    <option value="0" selected>请选择。。。</option>
+                </select>
+            </div>
+
+            <label class="layui-form-label"  style="width: 60px;">部门</label>
+            <div class="layui-input-inline">
+                <select name="type"  id="departinfo" disabled lay-filter="demo2">
+                    <option value="0" selected>请选择。。。</option>
+                </select>
+            </div>
+
+            <label class="layui-form-label"  style="width: 60px">员工号</label>
+            <div class="layui-input-inline" style="width: 120px">
+                <input type="text" name="username" required disabled
+                       lay-verify="required" style="width: 120px"
+                       autocomplete="off" class="layui-input">
+            </div>
+
+            <label class="layui-form-label"  style="width: 60px;">姓名</label>
+            <div class="layui-input-inline">
+                <input type="text" name="nickname" required disabled
+                       lay-verify="required" style="width: 120px"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div>
+            <span class="layui-btn"  style="margin-left: 400px" id="abc">确定选择范围</span>
+        </div>
+
+        <div id="bb">
+            <span style="margin-left: 30px">请选择发送对象</span>
+            <br/>
+            <br/>
+            <div style="margin-left: 60px" id="bn">
+                <input type="checkbox" name="bn" lay-filter="check" title="全选" lay-skin="primary" value="0">
+            </div>
+        </div>
+    </div>
+    <br/>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">消息内容</label>
+        <div class="layui-input-inline">
+             <textarea name="content" required lay-verify="required" placeholder="请输入消息内容"
+                       class="layui-textarea" STYLE="width: 400px;height: 100px"></textarea>
+        </div>
+    </div>
+
+    <input type="hidden" name="bns">
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <span id="a"></span><button type="text" class="layui-btn" style="width: 100px" lay-submit lay-filter="formDemo" id="btn">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+</body>
+</html>
+<script type="text/javascript">
+    layui.use(['layer','form','layedit', 'laydate','tree','element'],function () {
+        //定义一个变量，指定layui的弹出层模块
+        var layer = layui.layer;
+        var $ = layui.$;
+        var form = layui.form;
+        layedit = layui.layedit;
+        laydate = layui.laydate;
+        var tree = layui.tree;
+        var element = layui.element;
+        $(document).ready(function () {
+            form.render();   //表单渲染，得渲染才会有效果显示出来
+        })
+
+        $("#btn").click(function () {
+            $.ajax({
+                url: "/mail/addMessage",
+                type: "post",
+                data: $("#frm").serialize(),
+                success: function () {
+                    layer.msg("添加成功");
+                    setTimeout(function(){
+                        window.location.href="/forward/mail/showMail"
+                    },1000)
+                }
+            })
+        })
+
+        //日期
+        laydate.render({
+            elem: '#date'
+        });
+        laydate.render({
+            elem: '#date1'
+        });
+
+        //隐藏筛选范围
+        $("#aa").hide();
+        //隐藏请选择发送对象
+        $("#bb").hide();
+
+        //监听所有人那里
+        form.on('radio(erweima)', function (data) {
+            if (data.value == '2') {
+                $("#aa").show();
+            } else {
+                $("#aa").hide();
+            }
+        });
+
+        //生成checkbox
+        $("#abc").click(function () {
+            var val = $("#departinfo").val();
+            if (val!=0){
+                $("#bb").show();
+                $.ajax({
+                    url: '/depInfo/getDepByDepartByIdUser',
+                    type: "post",
+                    data:{id:val},
+                    dataType: "json",
+                    success:function (data) {
+                        $.each(data.sysUser, function(index,item) {
+                            var bn=0;
+                            bn+=index;
+                            $("#bn").append('<input type="checkbox" name="bn" value="'+item.id +'"  title="'+item.nickname+'" lay-filter="check" lay-skin="primary">' );
+                        });
+                        form.render();
+                    }
+                })
+            }
+        })
+
+
+        //获得消息类型下拉框
+        $.ajax({
+            url: "/messagetype/init",
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                $.each(data, function (index, k) {
+                    $('#type').append(new Option(k.messagetypename, k.messagetypeid));// 下拉菜单里添加元素
+                })
+                layui.form.render("select");
+            }
+        })
+
+        //部门下拉框
+        $.ajax({
+            url: '/depInfo/getDep',
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                $.each(data, function (index, k) {
+                    $('#departinfo').append(new Option(k.departName, k.departId));// 下拉菜单里添加元素
+                })
+                layui.form.render("select");
+            }
+        });
+
+        //机构下拉框
+        $.ajax({
+            url: '/branchinfo/init',
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                $.each(data, function (index, k) {
+                    $('#branchInfo').append(new Option(k.branchname, k.branchid));// 下拉菜单里添加元素
+                })
+                layui.form.render("select");
+            }
+        });
+
+        //请选择发送对象的checkbox
+        form.on('checkbox()', function (data) {
+            var value = data.value;
+            if (value == '1') {
+                $("#branchInfo").attr("disabled", false);
+                form.render('select')
+            }
+            else if (value == '2') {
+                $("#departinfo").attr("disabled", false);
+                form.render('select')
+            }
+            else if (value == '3') {
+                $("[name='username']").prop("disabled", false);
+            }
+            else if (value == '4') {
+                $("[name='nickname']").prop("disabled", false);
+            }
+        })
+
+        //监听按机构4个
+        form.on('checkbox(check)', function (data) {
+            var value = data.value;
+            var n='';
+            if (value==0){
+                var name = $("[name='bn']");
+                for (var i=0;i<name.length;i++){
+                    name[i].checked = data.elem.checked;
+                   if (i!=0){
+                       n+=name[i].value;
+                       if (i!=name.length-1){
+                           n+=',';
+                       }
+                   }
+                }
+            }else{
+                n=value;
+            }
+            $("[name='bns']").val(n);
+            form.render('checkbox');
+        })
+
+        //监听部门下拉框
+        form.on('select(demo2)', function (data) {
+            var n = $("[name='radio1']")[0].checked;
+            if (n==''){
+                $("#branchInfo").attr("disabled", false);
+                $("#branchInfo")[0].options.length=1;
+                form.render('select')
+            }
+            $.ajax({
+                url: '/depInfo/getDepByDepartById',
+                type: "post",
+                data:{id:data.value},
+                dataType: "json",
+                success:function (data) {
+                    // 机构下拉框
+                    $.ajax({
+                        url: '/branchinfo/init',
+                        type: "post",
+                        dataType: "json",
+                        success: function (datas) {
+                            $.each(datas, function (index, k) {
+                                if (k.branchid==data.departId){
+                                    $('#branchInfo').append(new Option(k.branchname,k.branchid,true,true));// 下拉菜单里添加元素
+                                } else{
+                                    $('#branchInfo').append(new Option(k.branchname,k.branchid));// 下拉菜单里添加元素元素
+                                }
+                            })
+                            layui.form.render("select");
+                        }
+                    });
+                }
+            })
+        })
+
+    })
+</script>

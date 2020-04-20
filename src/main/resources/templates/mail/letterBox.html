@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>信箱</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+    <script th:src="@{/layui/layui.js}"></script>
+    <style>
+        .layui-table th{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<table class="layui-table">
+    <colgroup>
+        <col width="20%">
+        <col width="20%">
+        <col width="20%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>本地文件夹</th>
+        <th>文件个数</th>
+        <th>末读邮件</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr align="center">
+        <td><a href="/forward/mail/showDrafts">收件箱</a></td>
+        <td>[[${countReceiveFiles.size()}]]</td>
+        <td>[[${integer}]]</td>
+    </tr>
+    <tr align="center">
+        <td><a href="/forward/mail/showMail">草稿箱</a></td>
+        <td>[[${drafts.size()}]]</td>
+        <td>0</td>
+    </tr>
+    <tr align="center">
+        <td><a href="">已发送</a></td>
+        <td>[[${sent.size()}]]</td>
+        <td>0</td>
+    </tr>
+    <tr align="center">
+        <td><a href="">已删除</a></td>
+        <td>[[${count}]]</td>
+        <td>0</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

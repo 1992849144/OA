@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"> 
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.w3.org/1999/XSL/Transform">
 <head>
     <meta charset="UTF-8">
     <title>修改个人日程</title>
     <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
     <script th:src="@{/layui/layui.js}"></script>
     <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+    <style>
+        #a{
+            margin-right: 25px;
+        }
+    </style>
 </head>
 <body>
 <form class="layui-form"  id="frm" >
@@ -26,7 +31,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label"  style="width: 100px">地点</label>
         <div class="layui-input-inline">
-            <select name="place" id="place"  lay-verify="required" lay-filter="xmFilter">
+            <select name="placeid" id="place"  lay-verify="required" lay-filter="xmFilter">
 
             </select>
         </div>
@@ -52,7 +57,21 @@
                 <input type="text" name="endTime" id="date1" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
             </div>
         </div>
-        
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">颜色</label>
+        <div class="layui-input-inline">
+            <select name="colour"  id="colour" lay-filter="demo">
+            </select>
+        </div>
+
+        <label class="layui-form-label"  style="width: 100px">创建时间</label>
+        <div class="layui-input-inline">
+            <div class="layui-input-inline">
+                <input type="text" name="createtime" readonly = "readonly"  lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+            </div>
+        </div>
     </div>
 
     <div class="layui-form-item">
@@ -66,15 +85,16 @@
 
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button type="button" class="layui-btn" id="btn" style="width: 100px" lay-submit lay-filter="formDemo">立即提交</button>
+            <span id="a"></span><button type="button" class="layui-btn" id="btn" style="width: 100px" lay-submit lay-filter="formDemo">立即提交</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
 
-    <input type="hidden" name="placeid">
-    <input type="hidden" name="me">
-    <input type="hidden" name="scheduleid">
-    <input type="hidden" name="userId">
+    <input type="hidden" name="placeids"><!--地点-->
+    <input type="hidden" name="me"><!--会议类型-->
+    <input type="hidden" name="scheduleid"><!--日程id-->
+    <input type="hidden" name="userId"><!--用户-->
+    <input type="hidden" name="colours"><!--颜色-->
 </form>
 </body>
 </html>
@@ -86,7 +106,6 @@
         var form=layui.form;
         layedit = layui.layedit;
         laydate = layui.laydate;
-        form.render();   //表单渲染，得渲染才会有效果显示出来
         $(document).ready(function () {
             form.render();   //表单渲染，得渲染才会有效果显示出来
         })
@@ -99,6 +118,27 @@
             elem: '#date1'
         });
 
+        //颜色
+        setTimeout(function(){
+            var clour=$("[name='colours']").val();
+            if (clour=='27'){
+                $('#colour').append(new Option(27,27,true,true));
+                $('#colour').append(new Option(28,28));
+                $('#colour').append(new Option(29,29));
+            }
+            if (clour=='28'){
+                $('#colour').append(new Option(28,28,true,true));
+                $('#colour').append(new Option(27,27));
+                $('#colour').append(new Option(29,29));
+            }
+            if (clour=='29'){
+                $('#colour').append(new Option(29,29,true,true));
+                $('#colour').append(new Option(27,27));
+                $('#colour').append(new Option(28,28))
+            }
+            layui.form.render("select");
+            },300)
+
 
         //修改
         $("#btn").click(function () {
@@ -106,11 +146,15 @@
                 url:"/scheduleList/updateScheduleList",
                 type:"post",
                 data:$("#frm").serialize(),
-                success:function () {
-                    layer.msg('修改成功');
-                    setTimeout(function(){
-                        window.parent.location.reload();//让父窗口的数据重新加载
-                    },1000)
+                success:function (data) {
+                    if (data==1){
+                        layer.msg("修改成功");
+                        setTimeout(function(){
+                            window.parent.location.reload();//让父窗口的数据重新加载
+                        },1000)
+                    } else {
+                        layer.alert("修改失败，你的权限不足");
+                    }
                 }
             })
         })
@@ -122,7 +166,7 @@
                 type:"post",
                 dataType:"json",
                 success:function (data) {
-                    var placeid=$("[name='placeid']").val();
+                    var placeid=$("[name='placeids']").val();
                     var meetingformatid=$("[name='me']").val();
                     $.each(data.meetingformat,function (index,k) {
                         if (k.meetingformatid==meetingformatid){

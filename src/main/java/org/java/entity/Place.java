@@ -5,6 +5,9 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * 地点
+ */
 @Data
 public class Place implements Serializable {
     @Id

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改用户</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+</head>
+<body>
+<form class="layui-form" id="frm">
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">用户登录名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="username" readonly="readonly"  style="width: 200px"
+                   placeholder="请输入用户登录名" autocomplete="off" class="layui-input"
+                   th:value="${map?.username}">
+        </div>
+
+        <label class="layui-form-label"  style="width: 100px">真实姓名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="nickname"  style="width: 200px"
+                   placeholder="请输入真实姓名" autocomplete="off" class="layui-input"
+                   th:value="${map?.nickname}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">密码</label>
+        <div class="layui-input-inline">
+            <input type="password" name="password"  style="width: 200px"
+                   placeholder="请输入密码" autocomplete="off" class="layui-input"
+                   value="123">
+        </div>
+
+        <label class="layui-form-label"  style="width: 100px">确认密码</label>
+        <div class="layui-input-inline">
+            <input type="password" name="password1" style="width: 200px"
+                   placeholder="请确认密码" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"   style="width: 100px;">所在部门</label>
+        <div class="layui-input-inline">
+            <select name="departName"  id="departName"  lay-filter="demo">
+
+            </select>
+        </div>
+
+        <label class="layui-form-label" style="width: 100px;">性别</label>
+        <div class="layui-input-inline" style="width: 200px">
+            <span th:if="${map?.gender} eq 0">
+                <input type="radio" value="0" name="gender"  title="男" checked>
+                <input type="radio" value="1" name="gender" title="女">
+            </span>
+            <span th:if="${map?.gender}  ne 0">
+                <input type="radio" value="0" name="gender" title="男">
+                <input type="radio" value="1" name="gender" title="女" checked>
+            </span>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">头像</label>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <button type="button" class="layui-btn" id="test1" style="margin-left: 130px;margin-top: -60px">选择图片</button>
+            </label>
+            <div class="layui-input-inline" style="margin-top: 30px;">
+                <img id="demo1" style="width: 180px;height: 180px" th:src="${map?.picture}">
+            </div>
+        </div>
+    </div>
+    <div class="layui-input-inline">
+        <input type="hidden" name="picture" style="width: 200px" placeholder="图片路径" autocomplete="off"
+              th:value="${map?.picture}" class="layui-input">
+    </div>
+    <!--获得图片的名称-->
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px">状态</label>
+        <div class="layui-input-inline">
+            <select name="userState" id="userState" lay-filter="demo">
+                <span th:if="${map?.userState} eq 1">
+                    <option value="1" selected>正常状态</option>
+                    <option value="2">账号锁定</option>
+                </span>
+                <span th:if="${map?.userState} ne 1">
+                    <option value="1">正常状态</option>
+                    <option value="2" selected>账号锁定</option>
+                </span>
+            </select>
+        </div>
+
+        <label class="layui-form-label" style="width: 100px">职位</label>
+        <div class="layui-input-inline">
+            <select name="name"  id="name"  lay-filter="demo">
+            </select>
+        </div>
+    </div>
+
+    <input type="hidden" name="id" th:value="${map?.id}">
+    <input type="hidden" name="Id" th:value="${map?.Ids}">
+    <input type="hidden" name="departId" th:value="${map?.departId}">
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo" id="btn">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+</body>
+</html>
+<script>
+    layui.use(['upload','form','layer'] ,function() {
+        var $ = layui.jquery;
+        var upload = layui.upload;
+        var form =layui.form;
+        $(document).ready(function () {
+            form.render();   //表单渲染，得渲染才会有效果显示出来
+        })
+
+
+
+
+        //图片上传
+        upload.render({
+            elem: '#test1',
+            url: '/userManage/upload',
+            multiple: false,//是否允许多张图片上传
+            auto: true,
+            before: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {  //file：图片名字 result：图片路径
+                    // $('#demo2').empty();
+                    // $('#demo2').append('<img src="' + result + '" alt="' + file.name + '" class="layui-upload-img">');
+                    // $("#demo2  img").height($("#demo2  img").width(200));
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                    $("[ name='picture']").val("/images/"+file.name);
+                });
+            },
+            done: function (res) {
+                //window.parent.location.reload();//上传成功，让父窗口的数据重新加载
+            },
+            error: function () {
+                //上传失败，提示
+            }
+        });
+
+        $("[name='password1']").blur(function () {
+            var password=$("[name='password']").val();
+            var password1=$("[name='password1']").val();
+            if (password!=password1) {
+                layer.alert("2次密码输入不一样，请重新输入");
+                $("[name='password1']").val("");
+            }
+        })
+
+        //修改时，回显的下拉框
+        setTimeout(function(){
+            var departId=$("[name='departId']").val();
+            var Id=$("[name='Id']").val();
+            //部门下拉框
+            $.ajax({
+                url:'/depInfo/getDep',
+                type:"post",
+                dataType:"json",
+                success:function (data) {
+                    $.each(data,function (index,k) {
+                        if (k.departId==departId){
+                            $('#departName').append(new Option(k.departName,k.departId,true,true));// 下拉菜单里添加元素
+                        } else{
+                            $('#departName').append(new Option(k.departName,k.departId));// 下拉菜单里添加元素元素
+                        }
+                    })
+                    layui.form.render("select");
+                }
+            });
+
+            //职位下拉框
+            $.ajax({
+                url:'/sysRole/init',
+                type:"post",
+                dataType:"json",
+                success:function (data) {
+                    $.each(data,function (index,k) {
+                        if (k.id==Id){
+                            $('#name').append(new Option(k.name,k.id,true,true));// 下拉菜单里添加元素
+                        } else{
+                            $('#name').append(new Option(k.name,k.id));// 下拉菜单里添加元素
+                        }
+                    })
+                    layui.form.render("select");
+                }
+            });
+        },200)
+
+        $("#btn").click(function () {
+            $.ajax({
+                url:"/userManage/updateUser",
+                type:"post",
+                data:$("#frm").serialize(),
+                success:function () {
+                    alert("修改成功");
+                    window.location.href="/forward/PersonnelManagement/userManage";
+                }
+            })
+        })
+    })
+</script>

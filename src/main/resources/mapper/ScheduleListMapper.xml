@@ -43,8 +43,8 @@
     SELECT * FROM schedule_list s,sys_user u,meetingformat m
     WHERE s.user_id=u.id AND m.meetingformatid=s.meetingformatid AND is_remind=1
     <if test="title!='' and title!=null">
-      and title like '%${title}%'
-    </if>
+    and title like '%${title}%'
+  </if>
     <if test="startTime!='' and startTime!=null">
       and start_time>=#{startTime}
     </if>
@@ -54,9 +54,20 @@
     ORDER BY start_time
   </select>
 
-  <update id="updateScheduleList" parameterType="ScheduleList">
+  <update id="updateScheduleList" parameterType="scheduleList">
     update schedule_list set title=#{title},placeid=#{placeid},meetingformatid=#{meetingformatid},
-    start_time=#{startTime},end_time=#{endTime},miaoshu=#{miaoshu} where scheduleId=#{scheduleid}
+    start_time=#{startTime},end_time=#{endTime},miaoshu=#{miaoshu},colour=#{colour} where scheduleId=#{scheduleid}
+  </update>
+
+  <insert id="addScheduleList" parameterType="scheduleList">
+    insert into schedule_list values(#{scheduleid},#{title},#{placeid},#{meetingformatid},#{startTime},
+    #{endTime},#{miaoshu},#{userId},#{createtime},#{isRemind},#{colour})
+  </insert>
+
+  <update id="updateDepartmentScheduleList" parameterType="map">
+    update schedule_list set title=#{title},placeid=#{placeid},meetingformatid=#{meetingformatid},
+    start_time=#{startTime},end_time=#{endTime},miaoshu=#{miaoshu},user_id=#{userId},
+    colour=#{colours} where scheduleId=#{scheduleid}
   </update>
 
   <resultMap id="scheduleListMap" type="scheduleList">

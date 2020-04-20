@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加机构</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+</head>
+<body>
+<form class="layui-form"  id="frm" >
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">机构名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="branchName" style="width: 240px"
+                   placeholder="请输入机构名称" autocomplete="off" class="layui-input">
+        </div>
+
+        <br><br>
+
+        <label class="layui-form-label"  style="width: 100px">机构简介</label>
+        <div class="layui-input-inline">
+            <input type="text" name="branchShortName" style="width: 240px"
+                   placeholder="请输入机构简介" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" id="btn" style="width: 100px" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+</body>
+</html>
+
+
+<script  type="text/javascript">
+    layui.use(['layer'],function () {
+        //定义一个变量，指定layui的弹出层模块
+        var layer = layui.layer;
+
+            $("#btn").click(function () {
+                var branchName = $('[name=branchName]').val();
+                var branchShortName = $('[name=branchShortName]').val();
+                $.ajax({
+                    url:"/PersonnelManagement/addOrg",
+                    type:"post",
+                    data:{'branchName':branchName,'branchShortName':branchShortName},
+                    success:function () {
+                        layer.msg('添加成功');
+                        setTimeout(function(){
+                            window.parent.location.reload();//让父窗口的数据重新加载
+                        },1000)
+                    }
+                })
+            })
+
+    })
+
+</script>

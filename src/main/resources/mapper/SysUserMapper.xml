@@ -18,8 +18,10 @@
   </resultMap>
 
   <select id="login" resultType="map">
-     SELECT u.*,r.id roleId,r.name FROM sys_role r,sys_user_role ur,sys_user u WHERE
-        r.id=ur.role_id AND u.id=ur.user_id AND user_id=(SELECT id FROM sys_user WHERE username=#{username})
+      SELECT u.id,u.username,u.password,u.nickname,r.name
+            FROM sys_role r,sys_user u,sys_user_role ur
+                WHERE r.id=ur.role_id AND u.id=ur.user_id AND u.username=#{username}
+                 AND u.userState=1
   </select>
 
   <select id="loadPermission" resultType="String">

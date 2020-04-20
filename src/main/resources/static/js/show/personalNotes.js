@@ -47,7 +47,7 @@ layui.use(['table','layer','jquery'],function () {
                 area: ['800px','500px'],
                 anim: 1,//进入的动画效果
                 maxmin: false,//不使用最大化，最小化按钮
-                content: '/forward/ScheduleList/updatePersonalNotes',
+                content: ['/forward/ScheduleList/updatePersonalNotes'],
                 zIndex: layer.zIndex, //重点1
                 success: function(layero){
                     layer.setTop(layero); //重点2  置顶在上面，
@@ -90,12 +90,10 @@ layui.use(['table','layer','jquery'],function () {
 
     /******************给搜索按钮绑定事件*********************************/
     $("#search").click(function () {
-        var relationship_name=$("[name='relationship_name' ]").val();//客户名称
-        var username=$("[name='username' ]").val();//客户经理名称
+        var personalNotesTitle=$("[name='personalNotesTitle' ]").val();//主题
         table.reload('demo', {
             where: { //设定异步数据接口的额外参数，任意设
-                relationship_name: relationship_name
-                ,username: username
+                personalnotestitle: personalNotesTitle
             }
             ,page: {
                 curr: 1 //重新从第 1 页开始
@@ -106,13 +104,10 @@ layui.use(['table','layer','jquery'],function () {
     /*****给重置按钮绑定事件************/
     $("#reset").click(function () {
         //清空
-        $("[name='relationship_name' ]").val("");//类别
-        $("[name='username' ]").val("");//条目
+        $("[name='personalNotesTitle' ]").val("");//主题
         table.reload('demo', {
             where: { //设定异步数据接口的额外参数，任意设
-                relationship_name: ""
-                ,username: ""
-
+                personalnotestitle: ""
             }
             ,page: {
                 curr: 1 //重新从第 1 页开始

@@ -6,16 +6,37 @@
     <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
     <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
     <script th:src="@{/layui/layui.js}"></script>
+    <style>
+        #b{
+            position: absolute;
+            top: 10px;
+            right: -180px;
+        }
+        #c{
+            position: absolute;
+            top: 50px;
+            right: -180px;
+        }
+        #a{
+            margin-right: 25px;
+        }
+        #test1{
+            position: absolute;
+            top: -10px;
+            right: -400px;
+        }
+    </style>
 </head>
 <body>
 <body>
 <BR>
-<form class="layui-form" action="" id="frm" method="post">
+<form class="layui-form" id="frm">
     <div class="layui-form-item">
         <label class="layui-form-label"  style="width: 100px">创建人</label>
         <div class="layui-input-inline">
-            <input type="text" name="userId" required readonly = "readonly" lay-verify="required" style="width: 240px"
-                   placeholder="请输入创建人" autocomplete="off" class="layui-input">
+            <input type="text" name="username" required readonly = "readonly" lay-verify="required" style="width: 240px"
+                   placeholder="请输入创建人" autocomplete="off" class="layui-input"
+                   th:value="${session.username}">
         </div>
 
         <label class="layui-form-label"  style="width: 100px">日程主题</label>
@@ -28,7 +49,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label"  style="width: 100px">地点</label>
         <div class="layui-input-inline">
-            <select name="meetingformatid"  id="place"  lay-filter="demo">
+            <select name="placeid"  id="place"  lay-filter="demo">
                 <option value="0" selected>请选择。。。</option>
             </select>
         </div>
@@ -68,25 +89,42 @@
     <div class="layui-form-item">
         <label class="layui-form-label"  style="width: 100px">颜色</label>
         <div class="layui-input-inline">
-            <select name="meetingformatid"   lay-filter="demo">
+            <select name="colour"   lay-filter="demo">
                 <option value="0" selected>请选择。。。</option>
                 <option value="27">27</option>
                 <option value="28">28</option>
-                <option value="28">29</option>
+                <option value="29">29</option>
             </select>
         </div>
 
-
-        <label class="layui-form-label"  style="width: 100px">预约他人</label>
+        <label class="layui-form-label"  style="width: 100px">是否公开</label>
         <div class="layui-input-inline">
-            <input type="text" name="appointment" required  lay-verify="required" style="width: 240px"
-                   placeholder="请输入预约他人" autocomplete="off" class="layui-input">
+            <input type="checkbox" name="isRemind" lay-skin="switch" value="0">
         </div>
     </div>
 
     <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">预约他人</label>
+        <div class="layui-input-inline">
+           <textarea name="primarypersonName" id="appointments" placeholder="请输入预约他人"
+                     class="layui-textarea" STYLE="width: 280px"></textarea>
+            <div id="b">
+                <button type="button" class="layui-btn layui-btn-primary" id="ok">
+                    <i class="layui-icon">&#xe630;</i>选择
+                </button>
+            </div>
+            <div id="c">
+                <button type="button" class="layui-btn layui-btn-primary" id="err">
+                    <i class="layui-icon">&#xe630;</i>清空
+                </button>
+            </div>
+            <div id="test1" class="demo-tree-more"></div>
+        </div>
+    </div>
+
+    <div class="layui-form-item" style="width: 400px">
         <div class="layui-input-block">
-            <input type="submit" class="layui-btn" style="width: 100px" lay-submit lay-filter="formDemo" value="立即提交"/>
+            <span id="a"></span><button type="text" class="layui-btn" style="width: 100px" lay-submit lay-filter="formDemo" id="btn">立即提交</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
@@ -95,14 +133,14 @@
 </body>
 </html>
 <script type="text/javascript">
-    layui.use(['layer','form','layedit', 'laydate'],function () {
+    layui.use(['layer','form','layedit', 'laydate','tree'],function () {
         //定义一个变量，指定layui的弹出层模块
         var layer = layui.layer;
         var $ = layui.$;
         var form=layui.form;
         layedit = layui.layedit;
         laydate = layui.laydate;
-
+        var tree = layui.tree;
         $(document).ready(function () {
             form.render();   //表单渲染，得渲染才会有效果显示出来
         })
@@ -114,6 +152,16 @@
         laydate.render({
             elem: '#date1'
         });
+
+        $("#test1").toggle();
+
+        $("#ok").click(function () {
+            $("#test1").toggle();
+        })
+
+        $("#err").click(function () {
+            $("#appointments").text("")
+        })
 
         $.ajax({
             url:"/init",
@@ -129,5 +177,67 @@
                 layui.form.render("select");
             }
         })
+
+        $("#btn").click(function () {
+            $.ajax({
+                url:"/scheduleList/addScheduleList",
+                type:"post",
+                data:$("#frm").serialize(),
+                success:function (data) {
+                    if (data==1){
+                        layer.alert("添加成功");
+                        setTimeout(function(){
+                            window.parent.location.reload();//让父窗口的数据重新加载
+                        },1000)
+                    } else {
+                        layer.alert("添加失败，你的权限不足");
+                    }
+                }
+            })
+        })
+
+        $.ajax({
+            url:"/scheduleList/show",
+            type: "post",
+            dataType: 'json',
+            success: function(res) {
+                //渲染
+                var inst1 = tree.render({
+                    elem: '#test1'  //绑定元素
+                    ,data:res
+                    ,onlyIconControl: true  //是否仅允许节点左侧图标控制展开收缩
+                    ,accordion:true
+                    ,click: function(obj){
+                        var lengths=JSON.stringify(obj.data).length;
+                        var s = obj.data;
+                        if (lengths>=59 && lengths<=60){
+                            var val = $("#appointments").val();
+                            if (val!=''){
+                                var split = val.split(",");
+                                var count=0;
+                                for (var i=0;i<split.length;i++){
+                                    if (split[i]==s.title){
+                                        layer.msg("人员已存在,五无法添加预约人！")
+                                        count++;
+                                        break;
+                                    }
+                                }
+                                if (count==0){
+                                    val+=',';
+                                    val+=s.title;
+                                }
+                            }
+                            else{
+                                val+=s.title;
+                            }
+                            $("#appointments").html(val);
+                        }
+                        if (!(lengths>=59 && lengths<=60)){
+                            layer.alert("您选择的不是人员，请重新选择！")
+                        }
+                    }
+                });
+            }
+        });
     })
 </script>

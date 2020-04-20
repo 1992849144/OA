@@ -11,4 +11,11 @@
     <result column="userId" jdbcType="VARCHAR" property="userid" />
     <result column="createtime" jdbcType="DATE" property="createtime" />
   </resultMap>
+
+  <select id="getPersonalnotesByUserId" resultType="personalnotes">
+    select * from personalNotes where userId=#{userId}
+    <if test="personalnotestitle!='' and personalnotestitle!=null">
+      and personalNotesTitle like '%${personalnotestitle}%'
+    </if>
+  </select>
 </mapper>

@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * 个人便签
+ */
 @Service
 public class PersonalnotesService {
 
@@ -23,9 +26,9 @@ public class PersonalnotesService {
      * @param userId
      * @return
      */
-    public ResultVo<Personalnotes> getPersonalnotesByUserId(String userId,Integer page,Integer limit){
+    public ResultVo<Personalnotes> getPersonalnotesByUserId(String userId,Integer page,Integer limit,String personalnotestitle){
         PageHelper.startPage(page,limit);
-        PageInfo<Personalnotes> pageInfo = new PageInfo<>(personalnotesMapper.getPersonalnotesByUserId(userId));
+        PageInfo<Personalnotes> pageInfo = new PageInfo<>(personalnotesMapper.getPersonalnotesByUserId(userId,personalnotestitle));
 
         //将查询结果，封装成ResultVo
         ResultVo<Personalnotes> resultVo = new ResultVo<>();

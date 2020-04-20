@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>显示所有草稿箱</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/mail/showMail.js}"></script>
+</head>
+<body>
+<form class="layui-form" id="frm">
+    <div style="padding-top: 20px;padding-left: 20px" align="center">
+        <label class="layui-inline">开始时间</label>
+        <div class="layui-inline">
+            <input type="text" name="startTime" id="date"  lay-verify="date"
+                   placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input"
+                   th:value="${session.startTime}">
+        </div>
+
+        <label class="layui-inline">结束时间</label>
+        <div class="layui-inline">
+            <input type="text" name="endTime" id="date1"  lay-verify="date"
+                   placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input"
+                   th:value="${session.endTime}">
+        </div>
+
+        <div class="layui-inline">
+            <span th:switch="${session.times}">
+                <span th:case="1">
+                    <input type="radio" name="time" value="1" title="本日" checked>
+                    <input type="radio" name="time" value="2" title="本周">
+                    <input type="radio" name="time" value="3" title="本月">
+                 </span>
+                <span th:case="2">
+                    <input type="radio" name="time" value="1" title="本日">
+                    <input type="radio" name="time" value="2" title="本周" checked>
+                    <input type="radio" name="time" value="3" title="本月">
+                </span>
+                <span th:case="3">
+                    <input type="radio" name="time" value="1" title="本日">
+                    <input type="radio" name="time" value="2" title="本周">
+                    <input type="radio" name="time"  value="3" title="本月" checked>
+                </span>
+                <span th:case="*">
+                    <input type="radio" name="time" value="1" title="本日">
+                    <input type="radio" name="time" value="2" title="本周">
+                    <input type="radio" name="time" value="3" title="本月">
+                </span>
+            </span>
+        </div>
+
+        <button class="layui-btn" id="search">搜索</button>
+        <button class="layui-btn"  id="reset">重置</button>
+        <button type="button" class="layui-btn" id="add">
+            <i class="layui-icon">&#xe654;</i>添加新消息
+        </button>
+    </div>
+</form>
+<table id="demo" lay-filter="test"></table>
+<!--显示工具条-->
+<script type="text/html" id="barDemo">
+    {{# if(d.ifPublish===0){ }}
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="update">发布</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    {{# } }}
+    {{# if(d.ifPublish===1){ }}
+    <a class="layui-btn layui-btn-disabled layui-btn-danger layui-btn-xs" disabled>编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-disabled layui-btn-danger layui-btn-xs"  disabled>发布</a>
+    {{# } }}
+</script>
+</body>
+</html>
+<script type="text/javascript">
+    layui.use(['layer','form','layedit', 'laydate'],function () {
+        //定义一个变量，指定layui的弹出层模块
+        var layer = layui.layer;
+        var $ = layui.$;
+        var form=layui.form;
+        layedit = layui.layedit;
+        laydate = layui.laydate;
+
+        $(document).ready(function () {
+            form.render();   //表单渲染，得渲染才会有效果显示出来
+        })
+
+        //日期
+        laydate.render({
+            elem: '#date'
+        });
+        laydate.render({
+            elem: '#date1'
+        });
+    })
+</script>
+
+

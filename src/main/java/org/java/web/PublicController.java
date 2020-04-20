@@ -4,9 +4,11 @@ import org.java.dao.PlaceMapper;
 import org.java.entity.Meetingformat;
 import org.java.entity.Place;
 import org.java.entity.SysUser;
+import org.java.entity.Util;
 import org.java.service.MeetingformatService;
 import org.java.service.PlaceService;
 import org.java.service.SysUserService;
+import org.java.service.UtilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,11 +33,17 @@ public class PublicController {
     @Autowired
     private MeetingformatService meetingformatService;
 
-    @ResponseBody
+
+    /**
+     * 获得所有地点，会议类型
+     * 根据用户id获得用户昵称
+     * @param id
+     * @return
+     */
     @PostMapping("show")
+    @ResponseBody
     public Map commune(Integer id){
         Map map=new HashMap();
-
         SysUser user = sysUserService.getSysUserById(id);//获得用户详情
         String nickname=user.getNickname();
         List<Place> place = placeService.getAllPlace();//显示所有地点
@@ -48,8 +56,12 @@ public class PublicController {
         return map;
     }
 
-    @ResponseBody
+    /**
+     * 获得所有地点，会议类型
+     * @return
+     */
     @PostMapping("init")
+    @ResponseBody
     public Map show(){
         Map map=new HashMap();
         List<Place> place = placeService.getAllPlace();//显示所有地点

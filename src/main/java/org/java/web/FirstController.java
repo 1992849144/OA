@@ -30,6 +30,7 @@ public class FirstController {
 
         //把信息，存放在session中
         session.setAttribute("map",map);
+        session.setAttribute("nickname",map.get("nickname"));
         session.setAttribute("userId",id);
         session.setAttribute("username",username);
         session.setAttribute("name",name);

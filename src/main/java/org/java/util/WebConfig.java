@@ -7,11 +7,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * 跳转页面
+ */
 @Controller
 public class WebConfig {
-    @GetMapping("/forward/{ScheduleList}/{target}")
-    public String forward(@PathVariable("ScheduleList") String ScheduleList,@PathVariable("target") String target){
-        return "/"+ScheduleList+"/"+target;
+    @GetMapping("/forward/{scheduleList}/{target}")
+    public String forward(@PathVariable("scheduleList") String scheduleList,@PathVariable("target") String target){
+        return "/"+scheduleList+"/"+target;
     }
 
     @GetMapping("/forward/{target}")

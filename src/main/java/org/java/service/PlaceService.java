@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 地点
+ */
 @Service
 public class PlaceService {
 

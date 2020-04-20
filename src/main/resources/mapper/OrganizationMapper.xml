@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.java.dao.OrganizationMapper">
+
+    <select id="getAllOrg" resultType="map">
+        SELECT * FROM branchinfo WHERE 1=1
+            <if test="orgName!='' and orgName!=null">
+                and branchName like '%${orgName}%'
+            </if>
+            <if test="orgAbbreviation!='' and orgAbbreviation!=null">
+                and branchShortName like '%${orgAbbreviation}%'
+            </if>
+    </select>
+
+    <insert id="addOrg">
+        INSERT INTO branchinfo VALUES(null , #{branchName}, #{branchShortName});
+    </insert>
+
+    <update id="updateOrg">
+        UPDATE branchinfo SET branchName = #{branchName} ,branchShortName = #{branchShortName}
+            WHERE branchId = #{branchId}
+    </update>
+
+    <delete id="deleteOrg" >
+        delete from branchinfo where branchId = #{branchId}
+    </delete>
+</mapper>

@@ -7,6 +7,9 @@ import tk.mybatis.MyMapper;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 日程详情
+ */
 public interface ScheduleListMapper extends MyMapper<ScheduleList> {
 
     /**
@@ -35,4 +38,16 @@ public interface ScheduleListMapper extends MyMapper<ScheduleList> {
      * @param scheduleList
      */
     public void updateScheduleList(ScheduleList scheduleList);
+
+    /**
+     * 添加日程
+     * @param scheduleList
+     */
+    public void addScheduleList(ScheduleList scheduleList);
+
+    /**
+     * 修改部门日程
+     * @param map
+     */
+    public void updateDepartmentScheduleList(Map map);
 }

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>部署流程定义</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+    <script th:src="@{/layui/layui.js}"></script>
+</head>
+<body>
+<h2>部署流程定义</h2>
+
+<form class="layui-form" th:action="@{/deploy}" method="post" enctype="multipart/form-data">
+BPMN:<input type="file" name="bpmn"/> <br>
+PNG:<input type="file" name="png"/> <bR>
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>
