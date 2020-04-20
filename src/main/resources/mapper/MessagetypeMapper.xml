@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.java.dao.MessagetypeMapper">
+  <resultMap id="BaseResultMap" type="org.java.entity.Messagetype">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="messageTypeId" jdbcType="INTEGER" property="messagetypeid" />
+    <result column="messageTypeName" jdbcType="VARCHAR" property="messagetypename" />
+  </resultMap>
+</mapper>

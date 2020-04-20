@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.java.dao.MessageMapper">
+  <resultMap id="BaseResultMap" type="org.java.entity.Message">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="messageId" jdbcType="INTEGER" property="messageid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="beginTime" jdbcType="DATE" property="begintime" />
+    <result column="endTime" jdbcType="DATE" property="endtime" />
+    <result column="fromUserId" jdbcType="VARCHAR" property="fromuserid" />
+    <result column="ifPublish" jdbcType="INTEGER" property="ifpublish" />
+    <result column="recordTime" jdbcType="DATE" property="recordtime" />
+  </resultMap>
+
+  <update id="updateIfPublish">
+    update message set ifPublish=1 where messageId=#{messageId}
+  </update>
+
+  <insert id="addMessage" parameterType="map">
+    insert into message values(#{messageId},#{title},#{content},#{type},#{startTime}
+    ,#{endTime},#{fromUserId},#{ifPublish},#{ifowner},#{recordTime},0)
+  </insert>
+
+  <insert id="addChoosePerson" parameterType="map">
+    insert into choosePerson values(null,#{userId},#{messageId},2,0)
+  </insert>
+
+  <update id="updateMessage" parameterType="map">
+    update message set title=#{title},content=#{content},type=#{type},
+    beginTime=#{startTime},endTime=#{endTime},ifowner=#{ifowner}
+    where messageId=#{messageId}
+  </update>
+
+  <select id="statisticsEmil" resultType="map">
+    SELECT * FROM choosePerson c,message m
+    WHERE c.messageId=m.messageId  AND c.userId=#{userId} AND ifPublish=1
+  </select>
+
+  <select id="getMessageByUserId" resultType="map">
+     SELECT * FROM message m,sys_user u,messageType t,choosePerson c
+    WHERE m.fromUserId=u.id AND m.type=t.messageTypeId AND m.messageId=c.messageId
+    AND c.userId=#{userId} AND ifPublish=1 ORDER BY recordTime desc
+  </select>
+
+  <select id="getChoosePersonByMessageId" resultType="map">
+    SELECT u.nickname FROM message m,choosePerson c,sys_user u
+    WHERE m.messageId=c.messageId AND c.userId=u.id AND m.messageId=#{messageId}
+  </select>
+
+  <select id="getMessageByFromUserId" resultType="map">
+    SELECT * FROM message m,sys_user u,messageType t
+    WHERE m.fromUserId=u.id AND m.type=t.messageTypeId and m.ifdelete=0
+    AND  m.fromUserId=#{fromUserId}
+    <if test="startTime!='' and startTime!=null">
+      and beginTime>=#{startTime}
+    </if>
+    <if test="endTime!='' and endTime!=null">
+      and endTime &lt; #{endTime}
+    </if>
+    <if test="time==1">
+      and recordTime=CURRENT_DATE()
+    </if>
+    <if test="time==2">
+      AND TIMESTAMPDIFF(DAY,m.recordTime,CURRENT_DATE() )&lt;7
+    </if>
+    <if test="time==3">
+      AND TIMESTAMPDIFF(DAY,m.recordTime,CURRENT_DATE() )&lt;30
+    </if>
+  </select>
+
+  <select id="getAllMessage" resultType="map">
+     SELECT * FROM message m,sys_user u,messageType t
+     WHERE m.fromUserId=u.id AND m.type=t.messageTypeId
+    <if test="startTime!='' and startTime!=null">
+      and beginTime>=#{startTime}
+    </if>
+    <if test="endTime!='' and endTime!=null">
+      and endTime &lt; #{endTime}
+    </if>
+    <if test="time==1">
+      and recordTime=CURRENT_DATE()
+    </if>
+    <if test="time==2">
+      AND TIMESTAMPDIFF(DAY,m.recordTime,CURRENT_DATE() )&lt;7
+    </if>
+    <if test="time==3">
+      AND TIMESTAMPDIFF(DAY,m.recordTime,CURRENT_DATE() )&lt;30
+    </if>
+  </select>
+
+  <!--<resultMap id="messageMap" type="message">-->
+    <!--<id column="messageId" jdbcType="INTEGER" property="messageid" />-->
+    <!--<result column="title" jdbcType="VARCHAR" property="title" />-->
+    <!--<result column="content" jdbcType="VARCHAR" property="content" />-->
+    <!--<result column="type" jdbcType="INTEGER" property="type" />-->
+    <!--<result column="beginTime" jdbcType="DATE" property="begintime" />-->
+    <!--<result column="endTime" jdbcType="DATE" property="endtime" />-->
+    <!--<result column="fromUserId" jdbcType="VARCHAR" property="fromuserid" />-->
+    <!--<result column="ifPublish" jdbcType="INTEGER" property="ifpublish" />-->
+    <!--<result column="ifowner" jdbcType="VARCHAR" property="ifowner" />-->
+    <!--<result column="recordTime" jdbcType="DATE" property="recordtime" />-->
+
+    <!--<association property="sysUser" javaType="sysUser">-->
+      <!--<id column="id" jdbcType="INTEGER" property="id" />-->
+      <!--<result column="username" jdbcType="VARCHAR" property="username" />-->
+      <!--<result column="password" jdbcType="VARCHAR" property="password" />-->
+      <!--<result column="nickname" jdbcType="VARCHAR" property="nickname" />-->
+      <!--<result column="departId" jdbcType="INTEGER" property="departid" />-->
+      <!--<result column="gender" jdbcType="INTEGER" property="gender" />-->
+      <!--<result column="roleId" jdbcType="INTEGER" property="roleid" />-->
+      <!--<result column="userState" jdbcType="INTEGER" property="userstate" />-->
+      <!--<result column="picture" jdbcType="VARCHAR" property="picture" />-->
+      <!--<result column="locked" jdbcType="INTEGER" property="locked" />-->
+    <!--</association>-->
+
+    <!--<association property="messagetype" javaType="messagetype">-->
+      <!--<id column="messageTypeId" jdbcType="INTEGER" property="messagetypeid" />-->
+      <!--<result column="messageTypeName" jdbcType="VARCHAR" property="messagetypename" />-->
+    <!--</association>-->
+  <!--</resultMap>-->
+</mapper>
