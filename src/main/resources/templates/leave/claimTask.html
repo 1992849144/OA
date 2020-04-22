@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>显示候选人</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+    <script th:src="@{/layui/layui.js}"></script>
+    <style>
+        .layui-table th {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<table class="layui-table">
+    <thead align="center">
+    <Tr>
+        <Th>编号</Th>
+        <Th>申请人</Th>
+        <Th>经办人</Th>
+        <Th>采购单创建时间</Th>
+        <th>任务办理人</th>
+        <Th>任务开始时间</Th>
+        <Th>拾取任务</Th>
+    </Tr>
+    </thead>
+    <tbody>
+        <Tr align="center" th:each="t,k:${list}">
+            <Td>[[${k.count}]]</Td>
+            <Td>[[${t.name}]]</Td>
+            <Td>[[${t.user_id}]]</Td>
+            <Td>[[${t.createtime}]]</Td>
+            <Td><B style="color: blue">[[${t.assignee}]]</B></Td>
+            <Td th:text="${#dates.format(t?.taskCreateTime,'yyyy-MM-dd')}"></Td>
+            <Td>
+                <a th:href="@{|/claimTask/${t.taskId}|}" class="layui-btn layui-btn-xs layui-btn-normal">拾取任务</a>
+            </Td>
+        </Tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>显示提交请假单</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+    <script th:src="@{/layui/layui.js}"></script>
+    <style>
+        .layui-table th {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<table class="layui-table">
+    <thead align="center">
+    <tr align='center'>
+        <Th>编号</Th>
+        <Th>申请人</Th>
+        <Th>经办人</Th>
+        <Th>请假单创建时间</Th>
+        <th>任务办理人</th>
+        <Th>任务开始时间</Th>
+        <Th>处理</Th>
+    </tr>
+    </thead>
+    <tbody>
+    <Tr align="center" th:each="t,k:${list}">
+        <Td>[[${k.count}]]</Td>
+        <Td>[[${t.name}]]</Td>
+        <Td>[[${t.user_id}]]</Td>
+        <Td>[[${t.createtime}]]</Td>
+        <Td><B style="color: blue">[[${t.assignee}]]</B></Td>
+        <Td th:text="${#dates.format(t.taskCreateTime,'yyyy-MM-dd')}"></Td>
+        <Td >
+            <span th:switch="${t.taskDef}">
+                <span th:case="createOrder">
+                    <a th:href="@{|/submitOrder/${t.taskId}|}" class="layui-btn layui-btn-xs layui-btn-normal">提交采购单</a>
+                </span>
+                 <span th:case="firstAudit">
+                     <a th:href="@{|/showOrder/${t.id}/${t.taskId}/${t.taskDef}|}" class="layui-btn layui-btn-xs layui-btn-normal">部门经理审核</a>
+                </span>
+                 <span th:case="secondAudit">
+                     <a th:href="@{|/showOrder/${t.id}/${t.taskId}/${t.taskDef}|}" class="layui-btn layui-btn-xs layui-btn-normal">总经理审核</a>
+                </span>
+                 <span th:case="thirdAudit">
+                     <a th:href="@{|/settlement/${t.taskId}|}" class="layui-btn layui-btn-xs layui-btn-normal">人事审核</a>
+                </span>
+                <span th:case="settlement">
+                     <a th:href="@{|/settlement/${t.taskId}|}" class="layui-btn layui-btn-xs layui-btn-normal">人事记录</a>
+                </span>
+                 <span th:case="storage">
+                     <a th:href="@{|/storage/${t.taskId}|}" class="layui-btn layui-btn-xs layui-btn-normal">员工离开</a>
+                </span>
+            </span>
+        </Td>
+    </Tr>
+    </tbody>
+</table>
+</body>
+</html>

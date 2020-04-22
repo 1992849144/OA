@@ -1,5 +1,6 @@
 package org.java.web.PersonnelManagement;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.java.service.OrganizationService;
 import org.java.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;

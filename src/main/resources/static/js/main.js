@@ -61,7 +61,7 @@ $(".topText a").click(function () {
 $("#left01  a").click(function () {
         var testVal=$(this).text();
         var thisUrl=$(this).attr('href');
-        var con = '<iframe scrolling="no" frameborder="0"  src="'+thisUrl+'" style="width:100%;height:100%;">';
+        var con = '<iframe  frameborder="0"  src="'+thisUrl+'" style="width:100%;height:100%;">';
         $('#con').tabs('add',{
                 title: testVal,
                 selected: true,

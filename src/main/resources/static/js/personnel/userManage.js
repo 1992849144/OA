@@ -48,9 +48,9 @@ layui.use(['table','layer','jquery'],function () {
             layer.confirm('真的删除行么', function (index) {
                 layer.close(index);
                 $.ajax({
-                    url:"/depInfo/delete",
+                    url:"/deleteUser",
                     type:"post",
-                    data:{departId:data.departId},
+                    data:{id:data.id},
                     success:function () {
                         table.reload('demo', {
                             where: { //设定异步数据接口的额外参数，任意设

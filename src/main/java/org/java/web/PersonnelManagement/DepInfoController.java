@@ -49,8 +49,8 @@ public class DepInfoController {
     @RequestMapping("/delete")
     @ResponseBody
     @Transactional
-    public void delete(Integer departId){
-        depInfoService.delete(departId);
+    public void delete(Integer departId,String departName){
+        depInfoService.delete(departId,departName);
     }
 
 

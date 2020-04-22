@@ -24,6 +24,10 @@ mybatis:
   type-aliases-package: org.java.entity
   mapper-locations: mapper/*Mapper.xml
 
+#定义变量，用于保存文件上传的目录
+file:
+  processDefinitionKey: myProcess
+
 ##以debug方式，显示org.java.dao包所有的底层sql语句
 logging:
   level:

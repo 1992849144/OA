@@ -67,7 +67,7 @@ layui.use(['table','layer','jquery'],function () {
                 $.ajax({
                     url:"/depInfo/delete",
                     type:"post",
-                    data:{departId:data.departId},
+                    data:{departId:data.departId,departName:data.departName},
                     success:function () {
                         table.reload('demo', {
                             where: { //设定异步数据接口的额外参数，任意设

@@ -82,12 +82,12 @@
                 <p><i class="i_a i_sport01"></i><a th:href="@{/showProcessDefinition}" target="frameName">查看流程定义</a></p>
             </div>
             <div title="流程监控" data-options="iconCls:'icon-left03'" class="mainPanle">
-                <p><i class="i_a i_ph"></i><a th:href="@{/forward/a}" target="frameName">查询运行中的流程实例</a> </p>
+                <p><i class="i_a i_ph"></i><a th:href="@{/queryProcessInstance}" target="frameName">查询运行中的流程实例</a> </p>
             </div>
             <div title="请假管理" data-options="iconCls:'icon-left04'" class="mainPanle">
                 <p><i class="i_a i_sta"></i><a th:href="@{/forward/leave/createLeave}" target="frameName">创建请假单</a> </p>
-                <p><i class="i_a i_sport02"></i><a th:href="@{/forward/a}" target="frameName">查询任务</a> </p>
-                <p><i class="i_a i_sta"></i><a th:href="@{/forward/a}" target="frameName">拾取任务</a> </p>
+                <p><i class="i_a i_sport02"></i><a th:href="@{/queryPersonTask}" target="frameName">查询任务</a> </p>
+                <p><i class="i_a i_sta"></i><a th:href="@{/queryGroupTask}" target="frameName">拾取任务</a> </p>
             </div>
         </div>
 
@@ -96,7 +96,7 @@
     <div data-options="region:'center'" style="padding:5px;background:#eee;">
         <div id="con">
             <div title="系统首页" >
-                <iframe frameborder="0" width="100%" height="100%" name="frameName" th:src="@{/forward/home}" scrolling="auto" id="ifDiv" ></iframe>
+                <iframe frameborder="0" width="100%" height="100%" name="frameName" th:src="@{/forward/home}"   id="ifDiv" ></iframe>
             </div>
         </div>
 

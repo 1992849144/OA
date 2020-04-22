@@ -76,6 +76,7 @@
                 url:"/personalnotes/addPersonalnotes",
                 type:"post",
                 data:$("#frm").serialize(),
+                async: false,
                 success:function () {
                     alert("添加成功");
                     window.parent.location.reload();

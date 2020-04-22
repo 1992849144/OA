@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>显示历史记录</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+    <script th:src="@{/layui/layui.js}"></script>
+    <style>
+        .layui-table th {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<table class="layui-table">
+    <thead align="center">
+    <Tr>
+        <Th>编号</Th>
+        <th>任务标识</th>
+        <Th>任务名称</Th>
+        <th>所属流程实列ID</th>
+        <th>任务办理人</th></Th>
+        <Th>创建时间</Th>
+        <Th>结束时间</Th>
+        <Td>处理的状态</Td>
+    </Tr>
+    </thead>
+    <tbody>
+        <Tr align="center" th:each="t,k:${list}">
+            <Td>[[${k.count}]]</Td>
+            <Td>[[${t.name}]]</Td>
+            <td>[[${t.taskDefinitionKey}]]</td>
+            <td>[[${t.processInstanceId}]]</td>
+            <Td>[[${t.assignee}]]</Td>
+            <Td th:text="${#dates.format(t.startTime,'yyyy-MM-dd')}"></Td>
+            <Td th:text="${#dates.format(t?.endTime,'yyyy-MM-dd')}"></Td>
+            <Td>
+                <span th:if="${t?.endTime} eq null">
+                    <b style="color: red">任务正在处理中</b>
+                </span>
+                <span th:if="${t?.endTime} ne null">
+                     <b style="color: green">任务处理已结束</b>
+                </span>
+            </Td>
+        </Tr>
+    </tbody>
+</table>
+</body>
+</html>

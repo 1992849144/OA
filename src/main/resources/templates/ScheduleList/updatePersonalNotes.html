@@ -82,12 +82,10 @@
                 url:"/personalnotes/updatePersonalnotes",
                 type:"post",
                 data:$("#frm").serialize(),
+                async: false,
                 success:function () {
                     alert("修改成功");
                     window.parent.location.reload();
-                    // layer.alert("添加成功",function () {
-                    //     window.parent.location.reload();
-                    // });
                 }
             })
         })

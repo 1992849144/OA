@@ -183,14 +183,13 @@
                 url:"/scheduleList/addScheduleList",
                 type:"post",
                 data:$("#frm").serialize(),
+                async: false,
                 success:function (data) {
                     if (data==1){
-                        layer.alert("添加成功");
-                        setTimeout(function(){
-                            window.parent.location.reload();//让父窗口的数据重新加载
-                        },1000)
+                        alert("添加成功");
+                        window.parent.location.reload();//让父窗口的数据重新加载
                     } else {
-                        layer.alert("添加失败，你的权限不足");
+                        alert("添加失败，你的权限不足");
                     }
                 }
             })

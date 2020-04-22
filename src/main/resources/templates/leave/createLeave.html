@@ -6,68 +6,165 @@
     <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
     <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
     <script th:src="@{/layui/layui.js}"></script>
+    <style>
+        #ok{
+            position: absolute;
+            top: 80px;
+            left: 710px;
+        }
+        #test1{
+            position: absolute;
+            top: 80px;
+            left: 740px;
+        }
+    </style>
 </head>
 <body>
 <br/>
 <h1 style="margin-left: 80px">创建请假单</h1>
 <br/>
-<form class="layui-form" id="frm">
+<form class="layui-form" id="frm" th:action="@{/createLeave}" method="post">
     <div class="layui-form-item">
         <label class="layui-form-label"  style="width: 100px">请假人</label>
         <div class="layui-input-inline">
-            <input type="text" name="title" required lay-verify="required" style="width: 240px"
+            <input type="text" name="name" required lay-verify="required" style="width: 240px"
                    placeholder="请输入消息标题" autocomplete="off" class="layui-input"
             th:value="${session.nickname}">
         </div>
-    </div>
 
-    <div class="layui-form-item">
         <label class="layui-form-label"  style="width: 100px">所属部门</label>
         <div class="layui-input-inline">
-            <input type="text" name="title" required lay-verify="required" style="width: 240px"
-                   placeholder="请输入消息标题" autocomplete="off" class="layui-input">
+            <input type="text" name="dep" required lay-verify="required" style="width: 240px"
+                   placeholder="请输入所属部门" autocomplete="off" class="layui-input">
         </div>
+
+        <span id="ok">
+                <i class="layui-icon" style="font-size: 20px; color: #1E9FFF;">&#xe770;</i>
+        </span>
+
+        <div id="test1" class="demo-tree-more"></div>
     </div>
+
 
     <div class="layui-form-item">
         <label class="layui-form-label"  style="width: 100px">开始时间</label>
         <div class="layui-input-inline">
-            <input type="text" name="title" required lay-verify="required" style="width: 240px"
-                   placeholder="请输入消息标题" autocomplete="off" class="layui-input">
+            <input type="text" name="starttime" required lay-verify="required" style="width: 240px"  id="date"
+                   placeholder="请输入开始时间" autocomplete="off" class="layui-input">
+        </div>
+
+        <label class="layui-form-label"  style="width: 100px">结束时间</label>
+        <div class="layui-input-inline">
+            <input type="text" name="stoptime" required lay-verify="required" style="width: 240px"  id="date1"
+                   placeholder="请输入结束时间" autocomplete="off" class="layui-input">
         </div>
     </div>
 
-    <div class="layui-form-item">
-        <label class="layui-form-label"  style="width: 100px">结束时间</label>
-        <div class="layui-input-inline">
-            <input type="text" name="title" required lay-verify="required" style="width: 240px"
-                   placeholder="请输入消息标题" autocomplete="off" class="layui-input">
-        </div>
-    </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label"  style="width: 100px">请假天数</label>
         <div class="layui-input-inline">
-            <input type="text" name="title" required lay-verify="required" style="width: 240px"
-                   placeholder="请输入消息标题" autocomplete="off" class="layui-input">
+            <input type="text" name="days" required lay-verify="required" style="width: 240px" readonly="readonly"
+                   placeholder="请输入请假天数" autocomplete="off" class="layui-input">
         </div>
-    </div>
 
-    <div class="layui-form-item">
+
         <label class="layui-form-label"  style="width: 100px">请假类型</label>
         <div class="layui-input-inline">
-            <input type="text" name="title" required lay-verify="required" style="width: 240px"
-                   placeholder="请输入消息标题" autocomplete="off" class="layui-input">
+            <select name="Leavetype"  id="departName"  lay-filter="demo">
+                <option value="0" selected>请选择。。。</option>
+                <option>事假</option>
+                <option>病假</option>
+                <option>婚假</option>
+                <option>丧假</option>
+                <option>产假</option>
+                <option>其他</option>
+            </select>
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label"  style="width: 100px">消息内容</label>
+        <label class="layui-form-label"  style="width: 100px">请假原因</label>
         <div class="layui-input-inline">
-             <textarea name="content" required lay-verify="required" placeholder="请输入消息内容"
+             <textarea name="content" required lay-verify="required" placeholder="请输入请假原因"
                        class="layui-textarea" STYLE="width: 400px;height: 100px"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <span id="a"></span><button type="submit" class="layui-btn" style="width: 100px" lay-submit lay-filter="formDemo" id="btn">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
 </form>
 </body>
 </html>
+<script type="text/javascript">
+    layui.use(['layer','form','layedit', 'laydate','tree'],function () {
+        //定义一个变量，指定layui的弹出层模块
+        var layer = layui.layer;
+        var $ = layui.$;
+        var form = layui.form;
+        layedit = layui.layedit;
+        laydate = layui.laydate;
+        var tree = layui.tree;
+        $(document).ready(function () {
+            form.render();   //表单渲染，得渲染才会有效果显示出来
+        })
+
+
+        //日期
+        laydate.render({
+            elem: '#date'
+        });
+        laydate.render({
+            elem: '#date1'
+        });
+
+        $("#test1").toggle();
+
+        $("#ok").click(function () {
+            $("#test1").toggle();
+        })
+
+        $("[name='stoptime']").blur(function () {
+            var starttime = $("[name='starttime']").val();
+            var stoptime = $("[name='stoptime']").val();
+            if (stoptime!=""){
+                var date1 = new Date(starttime);
+                var date2 = new Date(stoptime);
+                var s1 = date1.getTime();
+                var s2= date2.getTime()
+                var total =  parseInt((s2 - s1));
+                var day = parseInt(total / (24*60*60*1000));//计算整数道天数
+                $("[name='days']").val(day);
+            }
+        })
+
+        $.ajax({
+            url:"/showLeave",
+            type: "post",
+            dataType: 'json',
+            success: function(res) {
+                //渲染
+                var inst1 = tree.render({
+                    elem: '#test1'  //绑定元素
+                    ,data:res
+                    ,onlyIconControl: true  //是否仅允许节点左侧图标控制展开收缩
+                    ,accordion:true
+                    ,click: function(obj){
+                        var lengths=JSON.stringify(obj.data).length;
+                        var s = obj.data;
+                        if (s.principalUser!=null){
+                            $("[name='dep']").val(s.title);
+                        }
+                        else{
+                            layer.alert("您选择的不是部门，请重新选择！")
+                        }
+                    }
+                });
+            }
+        });
+    })
+</script>

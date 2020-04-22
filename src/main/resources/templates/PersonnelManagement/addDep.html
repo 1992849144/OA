@@ -7,11 +7,6 @@
     <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
     <script th:src="@{/layui/layui.js}"></script>
     <style>
-        #b{
-            position: absolute;
-            top: 10px;
-            right: -180px;
-        }
         #ok{
             position: absolute;
             top: 10px;
@@ -135,11 +130,10 @@
                 url: "/depInfo/addDep",
                 type: "post",
                 data: $("#frm").serialize(),
+                async: false,
                 success: function (data) {
-                    layer.alert("添加成功");
-                    setTimeout(function () {
-                        window.parent.location.reload();//让父窗口的数据重新加载
-                    }, 1000)
+                    alert("添加成功");
+                    window.parent.location.reload();//让父窗口的数据重新加载
                 }
             })
         })

@@ -1,6 +1,9 @@
 package org.java.web.workflow;
 
+import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.repository.ProcessDefinitionQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +28,16 @@ import java.util.List;
 public class ProcessDefinitionController {
 
     @Autowired
+    private HistoryService historyService;
+
+    @Autowired
     private RepositoryService repositoryService;
+
+    @Autowired
+    private RuntimeService runtimeService;
+
+    @Autowired
+    private TaskService taskService;
 
     /**
      * 部署流程定义
@@ -74,7 +86,7 @@ public class ProcessDefinitionController {
      * @param deploymentId :部署id
      * @param name :资源名称
      */
-    @RequestMapping("showResources/{deploymentId}/{name}")
+    @GetMapping("showResources/{deploymentId}/{name}")
     public void showResources(HttpServletResponse response, @PathVariable("deploymentId") String deploymentId, @PathVariable("name") String name) throws IOException {
 
         //根据部署id,以前资源名称，加载资源，得到的一个输入流
@@ -100,13 +112,13 @@ public class ProcessDefinitionController {
 
 
     /**
-     * 删除流程定义
-     * @param deploymentId
+     * 删除流程实例
+     * 参数：流程实例的id
      * @return
      */
-    @GetMapping("/delProcessDefinition/{deploymentId}")
-    public String delProcessDefinition(@PathVariable("deploymentId") String deploymentId){
-        repositoryService.deleteDeployment(deploymentId,true);//级联删除
-        return "redirect:/showProcessDefinition";
+    @GetMapping("delProcessInstance/{processInstanceId}")
+    public String delProcessInstance(@PathVariable("processInstanceId") String processInstanceId){
+        runtimeService.deleteProcessInstance(processInstanceId,"业务取消");
+        return "redirect:/queryProcessInstance";
     }
 }

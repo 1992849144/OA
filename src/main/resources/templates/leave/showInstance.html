@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>查询运行中的流程实例</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+    <script th:src="@{/layui/layui.js}"></script>
+    <style>
+        .layui-table th {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<table class="layui-table">
+    <thead align="center">
+    <Tr>
+        <Th>编号</Th>
+        <Th>申请人</Th>
+        <Th>经办人</Th>
+        <Th>请假单创建时间</Th>
+        <th>流程实例Id</th>
+        <Th>当前任务阶段</Th>
+        <th>历史任务</th>
+        <th>查询流程图</th>
+        <Th>删除</Th>
+    </Tr>
+    </thead>
+    <tbody>
+    <Tr align="center" th:each="k,t:${list}">
+        <Td>[[${t.count}]]</Td>
+        <Td>[[${k.name}]]</Td>
+        <Td>[[${k.user_id}]]</Td>
+        <Td>[[${k.createtime}]]</Td>
+        <Td>[[${k.processInstanceId}]]</Td>
+        <Td >
+            <span th:switch="${k.activityId}">
+                <span th:case="createOrder">
+                    <B style="color:red">提交请假单</B>
+                </span>
+                 <span th:case="firstAudit">
+                    <B style="color:red">部门经理审核</B>
+                </span>
+                 <span th:case="secondAudit">
+                     <B style="color:red">总经理申核</B>
+                </span>
+                 <span th:case="thirdAudit">
+                     <B style="color:red">人事审核</B>
+                </span>
+                <span th:case="*">
+                     <B style="color:red">人事记录、员工离开</B>
+                </span>
+            </span>
+        </Td>
+        <Td>
+            <a th:href="@{|/showHistory/${k.processInstanceId}|}" class="layui-btn layui-btn-xs">查看历史任务</a>
+        </Td>
+        <Td>
+            <A th:href="@{|/showProcessMap/${k.processInstanceId}|}" class="layui-btn layui-btn-xs layui-btn-normal">查看</A>
+        </Td>
+        <Td>
+            <a th:href="@{|/delProcessInstance/${k.processInstanceId}|}" class="layui-btn layui-btn-xs layui-btn-warm">删除流程实例</a>
+        </Td>
+    </Tr>
+    </c:forEach>
+    </tbody>
+</table>
+</body>
+</html>

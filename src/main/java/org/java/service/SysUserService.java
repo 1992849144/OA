@@ -79,4 +79,12 @@ public class SysUserService {
     public List<SysUser> getAllSysUser(){
         return sysUserMapper.selectAll();
     }
+
+    /**
+     * 删除用户
+     * @param id
+     */
+    public void deleteUser(Integer id) {
+        sysUserMapper.deleteByPrimaryKey(id);
+    }
 }

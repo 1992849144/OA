@@ -1,5 +1,6 @@
 package org.java.dao;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -79,4 +80,11 @@ public interface DepInfoMapper {
      */
     @Select("select * from departInfo where departId=#{id}")
     public Map getDepByDepartById (Integer id);
+
+    /**
+     * 删除departinfo表的部门，根据部门名称删除
+     * @param departName
+     */
+    @Delete("delete from departInfo where departName=#{departName}")
+    public void deleteDepartinfo(@Param("departName") String departName);
 }

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+    <script th:src="@{/layui/layui.js}"></script>
+</head>
+<body>
+<br/>
+<br/>
+<form class="layui-form" th:action="@{/submitAudit}" method="post">
+    <h1>请假单审核 -
+        <span th:switch="${taskDef}">
+                 <span th:case="firstAudit">
+                    <B style="color:red">部门经理审核</B>
+                </span>
+                 <span th:case="secondAudit">
+                     <B style="color:red">总经理申核</B>
+                </span>
+                 <span th:case="thirdAudit">
+                    人事审核
+                </span>
+            </span>
+    </h1>
+    <br/>
+    <input type="hidden" name="orderId" th:value="${orderId}">
+    <input type="hidden" name="taskId"  th:value="${taskId}">
+    <input type="hidden" name="taskDef"  th:value="${taskDef}">
+    请假人名称:&nbsp;<span style="color: red">[[${order.name}]]</span><br/>
+    申请人:&nbsp;<b>[[${order.user_id}]]</b><br/>
+    申请时间:&nbsp;<b>[[${order.createtime}]]</b><br/>
+    申请时间:&nbsp;<b>[[${order.content}]]</b><br/>
+    <hr/>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px;margin-left:-60px">审核意见</label>
+        <div class="layui-input-inline">
+             <textarea name="auditInfo" required lay-verify="required" placeholder="请输入消息内容"
+                       class="layui-textarea" STYLE="width: 400px;height: 100px"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;margin-left:-60px">审核结果</label>
+        <div class="layui-input-inline" style="width: 200px">
+            <input type="radio" value="1" name="status" checked title="通过">
+            <input type="radio" value="0" name="status" title="不通过">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block" style="margin-left:10px">
+            <input type="submit" class="layui-btn" lay-submit lay-filter="formDemo" value="提交审核意见"/>
+        </div>
+    </div>
+</form>
+</body>
+</html>
+<script>
+    layui.use(['upload','form','layer'] ,function() {
+        var $ = layui.jquery;
+        var upload = layui.upload;
+        var form = layui.form;
+        $(document).ready(function () {
+            form.render();   //表单渲染，得渲染才会有效果显示出来
+        })
+    })
+</script>

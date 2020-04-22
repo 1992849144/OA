@@ -36,8 +36,11 @@ public class DepInfoService {
     }
 
     //删除部门人员
-    public void delete(Integer departId) {
+    public void delete(Integer departId,String departName) {
+        //删除departinfos表的部门
         depInfoMapper.delete(departId);
+
+        depInfoMapper.deleteDepartinfo(departName);
     }
 
     /**

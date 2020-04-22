@@ -37,6 +37,13 @@ public class UserManageController {
     }
 
 
+    /**
+     * 修改图片
+     * @param file
+     * @param servletRequest
+     * @return
+     * @throws Exception
+     */
     @Transactional
     @RequestMapping("/upload")
     @ResponseBody
@@ -100,4 +107,5 @@ public class UserManageController {
     public void updateUser(@RequestParam Map map){
         userManageService.updateUser(map);
     }
+
 }

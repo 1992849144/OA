@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.java.dao.LeaveMapper">
+    <insert id="createLeave" parameterType="map">
+        insert into pur_order values(#{id},#{name},#{dep},#{Leavetype},#{starttime},#{stoptime},
+        #{createTime},#{status},#{userId},#{processInstanceId},#{endtime},#{days},#{content})
+    </insert>
+
+    <select id="findByProcessInstanceId" resultType="map">
+        select * from pur_order where processInstance_id = #{instanceId}
+    </select>
+
+    <insert id="submitAudit" parameterType="map">
+        insert into pur_order_audit values(#{id},#{userId},#{orderId},#{auditInfo},#{taskDef},#{status},#{createtime})
+    </insert>
+</mapper>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>显示流程图</title>
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+</head>
+<body style="margin: 0px;">
+<img style="position: absolute;" th:src="@{|/showResources/${deploymentId}/${png}|}">
+<div style="position: absolute;border:6px red groove;border-radius: 13px" id="div"></div>
+<script>
+    var x = [[${x-3}]];
+    var y = [[${y-3}]];
+    var height= [[${height-5}]];
+    var width = [[${width-3}]];
+    $("#div").css({"left":x,"top":y,"height":height,"width":width});
+</script>
+<!--<div style="position: absolute;left:[[${x-3}]]px;top:${y-3}px;-->
+                <!--height:${height-5}px;width:${width-5}px;border:6px red groove;border-radius: 13px"></div>-->
+</body>
+</html>
