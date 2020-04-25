@@ -1,10 +1,11 @@
 package org.java.web.mail;
 
+
 import org.java.entity.Branchinfo;
 import org.java.entity.Message;
 import org.java.entity.Messagetype;
-import org.java.entity.SysUser;
 import org.java.service.*;
+import org.java.util.JsonUtils;
 import org.java.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -175,5 +176,41 @@ public class MessageController {
     @ResponseBody
     public void updateMessageToUser(Integer messageId){
         messageService.updateMessageToUser(messageId);
+    }
+
+    /**
+     * 删除Chooseperson的用户消息,根据用户id和消息id
+     * @param messageId
+     */
+    @PostMapping("delChooseperson")
+    @ResponseBody
+    public void delChooseperson(Integer messageId){
+        messageService.delChooseperson(messageId);
+    }
+
+    /**
+     * 删除Chooseperson的用户消息,根据用户id和消息id,多选
+     */
+    @PostMapping("deletePlusieursChooseperson")
+    @ResponseBody
+    public void deletePlusieursChooseperson( String jsondata){
+        List<Map> list = JsonUtils.jsonToList(jsondata,Map.class);
+        for (Map map:list){
+            Integer messageId = (Integer)map.get("messageId");
+            messageService.delChooseperson(messageId);
+        }
+    }
+
+    /**
+     * 删除多个邮件，
+     */
+    @PostMapping("deleteMultipleMessage")
+    @ResponseBody
+    public void deleteMultipleMessage( String jsondata){
+        List<Map> list = JsonUtils.jsonToList(jsondata,Map.class);
+        for (Map map:list){
+            Integer messageId = (Integer)map.get("messageId");
+            messageService.delMessage(messageId);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package org.java.web.PersonnelManagement;
 
 import org.java.entity.SysRole;
+import org.java.entity.Util;
 import org.java.service.DepInfoService;
 import org.java.service.SysRoleService;
 import org.java.service.UserManageService;
@@ -108,4 +109,37 @@ public class UserManageController {
         userManageService.updateUser(map);
     }
 
+    /**
+     * 查询除管理员外的所有用户信息
+     * @param page
+     * @param limit
+     * @return
+     */
+    @GetMapping("getSysUser")
+    @ResponseBody
+    public ResultVo<Map> getSysUser(Integer page,Integer limit,String username,String nickname){
+        return userManageService.getSysUser(page,limit,username,nickname);
+    }
+
+    /**
+     * 获得权限树
+     * @return
+     */
+    @PostMapping("getAllUtil")
+    @ResponseBody
+    public List<Util> getAllUtil(){
+        return userManageService.getAllUtil();
+    }
+
+
+    /**
+     * 添加权限
+     * @param map
+     */
+    @PostMapping("addSysRolePermission")
+    @ResponseBody
+    @Transactional
+    public void addSysRolePermission(@RequestParam Map map){
+        userManageService.addSysRolePermission(map);
+    }
 }

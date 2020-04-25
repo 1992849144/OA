@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" >
+    <title>员工签到签退</title>
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+</head>
+<body>
+    <p>员工签到、签退</p>
+
+
+    <div th:if="${#request.getAttribute('onDutyTime') eq null}">
+        <div style="width: 100%;height: 200px;border: #0C0C0C solid 1px">
+            签卡日期： <input type="text" name="data" id="data">
+            <input type="button" value="签到" name="signIn" id="signIn">
+            <input type="button" value="签退" name="signOut" id="signOut">
+            <br/>
+            <br/>
+            签卡备注：<textarea rows="10" cols="40" name="remark" id="remark"></textarea>
+        </div>
+        <br><br>
+
+        <div style="width: 100%;height: 300px;border: #0C0C0C solid 1px" id="show">
+            用户号<input type="text" name="username" id="username">
+            姓名<input type="text" name="name" id="name">
+            <br><br>
+            所属部门<input type="text" name="departName" id="departName">
+            所属机构<input type="text" name="branchName" id="branchName">
+            <br><br>
+            <div id="sign">
+                <samp>您的签到时间</samp><input type='text' name='onDutyTime' id="onDutyTime">
+            </div>
+            <br><br>
+            签卡备注：<textarea rows="5" cols="40" name="remark" id="remark1"></textarea>
+        </div>
+    </div>
+
+    <div th:if="${#request.getAttribute('onDutyTime') ne null}">
+        <div style="width: 100%;height: 200px;border: #0C0C0C solid 1px">
+            签卡日期： <input type="text" name="data" id="data"  th:value="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss')}">
+            <input type="button" value="签到" name="signIn" id="signIn">
+            <input type="button" value="签退" name="signOut" id="signOut" disabled>
+            <br/>
+            <br/>
+            签卡备注：<textarea rows="10" cols="40" name="remark" id="remark"></textarea>
+        </div>
+        <br><br>
+
+        <div style="width: 100%;height: 300px;border: #0C0C0C solid 1px" id="show">
+            用户号<input type="text" name="username" id="username">
+            姓名<input type="text" name="name" id="name">
+            <br><br>
+            所属部门<input type="text" name="departName" id="departName">
+            所属机构<input type="text" name="branchName" id="branchName">
+            <br><br>
+            <div id="sign">
+                <samp>您的签退时间</samp><input type='text' name='onDutyTime' id="onDutyTime">
+            </div>
+            <br><br>
+            签卡备注：<textarea rows="5" cols="40" name="remark" id="remark1"></textarea>
+        </div>
+    </div>
+
+<script>
+
+    $.ajax({
+        url:'/emp/getOffTimeById',
+        type:"post"
+    });
+
+    function time(){
+        now = $("[name='data']");
+        var aa=new Date();
+        var n= ""+aa.getFullYear()+":"+(aa.getMonth()+1)+":"+aa.getDate()+" "+aa.getHours()+":"+aa.getMinutes()+":"+aa.getSeconds()+"";
+        now.val(n);
+        setTimeout(time,1000);
+    }
+    setTimeout(time,1000);
+
+    $("#show").hide();
+    //签到
+    $("#signIn").click(function () {
+        var onDutyTime = $("#data").val();//签到时间
+        var signDesc = $("#remark").val();//签卡备注
+        $.ajax({
+            url:'/emp/addSignIn',
+            data:{"onDutyTime":onDutyTime,"signDesc":signDesc},
+            type:"post",
+            success:function () {
+                $("#signOut").attr("disabled",false);//签退可用
+                $("#signIn").attr("disabled",true);//签到不可以用
+                $("#show").show();
+                $.ajax({
+                    url:'/emp/GetSingById',
+                    type:'post',
+                    datatype:"json",
+                    success:function (data) {
+                       $.each(data,function () {
+                           $("#username").val(data.username);
+                           $("#name").val(data.name);
+                           $("#departName").val(data.departName);
+                           $("#branchName").val(data.branchName);
+                           var time = timeFommater(data.onDutyTime);
+                           $("#onDutyTime").val(time);
+                           $("#remark1").val(data.signDesc);
+                       })
+                        $.ajax({
+                            url:'/emp/getOffTimeById',
+                            type:"post"
+                        });
+                    }
+                })
+            }
+        })
+    });
+
+//签退
+    $("#signOut").click(function () {
+
+        var onDutyTime = $("#data").val();//签退时间
+        var signDesc = $("#remark").val();//签卡备注
+        $.ajax({
+            url:'/emp/addSignOff',
+            data:{"onDutyTime":onDutyTime,"signDesc":signDesc},
+            type:"post",
+            success:function () {
+                $("#signOut").attr("disabled",true);//签退不可用
+                $("#signIn").attr("disabled",false);//签到可用
+                $.ajax({
+                    url:'/emp/GetSingById',
+                    type:'post',
+                    datatype:"json",
+                    success:function (data) {
+                        $.each(data,function () {
+                            $("#username").val(data.username);
+                            $("#name").val(data.name);
+                            $("#departName").val(data.departName);
+                            $("#branchName").val(data.branchName);
+                            var time = timeFommater(data.offDutyTime);
+                            $("#onDutyTime").val(data.offDutyTime);
+                            $("#remark1").val(data.offDesc);
+                        })
+                        $.ajax({
+                            url:'/emp/getOffTimeById',
+                            type:"post"
+                        });
+
+                        $("#show").hide();
+
+                        $("#remark").val("");
+                    }
+
+                })
+            }
+        })
+    });
+
+
+    function timeFommater(value) {
+        var dateee = new Date(value).toJSON();
+        var date = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+        return date;
+    }
+
+
+</script>
+</body>
+</html>

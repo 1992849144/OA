@@ -236,4 +236,14 @@ public class MessageService {
         System.out.println(messageId);
         messageMapper.updateMessageToUser(userId,messageId);
     }
+
+    /**
+     * 删除Chooseperson的用户消息,根据用户id和消息id
+     * @param messageId
+     */
+    public void delChooseperson(Integer messageId) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        messageMapper.delChooseperson(messageId,userId);
+    }
+
 }

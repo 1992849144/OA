@@ -12,7 +12,7 @@
 
 <div class="easyui-layout" id="mainBox">
     <div data-options="region:'north',split:true" style="height: 80px" class="mainTop">
-        <div class="topLogin"><img src="img/logoImg.png"/> <div class="topLongRight">xxxxxx安全管理平台</div></div>
+        <div class="topLogin"><img src="img/logoImg.png"/> <div class="topLongRight">oa系统</div></div>
         <div class="topText">
             <a href="" class="textActive" target="frameName">
                 <p style="margin-top: 10px"><img th:src="@{/img/home.png}"/> </p>
@@ -58,7 +58,7 @@
                 <p><i class="i_a i_ph"></i><a th:href="@{/forward/ScheduleList/personalNotes}" target="frameName">我的标签</a> </p>
             </div>
             <div shiro:hasPermission="document:management" title="文档管理" data-options="iconCls:'icon-left04'" class="mainPanle">
-                <p><i class="i_a i_news"></i><a th:href="@{/forward/a}" target="frameName">文档管理</a> </p>
+                <p><i class="i_a i_news"></i><a th:href="@{/forward/documentManagement/documentManagement}" target="frameName">文档管理</a> </p>
                 <p><i class="i_a i_con"></i><a th:href="@{/forward/a}" target="frameName">回收站</a> </p>
                 <p><i class="i_a i_sport"></i><a th:href="@{/forward/a}" target="frameName">文件搜索</a> </p>
             </div>
@@ -67,15 +67,15 @@
                 <p><i class="i_a i_sport01"></i><a th:href="@{/mail/statisticsEmil}" target="frameName">信箱</a> </p>
             </div>
             <div shiro:hasPermission="system:management" title="系统管理" data-options="iconCls:'icon-left03'" class="mainPanle">
-                <p><i class="i_a i_sta"></i><a th:href="@{/forward/a}" target="frameName">角色管理</a> </p>
+                <p><i class="i_a i_sta"></i><a th:href="@{/forward/systemManagement/userManagement}" target="frameName">角色管理</a> </p>
                 <p><i class="i_a i_sport02"></i><a th:href="@{/forward/a}" target="frameName">登陆日志</a> </p>
                 <p><i class="i_a i_sta"></i><a th:href="@{/forward/a}" target="frameName">操作日志</a> </p>
                 <p><i class="i_a i_sta"></i><a th:href="@{/forward/a}" target="frameName">菜单排序</a> </p>
             </div>
             <div shiro:hasPermission="attendance:management" title="考勤管理" data-options="iconCls:'icon-low'" class="mainPanle">
-                <p><i class="i_a i_low"></i><a th:href="@{/forward/a}" target="frameName">员工签到</a> </p>
-                <p><i class="i_a i_sport02"></i><a th:href="@{/forward/a}" target="frameName">考勤历史查询</a></p>
-                <p><i class="i_a i_sta"></i><a th:href="@{/forward/a}" target="frameName">考勤统计</a></p>
+                <p><i class="i_a i_low"></i><a th:href="@{/forward/AttendanceManage/employee}" target="frameName">员工签到</a> </p>
+                <p><i class="i_a i_sport02"></i><a th:href="@{/forward/AttendanceManage/attendanceHistory}" target="frameName">考勤历史查询</a></p>
+                <p><i class="i_a i_sta"></i><a th:href="@{/forward/AttendanceManage/checking}" target="frameName">考勤统计</a></p>
             </div>
             <div title="部署管理" data-options="iconCls:'i_part'" class="mainPanle">
                 <p><i class="i_a i_sport"></i><a th:href="@{/forward/flow/deploy}" target="frameName">部署流程定义</a> </p>

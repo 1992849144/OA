@@ -23,14 +23,13 @@ layui.use(['table','layer','jquery'],function () {
             , {field: 'nickname', title: '姓名', align: "center", width: "15%", sort: true,}
             , {field: 'password', title: '密码', align: "center", width: "25%", sort: true,}
             , {field: 'name', title: '角色', align: "center", width: "10%", sort: true,}
-            , {field: 'gender', title: '性别', align: "center", width: "8%", sort: true,
+            , {field: 'gender', title: '性别', align: "center", width: "10%", sort: true,
                 templet:function (res) {
                     if (res.gender==0) return   '<span>'+'男'+'</span>'
                     else return   '<span>'+'女'+'</span>'
                 }
             }
-            , {field: 'info', title: '用户详情', align: "center", width: "7%", sort: true, toolbar: "#info"}
-            , {field: 'op', title: '操作', align: "center", width: "15%", sort: true, toolbar: "#barDemo"}
+            , {field: 'op', title: '操作', align: "center", width: "20%", sort: true, toolbar: "#barDemo"}
         ]]
     });
 
@@ -81,7 +80,12 @@ layui.use(['table','layer','jquery'],function () {
                     layer.setTop(layero); //重点2  置顶在上面，
                     //获得弹出层datail.jsp的body部份
                     var body = layui.layer.getChildFrame("body");
-
+                    body.find("#username").html(data.username);
+                    body.find("#nickname").html(data.nickname);
+                    body.find("#departName").html(data.departName);
+                    body.find("#gender").html(data.gender==0?'男':'女');
+                    body.find("#userState").html(data.userState);
+                    body.find("#picture").attr("src",data.picture);
                 }
             })
         }

@@ -154,29 +154,29 @@
             })
         })
 
-            $.ajax({
-                url:"/scheduleList/show",
-                type: "post",
-                dataType: 'json',
-                success: function(res) {
-                    //渲染
-                    var inst1 = tree.render({
-                        elem: '#test1'  //绑定元素
-                        ,data:res
-                        ,onlyIconControl: true  //是否仅允许节点左侧图标控制展开收缩
-                        ,accordion:true
-                        ,click: function(obj){
-                            var lengths=JSON.stringify(obj.data).length;
-                            var s = obj.data;
-                            if (lengths>=59 && lengths<=60){
-                                $("#principalUser").val(s.title);
-                            }
-                            if (!(lengths>=59 && lengths<=60)){
-                                layer.alert("您选择的不是人员，请重新选择！")
-                            }
+        $.ajax({
+            url:"/scheduleList/show",
+            type: "post",
+            dataType: 'json',
+            success: function(res) {
+                //渲染
+                var inst1 = tree.render({
+                    elem: '#test1'  //绑定元素
+                    ,data:res
+                    ,onlyIconControl: true  //是否仅允许节点左侧图标控制展开收缩
+                    ,accordion:true
+                    ,click: function(obj){
+                        var lengths=JSON.stringify(obj.data).length;
+                        var s = obj.data;
+                        if (lengths>=59 && lengths<=60){
+                            $("#principalUser").val(s.title);
                         }
-                    });
-                }
-            });
-        })
+                        if (!(lengths>=59 && lengths<=60)){
+                            layer.alert("您选择的不是人员，请重新选择！")
+                        }
+                    }
+                });
+            }
+        });
+    })
 </script>

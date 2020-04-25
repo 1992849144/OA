@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.java.dao.CheckingMapper">
+
+    <select id="getAllCheckInfo" resultType="map">
+       SELECT *
+        FROM departinfos d,branchinfo b,manualSign m,sys_user s
+        WHERE d.branchId = b.branchId  AND s.id=m.userId AND d.departId=s.id
+        AND m.signId IN(
+	      29,19,14
+        )
+        <if test="stateTime!='' and stateTime!=null and endTime!='' and endTime!=null">
+            and onDutyTime   &lt;= #{stateTime}
+            and offDutyTime  >= #{endTime}
+        </if>
+        <if test="branchName!='' and branchName!=null">
+            and branchName = #{branchName}
+        </if>
+        <if test="departName!='' and departName!=null">
+            and departName = #{departName}
+        </if>
+    </select>
+
+    <select id="getChecking" resultType="map">
+        SELECT COUNT(*) count ,userId FROM manualSign GROUP BY userId
+    </select>
+
+
+    <select id="getAllInfo" resultType="map">
+        SELECT userId,COUNT(*) COUNT FROM manualSign
+         WHERE DATE_FORMAT(onDutyTime,'%T') >= '09:00:00'
+         GROUP BY userId
+    </select>
+
+
+    <select id="getAllInfo1" resultType="map">
+         SELECT userId,COUNT(*) COUNT FROM manualSign
+         WHERE DATE_FORMAT(onDutyTime,'%T')  &lt;= '18:00:00'
+         GROUP BY userId
+    </select>
+
+    <select id="absenteeism" resultType="int">
+        SELECT COUNT(*) FROM manualsign WHERE userId=#{userId} GROUP BY DATE(onDutyTime)
+    </select>
+</mapper>

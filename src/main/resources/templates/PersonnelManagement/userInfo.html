@@ -2,24 +2,43 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>用户详情</title>
-    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <title>Title</title>
+    <link th:href="@{/layui/css/layui.css}" type="text/css" rel="stylesheet">
     <script th:src="@{/layui/layui.js}"></script>
-    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+    <style>
+        /*tr{*/
+        /*text-align: center;*/
+        /*}*/
+        span{
+            color: blue;
+            font-family: 楷体;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-<br/>
-<br/>
-<div style="border: 1px red solid;width: 200px;height: 200px;position: absolute;left: 30px">
-    <img src="">
-</div>
-<div style="border: 1px blue solid;width: 300px;height: 300px;position: absolute;left: 260px">
-<table>
+
+<br>
+
+<table width="90%" align="center">
     <tr>
-        <td></td>
-        <td></td>
+        <Td rowspan="6" width="50%">
+            <img id="picture" style="width:200px;height: 280px">
+        </Td>
+        <Td>用户名：<span id="username"></span></Td>
+    </tr>
+    <tr>
+        <Td>姓名：<span id="nickname"></span></Td>
+    </tr>
+    <tr>
+        <Td>部门：<span id="departName"></span></Td>
+    </tr>
+    <tr>
+        <Td>性别：<span id="gender"></span></Td>
+    </tr>
+    <tr>
+        <Td>用户状态：<span id="userState"></span></Td>
     </tr>
 </table>
-</div>
 </body>
 </html>

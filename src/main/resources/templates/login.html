@@ -9,9 +9,9 @@
     <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
 </head>
 <body class="loginBody">
-<div class="logoImg"><img th:src="@{/img/logo.png}"/> </div>
-<div class="loginText">xxxxxx市公共安全局管理指挥平台</div>
-<div class="loginText01">The municipal public security bureau management command platform of xxxxx</div>
+<div class="logoImg"><img th:src="@{/images/1.png}"/> </div>
+<div class="loginText">oa办公系统</div>
+<div class="loginText01">Oa office system</div>
 <div class="loginBox">
     <form th:action="@{/login}" method="post" onsubmit="return check()">
    <span>
@@ -25,7 +25,7 @@
         <button type="submit">登陆</button>
     </form>
 </div>
-<div class="loginFoot">版本所有@2017-208xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
+<div class="loginFoot">版本所有@2020-2020xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
 </body>
 </html>
 
@@ -39,7 +39,7 @@
             return false;
         }
         if (pwd==""){
-           alert("密码必须输入");
+            alert("密码必须输入");
             return false;
         }
         return true;

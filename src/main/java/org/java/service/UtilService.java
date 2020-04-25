@@ -1,6 +1,7 @@
 package org.java.service;
 
 import org.java.dao.UtilMapper;
+import org.java.entity.SysUser;
 import org.java.entity.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,4 +71,5 @@ public class UtilService {
     public List<Map> getDepartInfoByDepartId(Integer departId){
         return utilMapper.getDepartInfoByDepartId(departId);
     }
+
 }

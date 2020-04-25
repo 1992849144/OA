@@ -1,5 +1,6 @@
 package org.java.dao;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -31,4 +32,17 @@ public interface UserManageMapper {
      * @param map
      */
     public void updateUser(Map map);
+
+    /**
+     * 查询除管理员外的所有用户信息
+     * @return
+     */
+    public List<Map> getSysUser(@Param("username") String username,@Param("nickname") String nickname);
+
+    /**
+     * 添加权限
+     * @param map
+     */
+    @Insert("insert into sys_role_permission values(null,#{ids},#{permissionI})")
+    public void  addSysRolePermission(Map map);
 }

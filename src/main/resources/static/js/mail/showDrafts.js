@@ -17,11 +17,13 @@ layui.use(['table','layer','jquery'],function () {
         //,height: 312
         , url: '/mail/getMessageByUserId' //它是一个请求地址，用于请求后台数据
         , page: true //开启分页
+        ,toolbar:"default"//显示默认工具栏
         , limit: 5 //默认每一页显示5条
         // ,toolbar:"#add"//显示数据表格的工具栏
-        , toolbar: true//显示数据表格的工具栏
+        // , toolbar: true//显示数据表格的工具栏
         , limits: [1, 2, 3, 5, 10, 20, 30, 50] //设置可选择的每页显示的条数据
         , cols: [[ //表头
+            {field: 'no',type:"checkbox", title: '选择',align:'center', width:'5%', sort: true, fixed: 'left'},
             {field: 'title', title: '消息标题', align: "center", width: "15%", sort: true, fixed: 'left'}
             , {field: 'messageTypeName', title: '消息类型', align: "center", width: "10%", sort: true,}
             , {field: 'content', title: '消息内容', align: "center", width: "10%", sort: true,event:"show",
@@ -118,6 +120,26 @@ layui.use(['table','layer','jquery'],function () {
                     })
                 }
             })
+        }else if (layEvent === 'del') {
+            layer.confirm('真的删除行么', function (index) {
+                layer.close(index);
+                $.ajax({
+                    url:"/mail/delChooseperson",
+                    type:"post",
+                    data:{messageId:data.messageId},
+                    success:function () {
+                        layer.alert("删除成功");
+                        table.reload('demo', {
+                            where: { //设定异步数据接口的额外参数，任意设
+
+                            }
+                            ,page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                        }); //只重
+                    }
+                })
+            })
         }
     });
 
@@ -194,4 +216,32 @@ layui.use(['table','layer','jquery'],function () {
                 }
             })
         }
+
+    table.on('toolbar(test)', function(obj){
+        var checkStatus = table.checkStatus(obj.config.id);
+        switch(obj.event){
+            case 'delete':
+                var data = checkStatus.data;
+                layer.confirm('真的删除行么', function (index) {
+                    layer.close(index);
+                    $.ajax({
+                        url:"/mail/deletePlusieursChooseperson",
+                        type:"post",
+                        data:{jsondata:JSON.stringify(data)},
+                        success:function () {
+                            layer.alert("删除成功");
+                            table.reload('demo', {
+                                where: { //设定异步数据接口的额外参数，任意设
+
+                                }
+                                ,page: {
+                                    curr: 1 //重新从第 1 页开始
+                                }
+                            }); //只重
+                        }
+                    })
+                })
+                break;
+        };
+    });
 })

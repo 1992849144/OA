@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/systemManagement/userManagement.js}"></script>
+</head>
+<body>
+<div style="padding-top: 20px;padding-left: 20px" align="center">
+    <label class="layui-inline">用户名</label>
+    <div class="layui-inline">
+        <input class="layui-input" name="username" placeholder="用户名"
+               autocomplete="off"/>
+    </div>
+
+    <label class="layui-inline">昵称</label>
+    <div class="layui-inline">
+        <input class="layui-input" name="nickname" placeholder="昵称"
+               autocomplete="off"/>
+    </div>
+
+    <button class="layui-btn" id="search">搜索</button>
+    <button class="layui-btn"  id="reset">重置</button>
+</div>
+<table id="demo" lay-filter="test"></table>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">分配权限</a>
+</script>
+<script type="text/html" id="imgTpl">
+    <img src="{{d.picture}}">
+</script>
+</body>
+</html>

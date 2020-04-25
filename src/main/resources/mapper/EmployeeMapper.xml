@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.java.dao.EmployeeMapper">
+    <select id="findInfoById" resultType="map">
+         SELECT * FROM departinfos d,branchinfo b,sys_user s
+          WHERE d.branchId=b.branchId AND s.id=d.departId AND s.id=#{id}
+
+    </select>
+
+    <insert id="addSignIn">
+        INSERT INTO manualSign VALUES(NULL,#{id},#{signDesc},#{onDutyTime},null ,0,null )
+    </insert>
+
+    <select id="getSing" resultType="map">
+        SELECT * FROM manualSign WHERE userId = #{id} ORDER BY onDutyTime DESC
+    </select>
+
+    <select id="getOffTimeById" resultType="map">
+        SELECT * FROM manualSign WHERE userId = #{id} ORDER BY onDutyTime DESC
+    </select>
+
+
+    <update id="addSignOff">
+        UPDATE manualsign SET offDutyTime = #{onDutyTime} ,offDesc = #{signDesc},signTag = 1
+          WHERE signId = #{signId}
+    </update>
+
+
+</mapper>

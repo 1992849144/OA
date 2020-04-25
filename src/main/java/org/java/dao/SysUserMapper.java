@@ -40,4 +40,5 @@ public interface SysUserMapper extends MyMapper<SysUser> {
      */
     @Select("SELECT * FROM sys_user WHERE departId=#{departId}")
     public List<SysUser> getSysUserByDepartId(Integer departId);
+
 }

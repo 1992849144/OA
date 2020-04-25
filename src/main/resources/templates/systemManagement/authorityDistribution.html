@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>分配权限</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+</head>
+<body>
+<form class="layui-form" id="frm" action="">
+    <input type="hidden" name="id">
+    <input type="hidden" name="permissionI">
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">用户名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="username" required
+                   lay-verify="required" style="width: 240px" readonly="readonly"
+                   placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">昵称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="nickname" required
+                   lay-verify="required" style="width: 240px" readonly="readonly"
+                   placeholder="请输入昵称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">性别</label>
+        <div class="layui-input-inline">
+            <input type="text" name="gender" required
+                   lay-verify="required" style="width: 240px" readonly="readonly"
+                   placeholder="请输入昵称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">职位名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" required
+                   lay-verify="required" style="width: 240px" readonly="readonly"
+                   placeholder="请输入昵称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">部门名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="departName" required
+                   lay-verify="required" style="width: 240px" readonly="readonly"
+                   placeholder="请输入昵称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"  style="width: 100px">分配权限</label>
+        <div class="layui-input-inline">
+            <div id="test1" class="demo-tree-more"></div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <span id="a"></span>
+            <button  class="layui-btn" style="width: 100px" lay-submit lay-filter="formDemo" id="btn">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+</body>
+</html>
+<script type="text/javascript">
+    layui.use(['layer','form','layedit', 'laydate','tree'],function () {
+        //定义一个变量，指定layui的弹出层模块
+        var layer = layui.layer;
+        var $ = layui.$;
+        var form = layui.form;
+        layedit = layui.layedit;
+        laydate = layui.laydate;
+        var tree = layui.tree;
+
+        $("#btn").click(function () {
+            $.ajax({
+                url:"/userManage/addSysRolePermission",
+                type: "post",
+                data:$("#frm").serialize(),
+                success:function () {
+                    alert("添加成功");
+                    window.parent.location.reload();
+                }
+            })
+        })
+
+        $.ajax({
+            url:"/userManage/getAllUtil",
+            type: "post",
+            dataType: 'json',
+            success: function(res) {
+                //渲染
+                var inst1 = tree.render({
+                    elem: '#test1'  //绑定元素
+                    ,data:res
+                    ,accordion:true
+                    ,showCheckbox: true
+                    ,showLine: false  //是否开启连接线
+                    ,oncheck: function(obj){
+                        var data = obj.data.id;  //获取当前点击的节点数据
+                        $("[name='permissionI']").val(data);
+                    }
+                });
+            }
+        });
+    })
+</script>

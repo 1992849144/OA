@@ -1,6 +1,7 @@
 package org.java.dao;
 
 import org.apache.ibatis.annotations.Select;
+import org.java.entity.SysUser;
 
 import java.util.List;
 import java.util.Map;
@@ -48,4 +49,25 @@ public interface UtilMapper {
      */
     @Select("SELECT * FROM departInfos d,sys_user u WHERE d.principalUser=u.id AND d.departId=#{departId}")
     public List<Map> getDepartInfoByDepartId(Integer departId);
+
+    /**
+     * 获得权限主菜单，一级菜单
+     * @return
+     */
+    @Select("SELECT * FROM sys_permission WHERE TYPE='menu'")
+    public List<Map> getMenu();
+
+    /**
+     * 获得权限主菜单，二级菜单
+     * @return
+     */
+    @Select(" SELECT * FROM sys_permission WHERE parent_id=#{parentId} AND (TYPE !='menu' AND TYPE !='' )")
+    public List<Map> getSecondaryMenu(Integer parentId);
+
+    /**
+     * 获得权限主菜单，三级菜单
+     * @return
+     */
+    @Select(" SELECT * FROM sys_permission WHERE  parent_id=#{parentId}")
+    public List<Map> getLevelMenu(Integer parentId);
 }

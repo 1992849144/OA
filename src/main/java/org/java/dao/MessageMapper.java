@@ -129,5 +129,13 @@ public interface MessageMapper extends MyMapper<Message> {
      */
     @Update("update choosePerson set ifRead=1 where messageId=#{messageId} and userId=#{userId}")
     public void updateMessageToUser(@Param("userId") Integer userId,@Param("messageId") Integer messageId);
+
+    /**
+     * 删除Chooseperson的用户消息,根据用户id和消息id
+     * @param messageId
+     * @param userId
+     */
+    @Delete("delete from choosePerson where userId=#{userId} and messageId=#{messageId}")
+    public void delChooseperson(@Param("messageId") Integer messageId,@Param("userId") Integer userId);
 }
 

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>考勤历史</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/show/jquery-1.12.4.js}"></script>
+    <script th:src="@{/js/checkWorkAttendance/check.js}"></script>
+</head>
+<body>
+
+    <form id="frm">
+
+        <p>
+            输入时间段：
+            开始时间：<input type="date" name="stateTime" id="stateTime">
+            结束时间：<input type="date" name="endTime" id="endTime">
+        </p>
+
+        <hr>
+
+        <p>
+            机构：<select name="branchName" id="branchName">
+
+        </select>
+
+            部门：<select name="departName" id="departName">
+
+        </select>
+
+            姓名：<input type="text" name="name">
+
+            <input type="button" name="btn" id="btn" value="搜索">
+
+        </p>
+
+    </form>
+
+
+<hr>
+
+    <table id="demo" lay-filter="test"></table>
+
+
+
+<script>
+//获得所有部门
+$.ajax({
+    url:"/checkWorkAttendance/getAllDep",
+    type:"post",
+    datatype:"json",
+    success:function (data) {
+        $.each(data,function (index,k) {
+            $("#departName").append(new Option(k.departName,k.departName));
+        })
+    }
+})
+
+//获得所有机构
+$.ajax({
+    url:"/checkWorkAttendance/getAllBranch",
+    type:"post",
+    datatype:"json",
+    success:function (data) {
+        $.each(data,function (index,k) {
+            $("#branchName").append(new Option(k.branchName,k.branchName));
+        })
+    }
+})
+
+
+</script>
+
+</body>
+</html>
