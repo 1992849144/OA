@@ -18,7 +18,7 @@ layui.use(['table','layer','jquery'],function () {
         , toolbar: true//显示数据表格的工具栏
         , limits: [1, 2, 3, 5, 10, 20, 30, 50] //设置可选择的每页显示的条数据
         , cols: [[ //表头
-            {field: 'id', title: '用户编号', align: "center", width: "10%", sort: true, fixed: 'left'}
+            {field: 'Idss', title: '用户编号', align: "center", width: "10%", sort: true, fixed: 'left'}
             , {field: 'username', title: '用户ID', align: "center", width: "10%", sort: true,}
             , {field: 'nickname', title: '姓名', align: "center", width: "15%", sort: true,}
             , {field: 'password', title: '密码', align: "center", width: "25%", sort: true,}
@@ -41,7 +41,7 @@ layui.use(['table','layer','jquery'],function () {
         var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
         var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
         if (layEvent === 'edit') { //编辑
-            window.location.href = "/userManage/showUpdatUser?id="+data.id;
+            window.location.href = "/userManage/showUpdatUser?id="+data.Idss;
         }
         else if (layEvent === 'del') { //删除
             layer.confirm('真的删除行么', function (index) {
@@ -49,7 +49,7 @@ layui.use(['table','layer','jquery'],function () {
                 $.ajax({
                     url:"/deleteUser",
                     type:"post",
-                    data:{id:data.id},
+                    data:{id:data.Idss},
                     success:function () {
                         table.reload('demo', {
                             where: { //设定异步数据接口的额外参数，任意设
@@ -84,7 +84,7 @@ layui.use(['table','layer','jquery'],function () {
                     body.find("#nickname").html(data.nickname);
                     body.find("#departName").html(data.departName);
                     body.find("#gender").html(data.gender==0?'男':'女');
-                    body.find("#userState").html(data.userState);
+                    body.find("#userState").html(data.userState==1?"正常状态":"账号锁定");
                     body.find("#picture").attr("src",data.picture);
                 }
             })

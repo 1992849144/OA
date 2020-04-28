@@ -14,8 +14,8 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
   servlet:
     multipart:
-      max-file-size: 10MB #上传的单个文件大小，不能超过1MB
-      max-request-size: 100MB #上传的单个文件大小，不能超过1MB
+      max-file-size: 10000MB #上传的单个文件大小，不能超过1MB
+      max-request-size: 100000MB #上传的单个文件大小，不能超过1MB
   activiti:
     check-process-definitions: false #不去检查工程是否包含bpmn文件
     database-schema: true  #如果数据表已存在就继续使用，不存在就创建

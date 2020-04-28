@@ -76,7 +76,7 @@ public class UserManageService {
         //用户与角色的关系表
         Map map1=new HashMap();
         map1.put("user_id",id);
-        map1.put("role_id",map.get("departName"));
+        map1.put("role_id",map.get("name"));
         sysRoleMapper.addSysUserRole(map1);
     }
 

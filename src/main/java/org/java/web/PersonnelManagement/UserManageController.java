@@ -93,7 +93,6 @@ public class UserManageController {
     @GetMapping("showUpdatUser")
     public String showUpdatUser(Integer id, Model model){
         Map map = userManageService.showUpdatUser(id);//根据id，获得用户详情
-        System.out.println(map);
         model.addAttribute("map",map);
         return "/PersonnelManagement/updateUser";
     }

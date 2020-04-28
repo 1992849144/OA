@@ -1,174 +1,201 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>文档管理系统</title>
-    <link rel="stylesheet" href="/css/common.css" type="text/css"/>
-    <link rel="stylesheet" href="/css/index.css" type="text/css" media="screen"/>
+    <title>My JSP 'plupload.jsp' starting page</title>
+    <script type="text/javascript" src="/plupload/js/jquery.js"></script>
+    <link type="text/css" rel="stylesheet" href="/layui/css/layui.css"/>
+    <!-- 首先需要引入plupload的源代码 -->
+    <script src="/pluploadMaster/js/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/layui/layui.all.js" charset="UTF-8"></script>
 </head>
+
 <body>
-<!--顶部-->
-<div class="nav">
-    <div class="nav cl">
-        <div class="nav_z z">
-            <img src="/imagess/register01.png"/>
-        </div>
-
-        <div class="nav_y y">
-            <a href="">关于我们</a>
-            <span>丨</span>
-            <a href="">联系我们</a>
-        </div>
-        <div class="userNumber y">
-            你好,<span>[[${session.nickname}]]</span>
-        </div>
+<!-- 这里我们只使用最基本的html结构：一个选择文件的按钮，一个开始上传文件的按钮(甚至该按钮也可以不要) -->
+<div class="layui-upload">
+    <button type="button" class="layui-btn layui-btn-normal" id="testList">添加</button>
+    <div class="layui-upload-list">
+        <table class="layui-table">
+            <thead>
+            <tr><th>单位名称</th>
+                <th>文件名</th>
+                <th>上传进度</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr></thead>
+            <tbody id="demoList"></tbody>
+        </table>
     </div>
-
+    <button type="button" class="layui-btn" id="uploadfiles">开始上传</button>
 </div>
-<!--顶部结束-->
-<!--菜单-->
-<div class="left-menu">
-    <div class="left-menu-top">
-        <a href="javascript:void(0)">
-            <div class="left-menu-top-small">
-                <img src="/imagess/index_01.png"/>
-            </div>
-        </a>
-        <a href="javascript:void(0)">
-            <div class="left-menu-top-small">
-                <img src="/imagess/index_02.png"/>
-            </div>
-        </a>
-    </div>
-    <div class="left-menu-one">
-        <a href="my.html">
-            <div class="left-menu-one-small">
-                <img src="/imagess/index_03.png"/>
-            </div>
-        </a>
-        <a href="zuijin.html">
-            <div class="left-menu-one-small">
-                <img src="/imagess/index_05.png"/>
-            </div>
-        </a>
-    </div>
-    <div class="left-menu-two">
-        <a href="javascript:void(0)">
-            <div class="left-menu-two-small">
-                <img src="/imagess/excel01.png"/>
-            </div>
-        </a>
-        <a href="javascript:void(0)">
-            <div class="left-menu-two-small">
-                <img src="/imagess/ppt01.png"/>
-            </div>
-        </a>
-        <a href="javascript:void(0)">
-            <div class="left-menu-two-small">
-                <img src="/imagess/word01.png"/>
-            </div>
-        </a>
-    </div>
-    <div class="left-menu-three">
-        <a href="caogao.html">
-            <div class="left-menu-three-small">
-                <img src="/imagess/caogaoxiang01.png"/>
-            </div>
-        </a>
-        <a href="lajixiang.html">
-            <div class="left-menu-three-small">
-                <img src="/imagess/lajixiang01.png"/>
-            </div>
-        </a>
-    </div>
-    <div class="left-menu-four">
-        <div class="left-menu-four-small">
-            <div class="left-menu-four-small-new"></div>
-        </div>
-        <div class="contain_four">
-            <div class="contain_four_main">
-                <span>容量：</span>
-                <span class="cont">5</span>GB；可用
-                <span class="use">3</span>GB
-            </div>
-            <div class="max_add">
-                <button class="max_container" >升级容量</button>
-            </div>
-        </div>
-    </div>
 
-    <div class="foot">
-        <a href="">返回意见</a>丨
-        <a href="">帮助中心</a>
-    </div>
-</div>
-<!--菜单end-->
-<!--菜单右边的iframe页面-->
-<div id="right-content" class="right-content">
-    <div class="content">
-        <div id="page_content">
-            <div class="search">
-                <div>
-                    <span>搜索&nbsp;&nbsp;"合同"&nbsp;&nbsp;结果:</span>
-                </div>
-                <div class="y serach_box">
-                    <input tyep="text" placeholder="搜索"/>
+<script>
+    layui.use(['upload','element','layer'], function(){
+        var $ = layui.jquery;
+        var upload = layui.upload,element = layui.element,layer = layui.layer;
+        //实例化一个plupload上传对象
+        var uploader = new plupload.Uploader({
+            browse_button : 'testList', //触发文件选择对话框的按钮，为那个元素id
+            url : '/plupload', //服务器端的上传页面地址
+            flash_swf_url : 'pluploadMaster/js/Moxie.swf', //swf文件，当需要使用swf方式进行上传时需要配置该参数
+            silverlight_xap_url : 'pluploadMaster/js/Moxie.xap' ,//silverlight文件，当需要使用silverlight方式进行上传时需要配置该参数
+            max_file_size : '10240mb',  ////限制为10240mb
+            chunk_size : '10mb',   //chunk_size:分片上传文件时，每片文件被切割成的大小，为数字时单位为字节。也可以使用一个带单位的字符串，如"200kb"。当该值为0时表示不使用分片上传功能
+            resize : {
+                width : 200,  //指定压缩后图片的宽度，如果没有设置该属性则默认为原始图片的宽度
+                height : 200,  //指定压缩后图片的高度，如果没有设置该属性则默认为原始图片的高度
+                quality : 90,  //压缩后图片的质量，只对jpg格式的图片有效，默认为90。quality可以跟width和height一起使用，但也可以单独使用，单独使用时，压缩后图片的宽高不会变化，但由于质量降低了，所以体积也会变小
+                crop : true    //默认为true
+            },
+            init : {   //init:初始化Plupload实例
+                //PostInit:当Init事件发生后触发 监听函数参数：(uploader)  uploader为当前的plupload实例对象
+                PostInit : function() {
+                    $("#uploadfiles").click (function() {
+                        var isUpload = confirm("是否确定要上传文件?");
+                        if(isUpload){
+                            uploader.start();// 开始上传 开始上传队列中的文件
+                            return false;
+                        }
+                    });
+                },
+                //FilesAdded:当文件添加到上传队列后触发 监听函数参数：(uploader,files)
+                // uploader为当前的plupload实例对象，files为一个数组，里面的元素为本次添加到上传队列里的文件对象
+                FilesAdded : function(up, files) {
+                    plupload.each(files, function(file) {
+                        console.log(file,"file");
+                        var tr = $(['<tr id="'+ file.id +'" class="uptr">'
+                            ,'<td>公司</td>'
+                            ,'<td>'+ file.name +'</td>'
+                            ,'<td>'
+                            +'<div  file="'+file.name+'" class="layui-progress layui-progress-big"  lay-showPercent="true"   lay-filter="'+file.id+'">'
+                            +'<div  class="layui-progress-bar layui-bg-red" lay-percent="0%"><span class="layui-progress-text">0%</span></div>'
+                            /*  +'<input name="pr" value="'+file.name+'" type="hidden" >'*/
+                            +'</div>'
+                            , '</td>'
+                            ,'<td class="upfile">等待上传</td>'
+                            ,'<td>'
+                            ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                            ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-stop">暂停</button>'
+                            ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-start">继续</button>'
+                            ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                            ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-download">下载</button>'
+                            ,'</td>'
+                            ,'</tr>'].join(''));
+                        $('#demoList').append(tr);
 
-                </div>
-                <button class="y">搜索</button>
-            </div>
-            <a href="javascript:void(0)">
-                <div class="dir_box cl">
-                    <div class="dir z">
-                        <img src="/images/dir.png"/>
-                        <span>合同管理</span>
-                    </div>
-                    <div class="dir_small y">
-                        <span class="file_size">32M</span>
-                        <span class="time">2016-06-20 16:20:01</span>
-                    </div>
-                </div>
-            </a>
-            <a href="javascript:void(0)">
-                <div class="dir_box nomargin cl">
-                    <div class="dir dir_file z">
-                        <img src="/images/dir_word.png"/>
-                        <span>劳动合同模板</span>
-                    </div>
-                    <div class="dir_small y">
-                        <span class="file_size">32M</span>
-                        <span class="time">2016-06-20 16:20:01</span>
-                    </div>
-                </div>
-            </a>
-            <a href="javascript:void(0)">
-                <div class="dir_box nomargin cl">
-                    <div class="dir dir_file z">
-                        <img src="/images/dir_word.png"/>
-                        <span>劳动合同模板01</span>
-                    </div>
-                    <div class="dir_small y">
-                        <span class="file_size">32M</span>
-                        <span class="time">2016-06-20 16:20:01</span>
-                    </div>
-                </div>
-            </a>
-            <a href="javascript:void(0)">
-                <div class="dir_box nomargin cl">
-                    <div class="dir dir_file z">
-                        <img src="/images/dir_word.png"/>
-                        <span>劳动合同模板02</span>
-                    </div>
-                    <div class="dir_small y">
-                        <span class="file_size">32M</span>
-                        <span class="time">2016-06-20 16:20:01</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
-</div>
-<script type="text/javascript" src="/js/show/jquery-1.12.4.js"></script>
-<script type="text/javascript" src="/js/index.js"></script>
+                    });
+                    //plupload:Plupload实例的属性
+                    plupload.each(files, function(file) {  //主要针对每个文件的删除操作
+                        $("#"+file.id+" .demo-delete").click(function() {
+                            console.log(file,"file删除触发")
+                            if(file.status==2){
+                                alert("文件《"+file.name+"》正在上传，请不要删除！");
+                            }else if(file.status==5){
+                                alert("文件《"+file.name+"》已经上传成功，不可以删除！");
+                            }else{
+                                var gnl = confirm("确定要删除《"+file.name+"》?");
+                                if (gnl == true) {
+                                    $("#"+file.id).remove();
+                                    uploader.removeFile(file);
+                                } else {
+                                    return false;
+                                }
+                            }
+                        });
+                        $("#"+file.id+" .demo-stop").click(function() {
+                            uploader.stop();// 停止上传  停止队列中的文件上传
+                            console.log(file,"file暂停")
+                        });
+                        $("#"+file.id+" .demo-start").click(function() {
+                            uploader.start();// 继续上传
+                            console.log(file,"file开始")
+                        });
+                        $("#"+file.id+" .demo-download").click(function() {
+                            window.location.href="/download";
+                        });
+                    });
+                },
+                //UploadProgress:会在文件上传过程中不断触发，可以用此事件来显示上传进度
+                //监听函数参数：(uploader,file)
+                //uploader为当前的plupload实例对象，file为触发此事件的文件对象
+                UploadProgress : function(up, file) {//显示文件上传的状态
+                    //_mask();
+                    var percent = file.percent;
+                    element.progress(file.id, percent+"%")
+                    //_mask();
+                },
+                // 文件上传成功的时候触发，针对于每一个文件；这里主要返回文件上传成功与否的状态，
+                //当队列中的某一个文件上传完成后触发
+                // 监听函数参数：(uploader,file,responseObject)
+                //uploader为当前的plupload实例对象，file为触发此事件的文件对象，responseObject为服务器返回的信息对象，它有以下3个属性：
+                //response：服务器返回的文本
+                //responseHeaders：服务器返回的头信息
+                //status：服务器返回的http状态码，比如200
+                FileUploaded : function(up, file, info) {
+                    /* var data = eval("(" + info.response + ")");// 解析返回的json数据
+                    if (data.code == 3) {
+                        alert( "文件《"+file.name+"》上传失败！");
+                    } */
+                },
+                //当上传队列中所有文件都上传完成后触发
+                //监听函数参数：(uploader,files)
+                //uploader为当前的plupload实例对象，files为一个数组，里面的元素为本次已完成上传的所有文件对象
+                UploadComplete : function(up, files) {//队列中的所有文件上传完后，触发
+                    if(files.length<=0){
+                        alert("请先添加文件进行，并上传！");
+                    }else{
+                        var arr2 = new Array();
+                        plupload.each(files, function(file) {
+                            console.log(file.status);
+                            if (file.status == 5) {//将上传成功的文件信息发送到后台进行处理
+                                var json = {
+                                    docId:file.id,
+                                    docName : file.name,
+                                    fileSize : plupload.formatSize(file.size)
+                                };
+                                arr2.push(json);
+                            }
+                        });
+                        console.log(arr2);
+                        arr2 = JSON.stringify(arr2);
+                        $("#uploadfilelist").val(arr2);//将结果传给前台，以便统一操作
+                        //alert( "文件上传完成");
+                    }
+                },
+                //当发生错误时触发
+                //监听函数参数：(uploader,errObject)
+                //uploader为当前的plupload实例对象，errObject为错误对象，它至少包含以下3个属性(因为不同类型的错误，属性可能会不同)：
+                //code：错误代码，具体请参考plupload上定义的表示错误代码的常量属性
+                //file：与该错误相关的文件对象
+                //message：错误信息
+                Error : function(up, err,file) { // 上传出错的时候触发
+                    if(err.code=="-600"){
+                        alert("文件："+err.file.name+"太大，超过100mb!");
+                    }else{
+                        alert( err.file.name+"添加上传队列失败！错误原因："+err.message);
+                    }
+                }
+            }
+        });
+
+        //在实例对象上调用init()方法进行初始化
+        uploader.init();
+
+        //绑定各种事件，并在事件监听函数中做你想做的事
+        uploader.bind('FilesAdded',function(uploader,files){
+            //每个事件监听函数都会传入一些很有用的参数，
+            //我们可以利用这些参数提供的信息来做比如更新UI，提示上传进度等操作
+        });
+        uploader.bind('UploadProgress',function(uploader,file){
+            //每个事件监听函数都会传入一些很有用的参数，
+            //我们可以利用这些参数提供的信息来做比如更新UI，提示上传进度等操作
+        });
+        //......
+        //......
+
+        /*    //最后给"开始上传"按钮注册事件
+            document.getElementById('start_upload').onclick = function(){
+                uploader.start(); //调用实例对象的start()方法开始上传文件，当然你也可以在其他地方调用该方法
+            } */
+    });
+</script>
 </body>
 </html>
